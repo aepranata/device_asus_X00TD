@@ -17,7 +17,7 @@ odm                                                                   /odm      
 
 # External storage
 /devices/platform/soc/c084000.sdhci/mmc_host*                         auto                   auto   defaults                                                                                         wait,voldmanaged=sdcard1:auto
-/devices/platform/soc/a800000.ssusb/a800000.dwc3/xhci-hcd.0.auto*     auto                   auto   defaults                                                                                         wait,voldmanaged=usbotg:auto
+/devices/platform/soc/a800000.ssusb/a800000.dwc3/xhci-hcd.*.auto*     auto                   auto   defaults                                                                                         wait,voldmanaged=usbotg:auto
 
 # Firmware partitions
 /dev/block/bootdevice/by-name/modem                                   /vendor/firmware_mnt   vfat   ro,shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware_file:s0     wait
