@@ -12,6 +12,9 @@ $(call inherit-product, vendor/asus/X00TD/X00TD-vendor.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/non_ab_device.mk)
 $(call inherit-product, hardware/qcom-caf/common/common.mk)
 
+# Enable project quotas and casefolding for emulated storage without sdcardfs
+$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
+
 # =============================================================================
 # PRODUCT CONFIGURATION
 # Core product identity and display characteristics.
