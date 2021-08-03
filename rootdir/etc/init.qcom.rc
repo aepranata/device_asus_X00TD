@@ -370,7 +370,8 @@ on property:sys.boot_completed=1
     setprop lmkd.reinit 1
     chown media audio /sys/kernel/aud_dev/state
     write /sys/devices/virtual/cvp/cvp/boot 1
-
+    #start perf properly
+    setprop vendor.post_boot.parsed 1
     swapon_all /vendor/etc/fstab.zram
     write /proc/sys/vm/swappiness 100
 
