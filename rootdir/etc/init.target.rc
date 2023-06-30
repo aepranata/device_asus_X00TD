@@ -64,7 +64,6 @@ on late-fs
     mount_all --late
 
 on post-fs
-    write /dev/ipa 1
     start vendor.qseecomd
     wait_for_prop vendor.sys.listeners.registered true
 
