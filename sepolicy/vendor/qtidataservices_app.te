@@ -1,2 +1,0 @@
-allow qtidataservices_app location:binder { call };
-allow qtidataservices_app vendor_default_prop:file { open getattr map };

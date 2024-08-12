@@ -11,4 +11,3 @@ r_dir_file(thermal-engine, sysfs_thermal)
 
 dontaudit thermal-engine self:capability dac_override;
 allow thermal-engine thermal-engine:capability { sys_admin };
-allow thermal-engine config_prop:file { read open getattr map };
