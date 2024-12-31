@@ -49,10 +49,6 @@
 #include "blit_engine_c2d.h"
 #include "hwc_tonemapper.h"
 
-#ifdef QTI_BSP
-#include <hardware/display_defs.h>
-#endif
-
 #define __CLASS__ "HWCDisplay"
 
 namespace sdm {
