@@ -171,6 +171,10 @@ TARGET_KERNEL_SOURCE := kernel/asus/X00TD
 TARGET_KERNEL_VERSION := 4.19
 TARGET_KERNEL_CONFIG := asus/X00TD_defconfig
 
+# Kernel Clang Flags
+KERNEL_CC := CC=clang
+override KERNEL_TOOLCHAIN_PREFIX_arm := arm-linux-android-
+
 # GPS
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
 GNSS_HIDL_VERSION := 2.1
