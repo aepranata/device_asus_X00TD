@@ -46,9 +46,7 @@ ndk::ScopedAStatus TouchscreenGesture::getSupportedGestures(std::vector<Gesture>
     std::vector<Gesture> gestures;
 
     for (const auto& entry : kGestureInfoMap) {
-        if (access(entry.second.path, F_OK) != -1) {
-            gestures.push_back({entry.first, entry.second.name, entry.second.keycode});
-        }
+	gestures.push_back({entry.first, entry.second.name, entry.second.keycode});
     }
 
     *_aidl_return = gestures;
