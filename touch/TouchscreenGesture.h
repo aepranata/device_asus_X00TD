@@ -18,10 +18,6 @@ class TouchscreenGesture : public BnTouchscreenGesture {
     ndk::ScopedAStatus getSupportedGestures(std::vector<Gesture>* _aidl_return) override;
     ndk::ScopedAStatus setGestureEnabled(const Gesture& gesture, bool enabled) override;
 
-    typedef struct {
-        int32_t keycode;
-        const char* name;
-    } GestureInfo;
 };
 
 }  // namespace touch
