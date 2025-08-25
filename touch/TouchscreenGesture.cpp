@@ -17,7 +17,7 @@ typedef struct {
 	const char* name;
 } GestureInfo;
 
-const std::unordered_map<int32_t, TouchscreenGesture::GestureInfo> kGestureInfoMap = {
+const std::unordered_map<int32_t, GestureInfo> kGestureInfoMap = {
     {0, {748, "Gesture C"}},
     {1, {749, "Gesture e"}},
     {2, {750, "Gesture M"}},
