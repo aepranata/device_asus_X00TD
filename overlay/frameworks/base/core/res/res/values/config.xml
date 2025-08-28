@@ -526,4 +526,8 @@
     <integer-array name="config_keyboardTapVibePattern">
         <item>40</item>
     </integer-array>
+
+    <!-- Media controls -->
+    <bool name="config_mediaControlsRippleByDefault">false</bool>
+    <bool name="config_mediaControlsTurbulenceByDefault">false</bool>
 </resources>
