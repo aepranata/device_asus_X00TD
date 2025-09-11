@@ -62,7 +62,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifdef _ANDROID_
 #include <cutils/properties.h>
-#undef USE_EGL_IMAGE_GPU
 
 #ifdef _QUERY_DISP_RES_
 #include "display_config.h"
@@ -76,17 +75,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <qdMetaData.h>
 #include <gralloc_priv.h>
-
-#ifdef ANDROID_JELLYBEAN_MR2
-#include "QComOMXMetadata.h"
-#endif
-
-#ifdef USE_EGL_IMAGE_GPU
-#include <EGL/egl.h>
-#include <EGL/eglQCOM.h>
-#define EGL_BUFFER_HANDLE 0x4F00
-#define EGL_BUFFER_OFFSET 0x4F01
-#endif
 
 #define BUFFER_LOG_LOC "/data/vendor/media"
 
