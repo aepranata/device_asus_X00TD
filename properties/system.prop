@@ -76,6 +76,8 @@ vidc.enc.target_support_bframe=1
 vendor.vidc.enc.disable_bframes=1
 vendor.vidc.dec.enable.downscalar=1
 vendor.vidc.enc.disable.pq=true
+persist.log.tag.QC2Buf=W
+persist.log.tag.QC2V4l2Codec=E
 
 # Netflix
 ro.netflix.bsp_rev=Q660-13149-1
