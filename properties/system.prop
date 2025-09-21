@@ -103,3 +103,6 @@ telephony.lteOnCdmaDevice=1
 
 # Time
 persist.timed.enable=true
+
+# Multi-Gen LRU
+persist.device_config.mglru_native.lru_gen_config=core
