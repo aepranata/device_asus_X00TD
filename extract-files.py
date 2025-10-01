@@ -110,9 +110,25 @@ lib_fixups: lib_fixups_user_type = {
 
 # Define the blob fixups
 blob_fixups: blob_fixups_user_type = {
+	# Camera - uneeded
+    'vendor/lib/libmmcamera_tuning.so': blob_fixup()
+        .remove_needed('libmm-qcamera.so'),
     # DRM Widevine - uneeded
     'vendor/lib64/libwvhidl.so': blob_fixup()
         .replace_needed('libcrypto.so', 'libcrypto-v33.so'),
+	# Fingerprint - uneeded
+    'vendor/lib64/libvendor.goodix.hardware.fingerprint@1.0-service.so': blob_fixup()
+        .replace_needed('libprotobuf-cpp-lite.so', 'libprotobuf-cpp-lite-21.12.so'),
+    'vendor/lib64/libvendor.goodix.hardware.fingerprint@1.0-service.so': blob_fixup()
+        .replace_needed('libhidlbase.so.so', 'libhidlbase-v32.so'),
+    'vendor/lib64/libvendor.goodix.hardware.fingerprint@1.0.so': blob_fixup()
+        .replace_needed('libhidlbase.so.so', 'libhidlbase-v32.so'),
+    # Fingerprint - liblog dep.
+    'vendor/lib64/hw/cdfinger.fingerprint.default.so': blob_fixup()
+        .add_needed('liblog.so'),
+    # Fingerprint - so name fixups
+    ('vendor/lib64/hw/cdfinger.fingerprint.default.so', 'vendor/lib64/hw/fingerprint.sdm660.so'):blob_fixup()
+        .fix_soname(),
     # QCRIL - uneeded
     'vendor/lib64/libril-qc-hal-qmi.so': blob_fixup()
         .replace_needed('libprotobuf-cpp-full-21.7.so', 'libprotobuf-cpp-lite-21.12.so'),
