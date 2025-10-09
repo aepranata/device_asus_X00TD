@@ -183,9 +183,5 @@ vendor.usb.use_ffs_mtp=1
 sys.usb.mtp.batchcancel=1
 vendor.usb.use_gadget_hal=1
 
-# Lmk
-ro.config.low_ram = false
-ro.lmk.log_stats = true
-
 # Zygote
 zygote.critical_window.minute=10

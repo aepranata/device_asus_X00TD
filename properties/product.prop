@@ -21,6 +21,7 @@ bluetooth.profile.pbap.server.enabled=true
 bluetooth.profile.sap.server.enabled=true
 
 # LMKD
+ro.config.low_ram=false
 ro.lmk.low=1001
 ro.lmk.medium=800
 ro.lmk.critical=0
