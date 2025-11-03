@@ -40,7 +40,7 @@ namespace lineage {
 namespace touch {
 
 static constexpr const char* kGestureNodePath =
-    "/sys/kernel/touchpanel/gesture_node";
+    "/proc/tpd_gesture";
 
 ndk::ScopedAStatus TouchscreenGesture::getSupportedGestures(std::vector<Gesture>* _aidl_return) {
     std::vector<Gesture> gestures;
