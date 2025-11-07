@@ -173,7 +173,9 @@ else
 TARGET_KERNEL_CONFIG := asus/X00TD-ksu_defconfig
 endif
 TARGET_KERNEL_VERSION := 4.19
-TARGET_KERNEL_CONFIG := asus/X00TD_defconfig
+ifeq ($(COMPILE_WITH_ATIGA),true)
+TARGET_KERNEL_CLANG_VERSION := atiga
+endif
 
 # Kernel Clang Flags
 KERNEL_CC := CC=clang
