@@ -228,7 +228,7 @@ BOARD_ROOT_EXTRA_SYMLINKS := \
 TARGET_BOARD_PLATFORM := sdm660
 
 # Power
-TARGET_TAP_TO_WAKE_NODE := "/proc/tpd_gesture"
+TARGET_TAP_TO_WAKE_NODE := "/sys/kernel/touchpanel/dclicknode"
 TARGET_USES_INTERACTION_BOOST := true
 
 # Properties
