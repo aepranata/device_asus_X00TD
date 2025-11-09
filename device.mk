@@ -15,6 +15,9 @@ $(call inherit-product, hardware/qcom-caf/common/common.mk)
 # For device without sdcardfs
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
+# Include Atiga-Stuff
+$(call inherit-product-if-exists, vendor/atiga-stuff/stuff.mk)
+
 # Kernel
 PRODUCT_ENABLE_UFFD_GC := true
 
