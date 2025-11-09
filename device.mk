@@ -407,8 +407,15 @@ PRODUCT_COPY_FILES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power-service.lineage-libperfmgr \
-    libqti-perfd-client
+    android.hardware.power@1.0 \
+    android.hardware.power@1.0.vendor \
+    android.hardware.power@1.1 \
+    android.hardware.power@1.1.vendor \
+    android.hardware.power@1.2 \
+    android.hardware.power@1.2.vendor \
+    android.hardware.power@1.3 \
+    android.hardware.power@1.3.vendor \
+    android.hardware.power-service-qti
 
 # Public Libraries
 PRODUCT_COPY_FILES += \
@@ -504,12 +511,6 @@ PRODUCT_COPY_FILES += \
 # Soong namespaces
 QCOM_SOONG_NAMESPACE := \
     $(DEVICE_PATH)/qcom-caf
-
-PRODUCT_SOONG_NAMESPACES += \
-    hardware/google/interfaces \
-    hardware/google/pixel \
-    hardware/lineage/interfaces/power-libperfmgr \
-    hardware/qcom-caf/common/libqti-perfd-client
 
 # Telephony
 PRODUCT_PACKAGES += \
