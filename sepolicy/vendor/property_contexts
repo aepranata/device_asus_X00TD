@@ -29,7 +29,10 @@ ro.config.device.no_voice                     u:object_r:build_prop:s0
 # NFC
 ro.hq.support.nfc                             u:object_r:nfc_nq_prop:s0
 
-# RIL Path
+# Perf
+vendor.target.init.complete                   u:object_r:vendor_mpctl_prop:s0
+
+# RIL PathAdd commentMore actions
 rild.libpath                                  u:object_r:vendor_radio_prop:s0
 ro.vendor.ril.svlte1x                         u:object_r:vendor_radio_prop:s0
 ro.vendor.ril.svdo                            u:object_r:vendor_radio_prop:s0

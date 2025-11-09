@@ -234,6 +234,7 @@ TARGET_BOARD_PLATFORM := sdm660
 
 # Power
 TARGET_TAP_TO_WAKE_NODE := "/sys/kernel/touchpanel/dclicknode"
+TARGET_USES_INTERACTION_BOOST := true
 
 # Properties
 TARGET_ODM_PROP += $(DEVICE_PATH)/properties/odm.prop

@@ -1007,6 +1007,34 @@ vendor/bin/pm-service|bf5ca6e5dfd398549bdd563c6e3edea12f4c027a
 vendor/lib/libperipheral_client.so|052aed4c2415492b4816f1cdb1beb4b3d23ae9ca
 vendor/lib64/libperipheral_client.so|31fab3060caeef08bcafb83f01a452bc29029723
 
+# Perf - from Zebra/helios/helios:14/14-23-05.00-UG-U05-STD-HEL-04/5:user/release-keys
+vendor/bin/hw/vendor.qti.hardware.perf@2.2-service|e900362841799a94b6636e259a2f3574d7763ca1
+vendor/etc/init/vendor.qti.hardware.perf@2.2-service.rc|459b4c23550a56ac545f78c6d391f3d7dd9ba45b
+vendor/lib/libperfconfig.so|0fcf2a74d3d8a0ab1047a83960adb1cdf9d70118
+vendor/lib/libperfgluelayer.so|0851b8f7d2e50c66d92055ca52a29453a961ca3e
+vendor/lib/libperfioctl.so|6de3b4fa79f47aeaac6f931de00b3036bb55f39a
+vendor/lib/libqti-perfd-client.so|36c9e866b755da797ff458c5901cebcc5910db50
+vendor/lib/libqti-perfd.so|1029d124754ce31950a145546ac7d03388d1bdd5
+vendor/lib/libqti-util.so|8f449de8af1d5c0f7a4120f8163c3fc78bc8f47d
+vendor/lib64/libperfconfig.so|b5c5d60f0543f2a9069c9a74257a88936522b298
+vendor/lib64/libperfgluelayer.so|822071dd39f803288ab0ff0e4165ab34be5d9a27
+vendor/lib64/libperfioctl.so|855ece89da103e4ee098a9c8c8dd8e18af0df98b
+vendor/lib64/libqti-perfd.so|d8f201151df65db23d10002b994e9fea6322aa2d
+vendor/lib64/libqti-perfd-client.so|c1a918d4ade719e93ba7d009169d613f9c9bf3f5
+vendor/lib64/libqti-util.so|89a6e6c5f70898a0a9a9b61ca9d5ab0e97406abc
+vendor/lib/vendor.qti.memory.pasrmanager@1.0.so|508a1281deed810d2f4f8b555d6ba9d8f2145a42
+vendor/lib/vendor.qti.memory.pasrmanager@1.1.so|f8b9c709b13c80143c3a9f976e716cdfd97989d9
+vendor/lib64/vendor.qti.memory.pasrmanager@1.0.so|52532a56ace827b3fc297f785354e45bcaf6037c
+vendor/lib64/vendor.qti.memory.pasrmanager@1.1.so|83ee55d805ca12544acdbb34846037c8424af056
+
+# Perf (configs) - from Zebra/helios/helios:14/14-23-05.00-UG-U05-STD-HEL-04/5:user/release-keys
+vendor/etc/perf/commonresourceconfigs.xml|c03bd36054bb5d327ad12dc711b58b3f658d261c
+vendor/etc/perf/commonsysnodesconfigs.xml|63d293adfd5aa82551aa8fc0d30b38bffdcc497e
+vendor/etc/perf/perfboostsconfig.xml|1b925efc5be95c1fbcec228a609ffa59b1f6ecc9
+vendor/etc/perf/perfconfigstore.xml|7aed790478c9796246ea7c4b3bb6f7d31172ecb3
+vendor/etc/perf/targetconfig.xml|376ae331df9d6c30b6208f25d04ae4ea11c0e2ea
+vendor/etc/perf/targetresourceconfigs.xml|008f1451b538b5af6f4fb2241e2893e4c38bc07a
+
 # QCC VND HAL - from Zebra/helios/helios:14/14-23-05.00-UG-U05-STD-HEL-04/5:user/release-keys
 vendor/lib64/hw/vendor.qti.hardware.qccvndhal@1.0-impl.so|b2c72c1d3308e2418ab3e43581a731599f72b5f8
 vendor/lib64/vendor.qti.hardware.qccvndhal@1.0-halimpl.so|88853a250d7b74f6bc455f33ec50dc9804eb431e
