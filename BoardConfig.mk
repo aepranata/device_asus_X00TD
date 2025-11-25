@@ -226,8 +226,8 @@ BOARD_ROOT_EXTRA_SYMLINKS := \
     /mnt/vendor/persist:/persist
 
 # Partitions - dynamic
-SSI_PARTITIONS := system
-TREBLE_PARTITIONS := vendor
+SSI_PARTITIONS := product system system_ext
+TREBLE_PARTITIONS := odm vendor
 ALL_PARTITIONS := $(SSI_PARTITIONS) $(TREBLE_PARTITIONS)
 
 $(foreach p, $(call to-upper, $(ALL_PARTITIONS)), \
