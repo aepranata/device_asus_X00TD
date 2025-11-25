@@ -8,6 +8,9 @@
 
 set -e
 
+export DEVICE=X00TD
+export VENDOR=asus
+
 # Load extract_utils and do some sanity checks
 MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
@@ -53,7 +56,15 @@ fi
 function blob_fixup() {
     case "${1}" in
 
-    # remove android.hidl.base dependency
+    # Fix jar path
+    product/etc/permissions/qti_fingerprint_interface.xml)
+        sed -i 's|/system/framework/|/system/product/framework/|g' "${2}"
+        ;;
+
+    # Remove android.hidl.base dependency
+    vendor/lib/hw/camera.sdm660.so)
+        "${PATCHELF}" --remove-needed "android.hidl.base@1.0.so" "${2}"
+        ;;
     system/lib64/libfm-hci.so | system/lib64/libwfdnative.so | system/lib/libfm-hci.so | system/lib/libwfdnative.so)
         "${PATCHELF}" --remove-needed "android.hidl.base@1.0.so" "${2}"
         ;;
@@ -62,6 +73,15 @@ function blob_fixup() {
         "${PATCHELF}" --replace-needed "libcutils.so" "libcutils-v29.so" "${2}"
         "${PATCHELF}" --add-needed "libcutils.so" "${2}"
         ;;
+
+    # Rename to fp service avoid conflicts
+    vendor/etc/init/android.hardware.biometrics.fingerprint@2.1-service_asus.rc)
+        sed -i 's|android.hardware.biometrics.fingerprint@2.1-service|android.hardware.biometrics.fingerprint@2.1-service_asus|g' "${2}"
+        ;;
+    vendor/lib64/libvendor.goodix.hardware.fingerprint@1.0.so | vendor/lib64/libvendor.goodix.hardware.fingerprint@1.0-service.so)
+        grep -q "libhidlbase-v32.so" "${2}" || "${PATCHELF}" --replace-needed "libhidlbase.so" "libhidlbase-v32.so" "${2}"
+        ;;
+
     esac
 }
 
