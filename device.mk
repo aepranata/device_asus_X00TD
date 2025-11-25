@@ -199,6 +199,11 @@ PRODUCT_PACKAGES += \
     libunwindstack.vendor \
     libhidlmemory.vendor:64
 
+# Dynamic Partitions
+PRODUCT_BUILD_SUPER_PARTITION := false
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+PRODUCT_RETROFIT_DYNAMIC_PARTITIONS := true
+
 # FM
 PRODUCT_PACKAGES += \
     android.hardware.broadcastradio@1.0-impl
@@ -564,6 +569,7 @@ PRODUCT_PACKAGES += \
     init.qcom.usb.sh
 
 PRODUCT_PACKAGES += \
+    fstab.qcom_ramdisk \
     fstab.qcom \
     init.qcom.asus.rc \
     init.qcom.rc \
