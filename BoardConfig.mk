@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-COMMON_PATH := device/asus/sdm660-common
+DEVICE_PATH := device/asus/X00TD
 
 BUILD_BROKEN_MISSING_REQUIRED_MODULES := true
 
@@ -25,7 +25,7 @@ TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a73
 
 # Audio
 USE_DEVICE_SPECIFIC_AUDIO := true
-DEVICE_SPECIFIC_AUDIO_PATH := $(COMMON_PATH)/qcom-caf/audio
+DEVICE_SPECIFIC_AUDIO_PATH := $(DEVICE_PATH)/qcom-caf/audio
 AUDIO_FEATURE_ENABLED_EXT_AMPLIFIER := false
 AUDIO_FEATURE_ENABLED_TFA98XX_AMPLIFIER := true
 
@@ -117,7 +117,7 @@ USE_DEVICE_SPECIFIC_CAMERA := true
 
 # Display
 USE_DEVICE_SPECIFIC_DISPLAY := true
-DEVICE_SPECIFIC_DISPLAY_PATH := $(COMMON_PATH)/qcom-caf/display
+DEVICE_SPECIFIC_DISPLAY_PATH := $(DEVICE_PATH)/qcom-caf/display
 TARGET_SCREEN_DENSITY := 420
 TARGET_USES_GRALLOC1 := true
 TARGET_USES_HWC2 := true
@@ -133,7 +133,7 @@ TARGET_ENABLE_MEDIADRM_64 := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
 # Filesystem
-TARGET_FS_CONFIG_GEN := $(COMMON_PATH)/config.fs
+TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/config.fs
 
 # FM
 BOARD_HAS_QCA_FM_SOC := cherokee
@@ -153,7 +153,7 @@ BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 TARGET_KERNEL_CLANG_COMPILE := true
-TARGET_KERNEL_SOURCE := kernel/asus/sdm660
+TARGET_KERNEL_SOURCE := kernel/asus/X00TD
 TARGET_KERNEL_VERSION := 4.19
 
 # GPS
@@ -162,18 +162,18 @@ GNSS_HIDL_VERSION := 2.1
 LOC_HIDL_VERSION := 4.0
 
 # HIDL
-DEVICE_MANIFEST_FILE := $(COMMON_PATH)/manifest.xml
-DEVICE_MATRIX_FILE := $(COMMON_PATH)/compatibility_matrix.xml
-DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(COMMON_PATH)/framework_compatibility_matrix.xml
+DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
+DEVICE_MATRIX_FILE := $(DEVICE_PATH)/compatibility_matrix.xml
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := $(DEVICE_PATH)/framework_compatibility_matrix.xml
 
 ODM_MANIFEST_SKUS += NFC
-ODM_MANIFEST_NFC_FILES := $(COMMON_PATH)/manifest_nfc.xml
+ODM_MANIFEST_NFC_FILES := $(DEVICE_PATH)/manifest_nfc.xml
 
 # HWUI
 HWUI_COMPILE_FOR_PERF := true
 
 # Init
-TARGET_INIT_VENDOR_LIB := //$(COMMON_PATH):libinit_sdm660
+TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):libinit_sdm660
 TARGET_RECOVERY_DEVICE_MODULES := libinit_sdm660
 
 # Lineage Health
@@ -184,7 +184,7 @@ TARGET_LMKD_STATS_LOG := true
 
 # Media
 USE_DEVICE_SPECIFIC_MEDIA := true
-DEVICE_SPECIFIC_MEDIA_PATH := $(COMMON_PATH)/qcom-caf/media
+DEVICE_SPECIFIC_MEDIA_PATH := $(DEVICE_PATH)/qcom-caf/media
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144 # (BOARD_KERNEL_PAGESIZE * 64)
@@ -215,33 +215,33 @@ TARGET_BOARD_PLATFORM := sdm660
 TARGET_USES_INTERACTION_BOOST := true
 
 # Properties
-TARGET_ODM_PROP += $(COMMON_PATH)/properties/odm.prop
-TARGET_PRODUCT_PROP += $(COMMON_PATH)/properties/product.prop
-TARGET_SYSTEM_PROP += $(COMMON_PATH)/properties/system.prop
-TARGET_VENDOR_PROP += $(COMMON_PATH)/properties/vendor.prop
+TARGET_ODM_PROP += $(DEVICE_PATH)/properties/odm.prop
+TARGET_PRODUCT_PROP += $(DEVICE_PATH)/properties/product.prop
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/properties/system.prop
+TARGET_VENDOR_PROP += $(DEVICE_PATH)/properties/vendor.prop
 
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE := true
 TARGET_USES_QCOM_BSP := false
 
 # Recovery
-TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 
 # Releasetools
 TARGET_RECOVERY_UPDATER_LIBS := librecovery_updater_asus
-TARGET_RELEASETOOLS_EXTENSIONS := $(COMMON_PATH)
+TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)
 
 # RIL
 ENABLE_VENDOR_RIL_SERVICE := true
 
 # Sepolicy
 include device/qcom/sepolicy-legacy-um/SEPolicy.mk
-BOARD_VENDOR_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor
-SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/private
+BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 
 # Soong namespaces
-PRODUCT_SOONG_NAMESPACES += $(COMMON_PATH)
+PRODUCT_SOONG_NAMESPACES += $(DEVICE_PATH)
 
 # Treble
 BOARD_VNDK_VERSION := current
@@ -269,4 +269,4 @@ CONFIG_ACS := true
 CONFIG_IEEE80211AC := true
 
 # Inherit the proprietary files
-include vendor/asus/sdm660-common/BoardConfigVendor.mk
+include vendor/asus/X00TD/BoardConfigVendor.mk
