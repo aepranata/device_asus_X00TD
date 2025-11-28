@@ -225,6 +225,8 @@ TARGET_USERIMAGES_USE_F2FS := true
 
 TARGET_COPY_OUT_VENDOR := vendor
 
+AB_OTA_UPDATER := false
+
 BOARD_ROOT_EXTRA_SYMLINKS := \
     /mnt/vendor/persist:/persist
 
