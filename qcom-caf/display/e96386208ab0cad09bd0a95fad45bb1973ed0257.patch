@@ -1,0 +1,164 @@
+From e96386208ab0cad09bd0a95fad45bb1973ed0257 Mon Sep 17 00:00:00 2001
+From: EndCredits <endcredits@crepuscular-aosp.icu>
+Date: Tue, 19 Nov 2024 12:39:42 +0800
+Subject: [PATCH] X00TD: display: Convert libgrallocutils and gpu_tonemapper to blueprint
+
+* Support ELF check for some blobs
+
+Change-Id: I11dec853d8cfaddb01ba96a2e76be38fe2d52073
+Signed-off-by: EndCredits <endcredits@crepuscular-aosp.icu>
+---
+ qcom-caf/display/Android.bp                |  1 +
+ qcom-caf/display/gpu_tonemapper/Android.bp | 33 +++++++++++++++++++++++++++++++++
+ qcom-caf/display/gpu_tonemapper/Android.mk | 22 ----------------------
+ qcom-caf/display/gralloc/Android.bp        | 29 +++++++++++++++++++++++++++++
+ qcom-caf/display/gralloc/Android.mk        | 19 -------------------
+ 5 files changed, 63 insertions(+), 41 deletions(-)
+ create mode 100644 qcom-caf/display/gpu_tonemapper/Android.bp
+ delete mode 100644 qcom-caf/display/gpu_tonemapper/Android.mk
+ create mode 100644 qcom-caf/display/gralloc/Android.bp
+
+diff --git a/qcom-caf/display/Android.bp b/qcom-caf/display/Android.bp
+index 15e22ba48c..de7ab118b1 100644
+--- a/qcom-caf/display/Android.bp
++++ b/qcom-caf/display/Android.bp
+@@ -32,6 +32,7 @@ cc_library_headers {
+ }
+ 
+ subdirs = [
++    "gpu_tonemapper",
+     "libqservice",
+     "libqdutils",
+ ]
+diff --git a/qcom-caf/display/gpu_tonemapper/Android.bp b/qcom-caf/display/gpu_tonemapper/Android.bp
+new file mode 100644
+index 0000000000..c912d52f65
+--- /dev/null
++++ b/qcom-caf/display/gpu_tonemapper/Android.bp
+@@ -0,0 +1,33 @@
++cc_library_shared {
++    name: "libgpu_tonemapper",
++    vendor: true,
++
++    header_libs: [
++        "display_headers",
++        "qti_kernel_headers",
++    ],
++    shared_libs: [
++        "libEGL",
++        "libGLESv2",
++        "libGLESv3",
++        "libui",
++        "libutils",
++        "liblog",
++    ],
++
++    cflags: [
++        "-Wno-missing-field-initializers",
++        "-Wall",
++        "-Wno-unused-parameter",
++        "-DLOG_TAG=\"GPU_TONEMAPPER\"",
++    ],
++
++    srcs: [
++        "TonemapFactory.cpp",
++        "glengine.cpp",
++        "EGLImageBuffer.cpp",
++        "EGLImageWrapper.cpp",
++        "Tonemapper.cpp",
++    ],
++
++}
+diff --git a/qcom-caf/display/gpu_tonemapper/Android.mk b/qcom-caf/display/gpu_tonemapper/Android.mk
+deleted file mode 100644
+index 29e373a840..0000000000
+--- a/qcom-caf/display/gpu_tonemapper/Android.mk
++++ /dev/null
+@@ -1,22 +0,0 @@
+-LOCAL_PATH := $(call my-dir)
+-include $(LOCAL_PATH)/../common.mk
+-
+-include $(CLEAR_VARS)
+-LOCAL_MODULE              := libgpu_tonemapper
+-LOCAL_VENDOR_MODULE       := true
+-LOCAL_MODULE_TAGS         := optional
+-LOCAL_HEADER_LIBRARIES    := display_headers
+-LOCAL_C_INCLUDES          := $(TARGET_OUT_HEADERS)/qcom/display/
+-LOCAL_C_INCLUDES          += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
+-LOCAL_SHARED_LIBRARIES    := libEGL libGLESv2 libGLESv3 libui libutils liblog
+-LOCAL_ADDITIONAL_DEPENDENCIES := $(common_deps) $(kernel_deps)
+-
+-LOCAL_CFLAGS              := $(version_flag) -Wno-missing-field-initializers -Wall \
+-                             -Wno-unused-parameter -DLOG_TAG=\"GPU_TONEMAPPER\"
+-LOCAL_SRC_FILES           := TonemapFactory.cpp \
+-                             glengine.cpp \
+-                             EGLImageBuffer.cpp \
+-                             EGLImageWrapper.cpp \
+-                             Tonemapper.cpp
+-
+-include $(BUILD_SHARED_LIBRARY)
+diff --git a/qcom-caf/display/gralloc/Android.bp b/qcom-caf/display/gralloc/Android.bp
+new file mode 100644
+index 0000000000..5a3283b8d5
+--- /dev/null
++++ b/qcom-caf/display/gralloc/Android.bp
+@@ -0,0 +1,29 @@
++cc_library_shared {
++    name: "libgrallocutils",
++    defaults: ["display_defaults"],
++    vendor: true,
++    srcs: [
++        "gr_utils.cpp",
++        "gr_adreno_info.cpp",
++    ],
++    shared_libs: [
++        "libqdMetaData",
++        "libdl",
++        "android.hardware.graphics.common@1.2",
++        "android.hardware.graphics.mapper@2.0",
++        "android.hardware.graphics.mapper@2.1",
++        "android.hardware.graphics.mapper@3.0",
++        "android.hardware.graphics.mapper@4.0",
++    ],
++    cflags: [
++        "-DLOG_TAG=\"qdgralloc\"",
++        "-D__QTI_DISPLAY_GRALLOC__",
++        "-Wno-sign-conversion",
++        "-Wno-unused-parameter",
++        "-Wno-unused-variable",
++    ],
++    header_libs: [
++        "display_headers",
++        "qti_kernel_headers",
++    ],
++}
+diff --git a/qcom-caf/display/gralloc/Android.mk b/qcom-caf/display/gralloc/Android.mk
+index 4b27b2d998..8542f2c538 100644
+--- a/qcom-caf/display/gralloc/Android.mk
++++ b/qcom-caf/display/gralloc/Android.mk
+@@ -24,25 +24,6 @@ LOCAL_ADDITIONAL_DEPENDENCIES := $(common_deps)
+ LOCAL_SRC_FILES               := gr_device_impl.cpp
+ include $(BUILD_SHARED_LIBRARY)
+ 
+-#libgrallocutils
+-include $(CLEAR_VARS)
+-LOCAL_MODULE                  := libgrallocutils
+-LOCAL_VENDOR_MODULE           := true
+-LOCAL_MODULE_TAGS             := optional
+-LOCAL_C_INCLUDES              := $(common_includes) $(kernel_includes)
+-LOCAL_HEADER_LIBRARIES        := display_headers
+-LOCAL_SHARED_LIBRARIES        := $(common_libs) libqdMetaData libdl  \
+-                                  android.hardware.graphics.common@1.2 \
+-                                  android.hardware.graphics.mapper@2.0 \
+-                                  android.hardware.graphics.mapper@2.1 \
+-                                  android.hardware.graphics.mapper@3.0 \
+-                                  android.hardware.graphics.mapper@4.0
+-LOCAL_CFLAGS                  := $(common_flags) -DLOG_TAG=\"qdgralloc\" -Wno-sign-conversion \
+-                                 -D__QTI_DISPLAY_GRALLOC__
+-LOCAL_ADDITIONAL_DEPENDENCIES := $(common_deps)
+-LOCAL_SRC_FILES               := gr_utils.cpp gr_adreno_info.cpp
+-include $(BUILD_SHARED_LIBRARY)
+-
+ #libgralloccore
+ include $(CLEAR_VARS)
+ LOCAL_MODULE                  := libgralloccore

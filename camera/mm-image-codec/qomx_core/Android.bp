@@ -1,0 +1,32 @@
+cc_library_shared {
+    name: "libqomx_core",
+
+    srcs: [
+        "qomx_core.c",
+    ],
+
+    header_libs: [
+        "libqexif_headers",
+        "libutils_headers",
+        "media_plugin_headers",
+    ],
+
+    shared_libs: [
+        "libdl",
+        "liblog",
+        "libutils",
+    ],
+
+    cflags: [
+        "-g",
+        "-O0",
+        "-Werror",
+    ],
+
+    export_include_dirs: [
+        ".",
+    ],
+
+    compile_multilib: "32",
+    vendor: true,
+}

@@ -1,5 +1,6 @@
 soong_namespace {
     imports: [
+        "device/asus/X00TD/qcom-caf",
         "hardware/google/interfaces",
         "hardware/google/pixel"
     ],
