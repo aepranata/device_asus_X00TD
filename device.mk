@@ -422,7 +422,6 @@ PRODUCT_PACKAGES += \
 # OMX
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
-    libhypv_intercept \
     libmedia_omx.vendor \
     libmm-omxcore \
     libOmxCore \
