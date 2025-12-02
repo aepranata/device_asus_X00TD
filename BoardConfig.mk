@@ -195,7 +195,7 @@ ODM_MANIFEST_NFC_FILES := $(DEVICE_PATH)/manifest_nfc.xml
 HWUI_COMPILE_FOR_PERF := true
 
 # Init
-TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):libinit_sdm660
+$(call soong_config_set,libinit,vendor_init_lib,//$(DEVICE_PATH):libinit_sdm660)
 TARGET_RECOVERY_DEVICE_MODULES := libinit_sdm660
 
 # LMKD
