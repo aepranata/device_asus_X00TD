@@ -308,6 +308,7 @@ PRODUCT_PACKAGES += \
     android.hardware.light@2.0-service
 
 # Lineage Health
+$(call soong_config_set,lineage_health,charging_control_charging_path,/sys/class/power_supply/battery/charging_enabled)
 PRODUCT_PACKAGES += \
     vendor.lineage.health-service.default
 
