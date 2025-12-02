@@ -1,5 +1,5 @@
 cc_library_shared {
-    name: "hwcomposer.qcom",
+    name: "hwcomposer.sdm660",
     vendor: true,
     relative_install_path: "hw",
 
