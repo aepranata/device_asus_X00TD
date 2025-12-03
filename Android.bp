@@ -3,6 +3,7 @@ soong_namespace {
         "device/asus/X00TD/qcom-caf",
         "hardware/google/interfaces",
         "hardware/google/pixel"
+        "vendor/qcom/opensource/display",
     ],
 }
 
