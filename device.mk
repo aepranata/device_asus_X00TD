@@ -476,7 +476,6 @@ PRODUCT_PACKAGES += \
 # PARTITIONS
 # Dynamic partition configuration (retrofit from A-only device).
 # =============================================================================
-PRODUCT_BUILD_SUPER_PARTITION := false
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
 # =============================================================================
