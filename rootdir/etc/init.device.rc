@@ -61,3 +61,10 @@ on boot
     chown system system /sys/class/sensors/stk3x1x-light/sensors_name
 
     chown radio radio sys/module/stk3x1x/parameters/call_status_flag
+
+# Fingerprint
+service vendor.goodix_script /vendor/bin/init.goodix.sh
+    class late_start
+    user system
+    group system
+    oneshot

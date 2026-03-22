@@ -539,6 +539,7 @@ PRODUCT_PACKAGES += \
 # Ramdisk
 PRODUCT_PACKAGES += \
     init.class_main.sh \
+    init.goodix.sh \
     init.qcom.post_boot.sh \
     init.qcom.sensors.sh \
     init.qcom.sh \
@@ -605,7 +606,7 @@ PRODUCT_PACKAGES += \
 
 # Touch
 PRODUCT_PACKAGES += \
-    vendor.lineage.touch@1.0-service.asus_sdm660
+    vendor.lineage.touch-service.asus_sdm660
 
 # Shipping API level
 PRODUCT_SHIPPING_API_LEVEL := 27
