@@ -599,9 +599,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     telephony-ext
 
-# Thermal configs
-PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/configs/thermal-engine.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine.conf
+# Thermal
+PRODUCT_PACKAGES += \
+    android.hardware.thermal-service.asus_sdm660
 
 # Touch
 PRODUCT_PACKAGES += \
