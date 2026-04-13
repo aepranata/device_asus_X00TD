@@ -198,3 +198,6 @@ wifi.aware.interface=wifi-aware0
 # Lmk
 ro.config.low_ram = false
 ro.lmk.log_stats = true
+
+# Incremental FS
+ro.incremental.enable=1
