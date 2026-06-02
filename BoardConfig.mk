@@ -128,6 +128,8 @@ $(foreach p, $(call to-upper, $(SSI_PARTITIONS)), \
 $(foreach p, $(call to-upper, $(TREBLE_PARTITIONS)), \
     $(eval BOARD_$(p)IMAGE_PARTITION_RESERVED_SIZE := 41943040)) # 40 MiB
 
+BOARD_PRODUCTIMAGE_PARTITION_RESERVED_SIZE := 838860800
+
 # Super partition: retrofit mode using existing system + vendor block devices
 BOARD_SUPER_PARTITION_BLOCK_DEVICES := vendor system
 BOARD_SUPER_PARTITION_METADATA_DEVICE := system
