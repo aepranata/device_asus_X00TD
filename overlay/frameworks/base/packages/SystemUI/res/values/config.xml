@@ -1,148 +1,320 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-
-Copyright (c) 2014, The Linux Foundation. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above
-      copyright notice, this list of conditions and the following
-      disclaimer in the documentation and/or other materials provided
-      with the distribution.
-    * Neither the name of The Linux Foundation nor the names of its
-      contributors may be used to endorse or promote products derived
-      from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
-WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
-ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
-BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
-IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
--->
 <resources>
 
-    <!-- Quick Settings -->
+    <!-- ============================================================ -->
+    <!--  QUICK SETTINGS (QS) — Panel Layout                          -->
+    <!--  Controls the tile grid dimensions for both the collapsed     -->
+    <!--  Quick QS bar and the fully expanded QS panel.               -->
+    <!-- ============================================================ -->
+    <!-- Max tiles shown in the collapsed Quick QS (peek) bar -->
     <integer name="quick_qs_panel_max_tiles">6</integer>
+    <!-- Max rows shown in the collapsed Quick QS (peek) bar -->
     <integer name="quick_qs_panel_max_rows">2</integer>
+    <!-- Number of tile columns in the fully expanded QS panel -->
     <integer name="quick_settings_num_columns">2</integer>
+    <!-- Max rows allowed in the fully expanded QS panel -->
     <integer name="quick_settings_max_rows">4</integer>
+    <!-- Minimum number of tiles that must always be present in QS -->
     <integer name="quick_settings_min_num_tiles">6</integer>
+
+    <!-- ============================================================ -->
+    <!--  QUICK SETTINGS — Battery                                     -->
+    <!--  Controls battery-related display in the QS header.          -->
+    <!-- ============================================================ -->
+    <!-- Whether to show the battery time-remaining estimate in QS header -->
     <bool name="config_showBatteryEstimateQSBH">true</bool>
 
-    <!-- Notifications - General -->
-    <bool name="config_renderNotifications">true</bool>
-    <bool name="config_showNotificationGear">true</bool>
-    <bool name="config_enableNotificationShadeDrag">true</bool>
-    <bool name="config_clipNotificationScrollToTop">true</bool>
-    <bool name="config_enableNonGroupedNotificationExpand">true</bool>
-    <bool name="config_use_split_notification_shade">false</bool>
-    <integer name="keyguard_max_notification_count">4</integer>
+    <!-- ============================================================ -->
+    <!--  HEADS-UP NOTIFICATIONS (HUN)                                -->
+    <!--  Timing and behaviour for the floating heads-up notification  -->
+    <!--  banner that appears at the top of the screen.               -->
+    <!-- ============================================================ -->
+    <!-- How long (ms) a user-triggered HUN stays visible before auto-dismiss -->
+    <integer name="heads_up_notification_decay">5000</integer>
+    <!-- How long (ms) an automatically triggered HUN stays visible -->
+    <integer name="auto_heads_up_notification_decay">3000</integer>
+    <!-- How long (ms) a snoozed HUN is suppressed before reappearing -->
+    <integer name="heads_up_default_snooze_length_ms">60000</integer>
+    <!-- Minimum time (ms) a HUN must remain on screen before it can be dismissed -->
+    <integer name="heads_up_notification_minimum_time">2000</integer>
+    <!-- Whether the status bar header is hidden while a HUN is showing -->
+    <bool name="heads_up_notification_hides_header">true</bool>
+    <!-- Delay (ms) before touch input is accepted on a newly shown HUN,
+         preventing accidental taps as the banner slides in -->
     <integer name="touch_acceptance_delay">700</integer>
 
-    <!-- Notifications - Appearance -->
-    <bool name="config_clipNotificationsToOutline">true</bool>
-    <bool name="config_drawNotificationBackground">true</bool>
-    <bool name="config_showGroupNotificationBgWhenExpanded">true</bool>
-    <bool name="config_enableShadowOnChildNotifications">true</bool>
-    <bool name="config_skinnyNotifsInLandscape">true</bool>
+    <!-- ============================================================ -->
+    <!--  NOTIFICATIONS — Keyguard                                     -->
+    <!--  Controls how many notifications are visible on the lock      -->
+    <!--  screen before they are collapsed/hidden.                     -->
+    <!-- ============================================================ -->
+    <!-- Maximum number of notifications displayed on the keyguard/lock screen -->
+    <integer name="keyguard_max_notification_count">4</integer>
 
-    <!-- Notifications - Smart Replies -->
+    <!-- ============================================================ -->
+    <!--  NOTIFICATIONS — Rendering & Shade Behaviour                  -->
+    <!--  Feature flags that control how notifications are drawn and   -->
+    <!--  interacted with inside the notification shade.               -->
+    <!-- ============================================================ -->
+    <!-- Master switch: whether notifications are rendered at all in SystemUI -->
+    <bool name="config_renderNotifications">true</bool>
+    <!-- Whether the gear/settings icon is shown on swipe of a notification row -->
+    <bool name="config_showNotificationGear">true</bool>
+    <!-- Whether the notification shade can be opened by dragging down -->
+    <bool name="config_enableNotificationShadeDrag">true</bool>
+    <!-- Whether the notification list scrolls to the top when the shade closes -->
+    <bool name="config_clipNotificationScrollToTop">true</bool>
+    <!-- Whether individual (non-grouped) notifications can be manually expanded -->
+    <bool name="config_enableNonGroupedNotificationExpand">true</bool>
+
+    <!-- ============================================================ -->
+    <!--  NOTIFICATIONS — Smart Replies                                -->
+    <!--  Configuration for inline AI-suggested reply chips shown      -->
+    <!--  directly inside a notification row.                          -->
+    <!-- ============================================================ -->
+    <!-- Whether smart reply chips are enabled inside notifications -->
     <bool name="config_smart_replies_in_notifications_enabled">true</bool>
+    <!-- Whether smart replies are also shown inside HUN banners -->
     <bool name="config_smart_replies_in_notifications_show_in_heads_up">true</bool>
+    <!-- Maximum number of smart action chips shown per notification -->
     <integer name="config_smart_replies_in_notifications_max_num_actions">3</integer>
 
-    <!-- Notifications - Snooze -->
+    <!-- ============================================================ -->
+    <!--  NOTIFICATIONS — Snooze                                       -->
+    <!--  Default and available snooze durations (in minutes) for      -->
+    <!--  deferring a notification to reappear later.                  -->
+    <!-- ============================================================ -->
+    <!-- Default snooze duration in minutes -->
     <integer name="config_notification_snooze_time_default">60</integer>
+    <!-- List of selectable snooze durations shown in the snooze picker (minutes) -->
     <integer-array name="config_notification_snooze_times">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>120</item>
+        <item>15</item>   <!-- 15 minutes -->
+        <item>30</item>   <!-- 30 minutes -->
+        <item>60</item>   <!-- 1 hour (default) -->
+        <item>120</item>  <!-- 2 hours -->
     </integer-array>
 
-    <!-- Heads-Up Notifications -->
-    <bool name="heads_up_notification_hides_header">true</bool>
-    <integer name="heads_up_notification_minimum_time">2000</integer>
-    <integer name="heads_up_notification_decay">5000</integer>
-    <integer name="auto_heads_up_notification_decay">3000</integer>
-    <integer name="heads_up_default_snooze_length_ms">60000</integer>
+    <!-- ============================================================ -->
+    <!--  NOTIFICATIONS — Visual Styling                               -->
+    <!--  Flags that affect how notification cards look in the shade.  -->
+    <!-- ============================================================ -->
+    <!-- Whether notification cards are clipped to their outline/shape -->
+    <bool name="config_clipNotificationsToOutline">true</bool>
+    <!-- Whether a background is drawn behind individual notification rows -->
+    <bool name="config_drawNotificationBackground">true</bool>
+    <!-- Whether the group background is shown when a group is expanded -->
+    <bool name="config_showGroupNotificationBgWhenExpanded">true</bool>
+    <!-- Whether child notifications inside a group receive a drop shadow -->
+    <bool name="config_enableShadowOnChildNotifications">true</bool>
+    <!-- Whether notifications use a narrower/skinny layout in landscape -->
+    <bool name="config_skinnyNotifsInLandscape">true</bool>
 
-    <!-- Doze -->
+    <!-- ============================================================ -->
+    <!--  DOZE — Display States                                        -->
+    <!--  Declares which low-power display states are available on     -->
+    <!--  this device for ambient display / always-on use.             -->
+    <!-- ============================================================ -->
+    <!-- Whether the device supports the DOZE display state -->
     <bool name="doze_display_state_supported">true</bool>
+    <!-- Whether the device supports the DOZE_SUSPEND display state
+         (deeper sleep with no CPU-driven display updates) -->
     <bool name="doze_suspend_display_state_supported">true</bool>
+
+    <!-- ============================================================ -->
+    <!--  DOZE — Wake Triggers & Proximity                             -->
+    <!--  Controls which gestures and sensors can wake the ambient     -->
+    <!--  display from its dozing state.                               -->
+    <!-- ============================================================ -->
+    <!-- Whether significant motion (e.g. picking up the phone) triggers a doze pulse -->
     <bool name="doze_pulse_on_significant_motion">true</bool>
+    <!-- Whether the proximity sensor is checked before triggering a pulse,
+         to suppress wakes when the phone is face-down or in a pocket -->
     <bool name="doze_proximity_check_before_pulse">true</bool>
+    <!-- Whether a single tap uses the proximity sensor to gate the wake -->
     <bool name="doze_single_tap_uses_prox">true</bool>
+    <!-- Whether a long press uses the proximity sensor to gate the wake -->
     <bool name="doze_long_press_uses_prox">true</bool>
+
+    <!-- ============================================================ -->
+    <!--  DOZE — Pulse Animation Timing                                -->
+    <!--  Durations (ms) for the ambient display pulse fade animation. -->
+    <!-- ============================================================ -->
+    <!-- Duration (ms) of the fade-in phase when the pulse begins -->
     <integer name="doze_pulse_duration_in">250</integer>
+    <!-- Duration (ms) the pulse stays fully visible -->
     <integer name="doze_pulse_duration_visible">3000</integer>
+    <!-- Duration (ms) of the fade-out phase when the pulse ends -->
     <integer name="doze_pulse_duration_out">250</integer>
+    <!-- Alpha (0–255) of small notification icons during doze -->
     <integer name="doze_small_icon_alpha">255</integer>
+    <!-- Vibration threshold (ms) used to qualify a pickup gesture in doze -->
     <integer name="doze_pickup_vibration_threshold">2000</integer>
 
-    <!-- Volume -->
+    <!-- ============================================================ -->
+    <!--  VOLUME                                                       -->
+    <!--  Feature flags and animation timings for the volume panel     -->
+    <!--  dialog shown when hardware volume keys are pressed.          -->
+    <!-- ============================================================ -->
+    <!-- Whether the volume UI (panel/dialog) is enabled -->
     <bool name="enable_volume_ui">true</bool>
+    <!-- Whether the hearing safety warning is shown at high volumes -->
     <bool name="enable_safety_warning">true</bool>
+    <!-- Whether to display a low-volume icon in the volume panel -->
     <bool name="config_showLowMediaVolumeIcon">true</bool>
+    <!-- Whether the volume row tint changes when the stream becomes inactive -->
     <bool name="config_changeVolumeRowTintWhenInactive">true</bool>
+    <!-- Whether the volume dialog background uses a blur/frosted effect -->
     <bool name="config_volumeDialogUseBackgroundBlur">false</bool>
+    <!-- Duration (ms) of the show/open animation for the volume dialog -->
     <integer name="config_dialogShowAnimationDurationMs">200</integer>
+    <!-- Duration (ms) of the hide/close animation for the volume dialog -->
     <integer name="config_dialogHideAnimationDurationMs">150</integer>
 
-    <!-- Power Menu -->
+    <!-- ============================================================ -->
+    <!--  POWER MENU (Global Actions Lite)                             -->
+    <!--  Grid dimensions for the power-button long-press action menu. -->
+    <!-- ============================================================ -->
+    <!-- Maximum number of columns in the power menu grid -->
     <integer name="power_menu_lite_max_columns">2</integer>
+    <!-- Maximum number of rows in the power menu grid -->
     <integer name="power_menu_lite_max_rows">4</integer>
 
-    <!-- Navigation Bar -->
+    <!-- ============================================================ -->
+    <!--  PRIVACY DOT                                                  -->
+    <!--  Corner indicator dot shown when the camera or microphone is  -->
+    <!--  actively in use by an app.                                   -->
+    <!-- ============================================================ -->
+    <!-- Whether the privacy dot feature is enabled -->
+    <bool name="config_enablePrivacyDot">true</bool>
+
+    <!-- ============================================================ -->
+    <!--  RECENTS / OVERVIEW                                           -->
+    <!--  Declares the component class that implements the Recents     -->
+    <!--  (app switcher / Overview) experience.                        -->
+    <!-- ============================================================ -->
+    <!-- Fully-qualified class name of the Recents implementation.
+         OverviewProxyRecentsImpl delegates to the Launcher process via
+         an IPC proxy, enabling the swipe-up gesture / taskbar flow. -->
+    <string name="config_recentsComponent" translatable="false">com.android.systemui.recents.OverviewProxyRecentsImpl</string>
+
+    <!-- ============================================================ -->
+    <!--  NAVIGATION BAR — Layout Strings                              -->
+    <!--  Defines the button layout for the 3-button, Quickstep        -->
+    <!--  (swipe-up), and handle (gesture pill) navigation modes.      -->
+    <!--                                                                -->
+    <!--  Format: <slot>[<weight><flags>]                              -->
+    <!--    W = weight unit  C = center-cluster  A = absolute dp       -->
+    <!-- ============================================================ -->
+    <!-- 3-button nav bar: Back | Home | Recents with side spacers -->
     <string name="config_navBarLayout" translatable="false">left[.5W],back[1WC];home;recent[1WC],right[.5W]</string>
+    <!-- Quickstep (swipe-up) nav bar: Back | Home | Menu/IME switcher -->
     <string name="config_navBarLayoutQuickstep" translatable="false">back[1.7WC];home;menu_ime[1.7WC]</string>
+    <!-- Gesture handle nav bar: Back (gesture zone) | Home handle | IME switcher -->
     <string name="config_navBarLayoutHandle" translatable="false">back[70AC];home_handle;ime_switcher[70AC]</string>
+
+    <!-- ============================================================ -->
+    <!--  NAVIGATION BAR — Dead Zone                                   -->
+    <!--  The dead zone is an area at the top of the nav bar that     -->
+    <!--  ignores taps briefly after a notification shade interaction, -->
+    <!--  preventing accidental back/home presses.                     -->
+    <!-- ============================================================ -->
+    <!-- Time (ms) the dead zone stays active after being triggered -->
     <integer name="navigation_bar_deadzone_hold">333</integer>
+    <!-- Time (ms) over which the dead zone gradually shrinks to zero -->
     <integer name="navigation_bar_deadzone_decay">333</integer>
+    <!-- Orientation in which the dead zone is active (0 = both) -->
     <integer name="navigation_bar_deadzone_orientation">0</integer>
+    <!-- Whether to visually flash the dead zone area for debugging -->
     <bool name="config_dead_zone_flash">false</bool>
+
+    <!-- ============================================================ -->
+    <!--  NAVIGATION BAR — Auto Dim                                    -->
+    <!-- ============================================================ -->
+    <!-- Whether the nav bar auto-dims when no wallpaper is visible
+         (e.g. on a solid-colour home screen). Disabled by default. -->
     <bool name="config_navigation_bar_enable_auto_dim_no_visible_wallpaper">false</bool>
+
+    <!-- ============================================================ -->
+    <!--  ROTATION BUTTON                                              -->
+    <!--  The floating button that appears to suggest or confirm a     -->
+    <!--  screen rotation change.                                      -->
+    <!-- ============================================================ -->
+    <!-- Whether the floating rotation button appears on the left side of the screen -->
     <bool name="floating_rotation_button_position_left">true</bool>
 
-    <!-- Biometrics - Fingerprint (UDFPS) -->
+    <!-- ============================================================ -->
+    <!--  FINGERPRINT — Side-Mounted (SIDEFPS)                         -->
+    <!--  Settings for side-mounted fingerprint sensors shown during  -->
+    <!--  the bouncer (lock screen authentication) flow.              -->
+    <!-- ============================================================ -->
+    <!-- Whether to show a hint/arrow on the bouncer pointing to the side FPS sensor -->
     <bool name="config_show_sidefps_hint_on_bouncer">false</bool>
-    <string name="config_udfpsIcon" translatable="false"></string>
-    <integer name="config_udfpsEnrollProgressBar" translatable="false">0</integer>
-    <integer name="config_lockIconLongPress" translatable="false">200</integer>
 
-    <!-- Biometrics - Face Unlock -->
+    <!-- ============================================================ -->
+    <!--  FINGERPRINT — Under-Display (UDFPS)                          -->
+    <!--  Configuration for under-display fingerprint sensors,         -->
+    <!--  including the enrollment progress animation and icon.        -->
+    <!-- ============================================================ -->
+    <!-- Optional resource name of a custom UDFPS icon drawable (empty = use default) -->
+    <string name="config_udfpsIcon" translatable="false"></string>
+    <!-- Style variant for the UDFPS enrollment progress bar (0 = default) -->
+    <integer name="config_udfpsEnrollProgressBar" translatable="false">0</integer>
+
+    <!-- ============================================================ -->
+    <!--  LOCK SCREEN — Biometric & Auth Behaviour                     -->
+    <!-- ============================================================ -->
+    <!-- Duration (ms) of a long-press on the lock icon to trigger device controls -->
+    <integer name="config_lockIconLongPress" translatable="false">200</integer>
+    <!-- Face unlock bypass override:
+         0 = respect system policy,
+         1 = always bypass (go straight to home),
+         2 = never bypass (always require confirmation) -->
     <integer name="config_face_unlock_bypass_override">0</integer>
+
+    <!-- ============================================================ -->
+    <!--  FACE AUTHENTICATION — Help Messages                          -->
+    <!--  Specifies which face-auth help message IDs are shown when    -->
+    <!--  a fingerprint sensor is also enrolled, to avoid redundancy.  -->
+    <!--  Values correspond to FaceAuthenticationManager.FACE_*        -->
+    <!--  constants (e.g. 3 = FACE_ACQUIRED_TOO_DARK,                  -->
+    <!--  25 = FACE_ACQUIRED_DARK_GLASSES_DETECTED,                    -->
+    <!--  26 = FACE_ACQUIRED_MOUTH_COVERING_DETECTED).                 -->
+    <!-- ============================================================ -->
     <integer-array name="config_face_help_msgs_when_fingerprint_enrolled">
-        <item>3</item>  <!-- TOO_DARK -->
-        <item>25</item> <!-- DARK_GLASSES -->
-        <item>26</item> <!-- MOUTH_COVERING -->
+        <item>3</item>   <!-- FACE_ACQUIRED_TOO_DARK -->
+        <item>25</item>  <!-- FACE_ACQUIRED_DARK_GLASSES_DETECTED -->
+        <item>26</item>  <!-- FACE_ACQUIRED_MOUTH_COVERING_DETECTED -->
     </integer-array>
+
+    <!-- ============================================================ -->
+    <!--  FACE AUTHENTICATION — Sensor Location                        -->
+    <!--  X/Y coordinates and radius (in pixels) of the face auth     -->
+    <!--  sensor indicator on screen. Left empty here; populated by   -->
+    <!--  device-specific overlays.                                    -->
+    <!-- ============================================================ -->
     <integer-array name="config_face_auth_props">
         <!-- sensorLocationX -->
         <!-- sensorLocationY -->
-        <!-- sensorRadius -->
+        <!-- sensorRadius    -->
     </integer-array>
 
-    <!-- Recents / Overview -->
-    <string name="config_recentsComponent" translatable="false">com.android.systemui.recents.OverviewProxyRecentsImpl</string>
+    <!-- ============================================================ -->
+    <!--  NOTIFICATION SHADE — Split-Shade Layout                      -->
+    <!--  On large screens/tablets the shade can be split into two     -->
+    <!--  side-by-side panes (notifications left, QS right).           -->
+    <!-- ============================================================ -->
+    <!-- Whether the split notification shade layout is used (tablet/landscape) -->
+    <bool name="config_use_split_notification_shade">false</bool>
 
-    <!-- Privacy -->
-    <bool name="config_enablePrivacyDot">true</bool>
-
-    <!-- Camera -->
+    <!-- ============================================================ -->
+    <!--  CAMERA — Launch Gesture                                      -->
+    <!--  Vibration pattern (ms) played when the quick-launch camera   -->
+    <!--  gesture (e.g. double-press power) is triggered.              -->
+    <!--  Format: [delay, vibrate, delay, vibrate, ...]                -->
+    <!-- ============================================================ -->
     <integer-array translatable="false" name="config_cameraLaunchGestureVibePattern">
-        <item>0</item>
-        <item>40</item>
+        <item>0</item>   <!-- Initial delay before vibration (ms) -->
+        <item>40</item>  <!-- Vibration duration (ms) -->
     </integer-array>
 
 </resources>

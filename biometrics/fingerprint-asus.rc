@@ -1,4 +1,4 @@
-service vendor.fps_hal /vendor/bin/hw/android.hardware.biometrics.fingerprint-X00TD
+service vendor.fingerprint-asus /vendor/bin/hw/android.hardware.biometrics.fingerprint-service.asus
     class hal
     user system
     group system input uhid

@@ -1,1 +1,1 @@
-allow port-bridge sysfs:file { open  read };
+allow port-bridge sysfs:file { open read };

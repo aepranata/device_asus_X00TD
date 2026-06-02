@@ -1,127 +1,284 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Power Profile Configuration
+    ============================
+    This file defines the estimated power consumption (in mA) for each hardware
+    subsystem on the device. Android uses these values to calculate battery usage
+    per app and per component shown in Settings > Battery.
+    All values are in milliamps (mA) unless noted otherwise.
+-->
 <device name="Android">
 
-    <!-- Battery -->
-    <item name="battery.capacity">5000</item>
-
-    <!-- Idle / Baseline -->
+    <!-- Baseline: no activity, all subsystems idle (mA) -->
     <item name="none">0</item>
 
-    <!-- Display -->
+
+    <!-- ============================================================ -->
+    <!-- DISPLAY                                                      -->
+    <!-- Power draw for the screen at various states (display0)       -->
+    <!-- ============================================================ -->
+
+    <!-- Power consumed while in ambient/always-on display mode (mA) -->
     <item name="ambient.on.display0">0.1</item>
+
+    <!-- Power consumed while the screen is on at minimum brightness (mA) -->
     <item name="screen.on.display0">45.4</item>
+
+    <!-- Power consumed while the screen is on at full brightness (mA) -->
     <item name="screen.full.display0">274</item>
 
-    <!-- CPU -->
-    <array name="cpu.clusters.cores">
-        <value>4</value> <!-- cluster0 -->
-        <value>4</value> <!-- cluster1 -->
-    </array>
 
-    <array name="cpu.core_speeds.cluster0">
-        <value>633600</value>
-        <value>902400</value>
-        <value>1113600</value>
-        <value>1401600</value>
-        <value>1536000</value>
-        <value>1612800</value>
-    </array>
-    <array name="cpu.core_power.cluster0">
-        <value>47</value>
-        <value>75</value>
-        <value>100</value>
-        <value>136</value>
-        <value>174</value>
-        <value>194</value>
-    </array>
+    <!-- ============================================================ -->
+    <!-- BLUETOOTH                                                    -->
+    <!-- Power draw for Bluetooth radio in various states             -->
+    <!-- ============================================================ -->
 
-    <array name="cpu.core_speeds.cluster1">
-        <value>1113600</value>
-        <value>1401600</value>
-        <value>1747200</value>
-        <value>1804800</value>
-    </array>
-    <array name="cpu.core_power.cluster1">
-        <value>270</value>
-        <value>350</value>
-        <value>513</value>
-        <value>580</value>
-    </array>
-
-    <item name="cpu.cluster_power.cluster0">2.5</item>
-    <item name="cpu.cluster_power.cluster1">3.5</item>
-
-    <item name="cpu.suspend">0.5</item>
-    <item name="cpu.idle">4.5</item>
-    <item name="cpu.awake">13.7</item>
-    <item name="cpu.active">100</item>
-
-    <!-- Memory -->
-    <item name="memory.bandwidths">22000</item>
-
-    <!-- Wi-Fi -->
-    <item name="wifi.on">0.19</item>
-    <item name="wifi.scan">26.66</item>
-    <item name="wifi.active">154.13</item>
-    <item name="wifi.controller.idle">2.5</item>
-    <item name="wifi.controller.rx">98</item>
-    <item name="wifi.controller.tx">150</item>
-    <array name="wifi.controller.tx_levels">
-        <value>150</value>
-    </array>
-    <item name="wifi.controller.voltage">3700</item>
-    <array name="wifi.batchedscan">
-        <value>.0002</value>
-        <value>.002</value>
-        <value>.02</value>
-        <value>.2</value>
-        <value>2</value>
-    </array>
-
-    <!-- Bluetooth -->
-    <item name="bluetooth.on">0.53</item>
+    <!-- Power when Bluetooth is actively transmitting/receiving data (mA) -->
     <item name="bluetooth.active">3.08</item>
+
+    <!-- Power when Bluetooth is enabled but idle/not connected (mA) -->
+    <item name="bluetooth.on">0.53</item>
+
+    <!-- Power consumed by the BT controller in idle state (mA) -->
     <item name="bluetooth.controller.idle">1.2</item>
+
+    <!-- Power consumed by the BT controller while receiving (mA) -->
     <item name="bluetooth.controller.rx">5.5</item>
+
+    <!-- Power consumed by the BT controller while transmitting (mA) -->
     <item name="bluetooth.controller.tx">6.2</item>
+
+    <!-- Operating voltage of the Bluetooth controller (mV) -->
     <item name="bluetooth.controller.voltage">3300</item>
 
-    <!-- Radio / Modem -->
-    <array name="radio.on">
-        <value>6.92</value>
-        <value>6.92</value>
-    </array>
-    <item name="radio.scanning">56.28</item>
-    <item name="radio.active">247.25</item>
 
-    <item name="modem.controller.sleep">0</item>
-    <item name="modem.controller.idle">6.92</item>
-    <item name="modem.controller.rx">150</item>
-    <array name="modem.controller.tx">
-        <value>180</value>
-        <value>200</value>
-        <value>220</value>
-        <value>240</value>
-        <value>260</value>
-    </array>
-    <item name="modem.controller.voltage">3700</item>
+    <!-- ============================================================ -->
+    <!-- WI-FI                                                        -->
+    <!-- Power draw for Wi-Fi radio in various states                 -->
+    <!-- ============================================================ -->
 
-    <!-- GPS -->
-    <item name="gps.on">111.63</item>
-    <array name="gps.signalqualitybased">
-        <value>28</value>
-        <value>56</value>
-        <value>84</value>
-        <value>112</value>
-    </array>
-    <item name="gps.voltage">3700</item>
+    <!-- Power when Wi-Fi is enabled but not actively transferring data (mA) -->
+    <item name="wifi.on">0.19</item>
 
-    <!-- Camera -->
-    <item name="camera.avg">550</item>
+    <!-- Power when Wi-Fi is actively transferring data (mA) -->
+    <item name="wifi.active">154.13</item>
+
+    <!-- Power consumed during a Wi-Fi network scan (mA) -->
+    <item name="wifi.scan">26.66</item>
+
+    <!-- Power consumed by the Wi-Fi controller in idle state (mA) -->
+    <item name="wifi.controller.idle">2.5</item>
+
+    <!-- Power consumed by the Wi-Fi controller while receiving (mA) -->
+    <item name="wifi.controller.rx">98</item>
+
+    <!-- Power consumed by the Wi-Fi controller while transmitting at base level (mA) -->
+    <item name="wifi.controller.tx">150</item>
+
+    <!-- Power consumed by the Wi-Fi controller per TX power level (mA per level) -->
+    <array name="wifi.controller.tx_levels">
+        <value>150</value>   <!-- Level 0: base TX power -->
+    </array>
+
+    <!-- Operating voltage of the Wi-Fi controller (mV) -->
+    <item name="wifi.controller.voltage">3700</item>
+
+    <!-- Power for batched (background) Wi-Fi scans at increasing scan frequencies (mA).
+         Each value corresponds to a progressively more frequent scan tier. -->
+    <array name="wifi.batchedscan">
+        <value>.0002</value>  <!-- Tier 0: very infrequent scans -->
+        <value>.002</value>   <!-- Tier 1 -->
+        <value>.02</value>    <!-- Tier 2 -->
+        <value>.2</value>     <!-- Tier 3 -->
+        <value>2</value>      <!-- Tier 4: most frequent scans -->
+    </array>
+
+
+    <!-- ============================================================ -->
+    <!-- MEDIA & CAMERA                                               -->
+    <!-- Power draw for audio playback, video, and camera usage       -->
+    <!-- ============================================================ -->
+
+    <!-- Power consumed during audio playback (mA) -->
+    <item name="audio">14.86</item>
+
+    <!-- Power consumed during video playback (mA) -->
+    <item name="video">58.17</item>
+
+    <!-- Power consumed by the camera flashlight/torch when active (mA) -->
     <item name="camera.flashlight">150</item>
 
-    <!-- Audio / Video -->
-    <item name="audio">14.86</item>
-    <item name="video">58.17</item>
+    <!-- Average power consumed by the camera during typical usage (mA) -->
+    <item name="camera.avg">550</item>
+
+
+    <!-- ============================================================ -->
+    <!-- GPS / LOCATION                                               -->
+    <!-- Power draw for GPS hardware in various signal states         -->
+    <!-- ============================================================ -->
+
+    <!-- Power consumed when GPS is actively acquiring or using location (mA) -->
+    <item name="gps.on">111.63</item>
+
+    <!-- Power consumed based on GPS signal quality (mA per quality tier).
+         Higher index = stronger signal = potentially higher power during acquisition. -->
+    <array name="gps.signalqualitybased">
+        <value>28</value>   <!-- Quality tier 0: very weak signal -->
+        <value>56</value>   <!-- Quality tier 1 -->
+        <value>84</value>   <!-- Quality tier 2 -->
+        <value>112</value>  <!-- Quality tier 3: strong signal -->
+    </array>
+
+    <!-- Operating voltage of the GPS hardware (mV) -->
+    <item name="gps.voltage">3700</item>
+
+
+    <!-- ============================================================ -->
+    <!-- CELLULAR RADIO                                               -->
+    <!-- Power draw for the mobile data radio (2G/3G/4G/LTE)         -->
+    <!-- ============================================================ -->
+
+    <!-- Power when the cellular radio is actively transmitting/receiving data (mA) -->
+    <item name="radio.active">247.25</item>
+
+    <!-- Power when the radio is scanning for a cell tower/signal (mA) -->
+    <item name="radio.scanning">56.28</item>
+
+    <!-- Power when the radio is on but idle, per signal strength level (mA).
+         Index 0 = strongest signal (least power), higher index = weaker signal. -->
+    <array name="radio.on">
+        <value>6.92</value>  <!-- Signal level 0 -->
+        <value>6.92</value>  <!-- Signal level 1 -->
+    </array>
+
+
+    <!-- ============================================================ -->
+    <!-- MODEM CONTROLLER                                             -->
+    <!-- Fine-grained modem power states used by battery stats        -->
+    <!-- ============================================================ -->
+
+    <!-- Power when the modem is in deep sleep (mA) -->
+    <item name="modem.controller.sleep">0</item>
+
+    <!-- Power when the modem is idle (registered but not transferring) (mA) -->
+    <item name="modem.controller.idle">6.92</item>
+
+    <!-- Power when the modem is receiving data (mA) -->
+    <item name="modem.controller.rx">150</item>
+
+    <!-- Power when the modem is transmitting data, across 5 TX power levels (mA).
+         Level 0 = lowest TX power, Level 4 = highest TX power (e.g., weak signal area). -->
+    <array name="modem.controller.tx">
+        <value>180</value>  <!-- TX level 0: lowest power -->
+        <value>200</value>  <!-- TX level 1 -->
+        <value>220</value>  <!-- TX level 2 -->
+        <value>240</value>  <!-- TX level 3 -->
+        <value>260</value>  <!-- TX level 4: highest power -->
+    </array>
+
+    <!-- Operating voltage of the modem controller (mV) -->
+    <item name="modem.controller.voltage">3700</item>
+
+
+    <!-- ============================================================ -->
+    <!-- CPU — CLUSTER TOPOLOGY                                       -->
+    <!-- Defines the core layout across CPU clusters                  -->
+    <!-- This device has 2 clusters: 4 LITTLE cores + 4 BIG cores    -->
+    <!-- ============================================================ -->
+
+    <!-- Number of CPU cores per cluster.
+         Cluster 0 = efficiency (LITTLE) cores, Cluster 1 = performance (BIG) cores. -->
+    <array name="cpu.clusters.cores">
+        <value>4</value>  <!-- Cluster 0: 4x LITTLE cores -->
+        <value>4</value>  <!-- Cluster 1: 4x BIG cores -->
+    </array>
+
+
+    <!-- ============================================================ -->
+    <!-- CPU — CLUSTER 0 (LITTLE / Efficiency Cores)                 -->
+    <!-- Lower-power cores for light workloads                        -->
+    <!-- ============================================================ -->
+
+    <!-- Available CPU frequencies for Cluster 0 (Hz) -->
+    <array name="cpu.core_speeds.cluster0">
+        <value>633600</value>   <!-- 633.6 MHz -->
+        <value>902400</value>   <!-- 902.4 MHz -->
+        <value>1113600</value>  <!-- 1.11 GHz -->
+        <value>1401600</value>  <!-- 1.40 GHz -->
+        <value>1536000</value>  <!-- 1.54 GHz -->
+        <value>1612800</value>  <!-- 1.61 GHz -->
+    </array>
+
+    <!-- Power consumed per core in Cluster 0 at each corresponding frequency (mA) -->
+    <array name="cpu.core_power.cluster0">
+        <value>47</value>   <!-- At 633.6 MHz -->
+        <value>75</value>   <!-- At 902.4 MHz -->
+        <value>100</value>  <!-- At 1.11 GHz -->
+        <value>136</value>  <!-- At 1.40 GHz -->
+        <value>174</value>  <!-- At 1.54 GHz -->
+        <value>194</value>  <!-- At 1.61 GHz -->
+    </array>
+
+    <!-- Shared cluster-level power overhead for Cluster 0 when active (mA) -->
+    <item name="cpu.cluster_power.cluster0">2.5</item>
+
+
+    <!-- ============================================================ -->
+    <!-- CPU — CLUSTER 1 (BIG / Performance Cores)                   -->
+    <!-- Higher-performance cores for demanding workloads             -->
+    <!-- ============================================================ -->
+
+    <!-- Available CPU frequencies for Cluster 1 (Hz) -->
+    <array name="cpu.core_speeds.cluster1">
+        <value>1113600</value>  <!-- 1.11 GHz -->
+        <value>1401600</value>  <!-- 1.40 GHz -->
+        <value>1747200</value>  <!-- 1.75 GHz -->
+        <value>1804800</value>  <!-- 1.80 GHz -->
+    </array>
+
+    <!-- Power consumed per core in Cluster 1 at each corresponding frequency (mA) -->
+    <array name="cpu.core_power.cluster1">
+        <value>270</value>  <!-- At 1.11 GHz -->
+        <value>350</value>  <!-- At 1.40 GHz -->
+        <value>513</value>  <!-- At 1.75 GHz -->
+        <value>580</value>  <!-- At 1.80 GHz -->
+    </array>
+
+    <!-- Shared cluster-level power overhead for Cluster 1 when active (mA) -->
+    <item name="cpu.cluster_power.cluster1">3.5</item>
+
+
+    <!-- ============================================================ -->
+    <!-- CPU — SYSTEM STATES                                          -->
+    <!-- Power draw for the CPU across global power states            -->
+    <!-- ============================================================ -->
+
+    <!-- Power when the CPU is idle (clocked down, waiting for work) (mA) -->
+    <item name="cpu.idle">4.5</item>
+
+    <!-- Power when the CPU is awake but not executing tasks (mA) -->
+    <item name="cpu.awake">13.7</item>
+
+    <!-- Power when the CPU is in deep suspend/sleep state (mA) -->
+    <item name="cpu.suspend">0.5</item>
+
+    <!-- Power when the CPU is actively executing at a nominal level (mA) -->
+    <item name="cpu.active">100</item>
+
+
+    <!-- ============================================================ -->
+    <!-- MEMORY                                                       -->
+    <!-- ============================================================ -->
+
+    <!-- Memory bus bandwidth in MB/s; used to estimate DRAM power draw -->
+    <item name="memory.bandwidths">22000</item>
+
+
+    <!-- ============================================================ -->
+    <!-- BATTERY                                                      -->
+    <!-- ============================================================ -->
+
+    <!-- Total battery capacity of the device (mAh) -->
+    <item name="battery.capacity">5000</item>
 
 </device>

@@ -1,19 +1,4 @@
-/*
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-#define LOG_TAG "fingerprint-X00TD"
+#define LOG_TAG "fingerprint-asus"
 
 #include "BiometricsFingerprint.h"
 
@@ -81,11 +66,11 @@ Error FingerprintSession::vendorErrorFilter(int32_t error, int32_t* vendorCode) 
         case FINGERPRINT_ERROR_NO_SPACE:
             return Error::NO_SPACE;
         case FINGERPRINT_ERROR_CANCELED:
-            return FingerprintError::ERROR_CANCELED;
+            return Error::CANCELED;
         case FINGERPRINT_ERROR_UNABLE_TO_REMOVE:
             return Error::UNABLE_TO_REMOVE;
         case FINGERPRINT_ERROR_LOCKOUT:
-            return Error::LOCKOUT;
+            return Error::VENDOR;   // handled separately via onLockoutTimed
         default:
             if (error >= FINGERPRINT_ERROR_VENDOR_BASE) {
                 *vendorCode = error - FINGERPRINT_ERROR_VENDOR_BASE;
@@ -96,7 +81,6 @@ Error FingerprintSession::vendorErrorFilter(int32_t error, int32_t* vendorCode) 
 }
 
 AcquiredInfo FingerprintSession::vendorAcquiredFilter(int32_t info, int32_t* vendorCode) {
-        int32_t info, int32_t* vendorCode) {
     *vendorCode = 0;
     switch (info) {
         case FINGERPRINT_ACQUIRED_GOOD:
@@ -106,7 +90,7 @@ AcquiredInfo FingerprintSession::vendorAcquiredFilter(int32_t info, int32_t* ven
         case FINGERPRINT_ACQUIRED_INSUFFICIENT:
             return AcquiredInfo::INSUFFICIENT;
         case FINGERPRINT_ACQUIRED_IMAGER_DIRTY:
-            return AcquiredInfo::IMAGER_DIRTY;
+            return AcquiredInfo::SENSOR_DIRTY;
         case FINGERPRINT_ACQUIRED_TOO_SLOW:
             return AcquiredInfo::TOO_SLOW;
         case FINGERPRINT_ACQUIRED_TOO_FAST:

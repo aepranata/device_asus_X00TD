@@ -4,38 +4,78 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# Inherit the proprietary files
+# =============================================================================
+# INHERITED MAKEFILES
+# Pull in vendor blobs, A/B partition config, and Qualcomm CAF common config.
+# =============================================================================
 $(call inherit-product, vendor/asus/X00TD/X00TD-vendor.mk)
-
-# Non-A/B partition scheme
 $(call inherit-product, $(SRC_TARGET_DIR)/product/non_ab_device.mk)
-
-# Add common definitions for Qualcomm
 $(call inherit-product, hardware/qcom-caf/common/common.mk)
 
-PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true
+# =============================================================================
+# PRODUCT CONFIGURATION
+# Core product identity and display characteristics.
+# =============================================================================
 
-# Default is nosdcard, S/W button enabled in resource
+# Shipping API level — device launched with Android 8.1 (API 27)
+PRODUCT_SHIPPING_API_LEVEL := 27
+
+# Device has no external SD card slot
 PRODUCT_CHARACTERISTICS := nosdcard
 
-# AAPT
+# Screen density configuration targeting xxhdpi (480 dpi) displays
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG ?= xxhdpi
 
-# AID
+# Render boot animation at half resolution to reduce memory/GPU load on SDM660
+TARGET_BOOTANIMATION_HALF_RES := true
+
+# Default kernel version; can be overridden by device-specific makefiles
+TARGET_KERNEL_VERSION ?= 4.19
+
+# =============================================================================
+# APEX / ART / DEX OPTIMIZATION
+# Tune runtime performance: disable APEX compression, enable UFFD GC,
+# and configure DEX precompilation for speed.
+# =============================================================================
+
+# Disable APEX payload compression (not supported on this platform)
+PRODUCT_COMPRESSED_APEX := false
+
+# Enable userfaultfd-based garbage collection in ART
+PRODUCT_ENABLE_UFFD_GC := true
+
+# Skip VINTF kernel requirement checks during OTA (older kernel)
+PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
+
+# Disable debug ART build and use "everything" compiler filter for full AOT
+PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
+PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := everything
+USE_DEX2OAT_DEBUG := false
+
+# Speed-compile SystemUI for snappier UI responsiveness
+PRODUCT_DEXPREOPT_SPEED_APPS += \
+    SystemUI
+
+# =============================================================================
+# FILESYSTEM
+# Vendor filesystem configuration metadata.
+# =============================================================================
 PRODUCT_PACKAGES += \
     fs_config_files
 
-# Apex
-PRODUCT_COMPRESSED_APEX := false
-
-# Audio
+# =============================================================================
+# AUDIO — HAL & Services
+# HIDL audio HAL implementations and the audio policy service.
+# =============================================================================
 PRODUCT_PACKAGES += \
     android.hardware.audio@7.1-impl:32 \
     android.hardware.audio.effect@7.0-impl:32 \
     android.hardware.audio.service \
     android.hardware.soundtrigger@2.3-impl:32
 
+# Audio drivers: primary SDM660 HAL, Bluetooth, USB, remote submix,
+# sound trigger, resampler, Qualcomm post-processing and voice libs.
 PRODUCT_PACKAGES += \
     audio.bluetooth.default \
     audio.primary.sdm660:32 \
@@ -49,6 +89,8 @@ PRODUCT_PACKAGES += \
     libvolumelistener \
     tinymix
 
+# Supplementary audio libraries: HDMI EDID parser, HFP, monitor,
+# speaker protection, and SSR echo cancellation.
 PRODUCT_PACKAGES += \
     libhdmiedid \
     libhfp \
@@ -56,7 +98,10 @@ PRODUCT_PACKAGES += \
     libspkrprot \
     libssrec
 
-# Audio Configs
+# =============================================================================
+# AUDIO — Config Files
+# Device-specific audio policy, platform info, mixer paths, and tuning.
+# =============================================================================
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/audio/audio_configs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_configs.xml \
     $(LOCAL_PATH)/configs/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
@@ -70,7 +115,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/audio/sound_trigger_mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_mixer_paths.xml \
     $(LOCAL_PATH)/configs/audio/sound_trigger_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_platform_info.xml
 
-# Audio Policy
+# AOSP framework audio policy configs: A2DP input, Bluetooth, volume tables,
+# remote submix policy configuration.
 PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/a2dp_in_audio_policy_configuration_7_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/a2dp_in_audio_policy_configuration_7_0.xml \
     frameworks/av/services/audiopolicy/config/audio_policy_volumes.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_volumes.xml \
@@ -78,11 +124,15 @@ PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/default_volume_tables.xml:$(TARGET_COPY_OUT_VENDOR)/etc/default_volume_tables.xml \
     frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml
 
-# ANT+
+# =============================================================================
+# BLUETOOTH
+# ANT+, Bluetooth HIDL HAL, audio offload, and QTI BT config store.
+# =============================================================================
+
+# ANT+ wireless protocol support (fitness sensors, cycling peripherals, etc.)
 PRODUCT_PACKAGES += \
     com.dsi.ant@1.0.vendor
 
-# Bluetooth
 PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.1 \
     android.hardware.bluetooth@1.1.vendor \
@@ -91,51 +141,57 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.btconfigstore@1.0.vendor \
     vendor.qti.hardware.btconfigstore@2.0.vendor
 
-# Boot animation
-TARGET_BOOTANIMATION_HALF_RES := true
-TARGET_SCREEN_HEIGHT := 2160
-TARGET_SCREEN_WIDTH := 1080
-
+# =============================================================================
+# CAMERA
+# Camera HAL provider, Qualcomm camera device interface, Aperture app,
+# and supporting vendor libraries.
+# =============================================================================
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider-service_32.lineage \
+    vendor.qti.hardware.camera.device@1.0.vendor \
     camera.sdm660:32 \
+    Aperture \
     libgui_vendor \
     liblz4.vendor \
     libpng.vendor:32 \
     libutilscallstack.vendor \
-    libxml2 \
-    vendor.qti.hardware.camera.device@1.0.vendor
+    libxml2
 
-# Cgroup and task_profiles
+# =============================================================================
+# CGROUPS / TASK PROFILES
+# Process group and task scheduler profiles for CPU/memory management.
+# =============================================================================
 PRODUCT_COPY_FILES += \
     system/core/libprocessgroup/profiles/cgroups.json:$(TARGET_COPY_OUT_VENDOR)/etc/cgroups.json \
     system/core/libprocessgroup/profiles/task_profiles.json:$(TARGET_COPY_OUT_VENDOR)/etc/task_profiles.json
 
-# Configstore (Disabled)
+# =============================================================================
+# CONFIG STORE
+# Disable the legacy configstore HAL (replaced by sysprops in newer Android).
+# =============================================================================
 PRODUCT_PACKAGES += \
     disable_configstore
 
-# DeviceAsWebCam
+# =============================================================================
+# DEVICE-SPECIFIC APPS
+# Asus-branded system applications bundled with this device.
+# =============================================================================
+
+# Asus UVC webcam support app
 PRODUCT_PACKAGES += \
     AsusDeviceAsWebcam
 
-# Dex/ART optimization
-PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
-PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := everything
-USE_DEX2OAT_DEBUG := false
-
-# Dex
-PRODUCT_DEXPREOPT_SPEED_APPS += \
-    SystemUI
-
-# Display
+# =============================================================================
+# DISPLAY — HAL & Services
+# Graphics composer, gralloc, HWC, display config, and memtrack.
+# =============================================================================
 PRODUCT_PACKAGES += \
-    android.frameworks.displayservice@1.0 \
-    android.frameworks.displayservice@1.0_32 \
-    android.frameworks.displayservice@1.0.vendor \
     android.hardware.graphics.composer@2.1-service \
     android.hardware.graphics.mapper@3.0-impl-qti-display \
     android.hardware.graphics.mapper@4.0-impl-qti-display \
+    android.frameworks.displayservice@1.0 \
+    android.frameworks.displayservice@1.0_32 \
+    android.frameworks.displayservice@1.0.vendor \
     gralloc.sdm660 \
     hwcomposer.qcom \
     libdisplayconfig \
@@ -145,11 +201,19 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.display.allocator-service \
     vendor.qti.hardware.memtrack-service
 
-# Display Device Config
+# =============================================================================
+# DISPLAY — Config Files
+# Per-display identity/calibration XML used by the display service.
+# =============================================================================
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/displayconfig/display_id_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_0.xml
 
-# Disable buffer age (b/74534157)
+# =============================================================================
+# DISPLAY — Properties
+# EGL/Vulkan driver selection, SurfaceFlinger tuning, UBWC settings.
+# =============================================================================
+
+# Adreno GPU drivers and OpenGL ES 3.2 (0x30002) capability declaration
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.hardware.egl=adreno \
     ro.hardware.vulkan=adreno \
@@ -163,8 +227,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     vendor.display.enable_default_color_mode=1 \
     vendor.display.disable_skip_validate=1 \
     vendor.gralloc.enable_fb_ubwc=1 \
-    vendor.video.disable.ubwc=1
+    vendor.video.disable_ubwc=1
 
+# SurfaceFlinger display capabilities: virtual display limits, wide-color/HDR
+# support flags, color management, protected content.
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.surface_flinger.force_hwc_copy_for_virtual_displays=true \
     ro.surface_flinger.max_frame_buffer_acquired_buffers=3 \
@@ -174,11 +240,17 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.surface_flinger.use_color_management=false \
     ro.surface_flinger.protected_contents=true
 
-# Doze mode
+# =============================================================================
+# DOZE
+# Device-specific ambient display / doze sensor service.
+# =============================================================================
 PRODUCT_PACKAGES += \
     DeviceDoze
 
-# DRM
+# =============================================================================
+# DRM / SECURITY
+# Widevine DRM stub, ClearKey DRM service, and security support libraries.
+# =============================================================================
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.4.vendor \
     android.hardware.drm-service.clearkey \
@@ -186,16 +258,17 @@ PRODUCT_PACKAGES += \
     libhidlmemory.vendor:64 \
     libunwindstack.vendor
 
-# Dynamic Partitions
-PRODUCT_BUILD_SUPER_PARTITION := false
-PRODUCT_USE_DYNAMIC_PARTITIONS := true
-PRODUCT_RETROFIT_DYNAMIC_PARTITIONS := true
-
-# Fingerprint
+# =============================================================================
+# FINGERPRINT
+# Asus in-display/capacitive fingerprint HIDL service.
+# =============================================================================
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint-service.X00TD
+    android.hardware.biometrics.fingerprint-service.asus
 
-# FM
+# =============================================================================
+# FM RADIO
+# Qualcomm FM radio HAL, FM app, and supporting JNI/XML packages.
+# =============================================================================
 PRODUCT_PACKAGES += \
     android.hardware.broadcastradio@1.0-impl \
     FM2 \
@@ -203,23 +276,29 @@ PRODUCT_PACKAGES += \
     qcom.fmradio \
     qcom.fmradio.xml
 
-# Fwk detect
+# =============================================================================
+# FRAMEWORK DETECTION
+# QTI vendor framework detection libraries (used by QTI services to identify
+# vendor vs. AOSP builds).
+# =============================================================================
 PRODUCT_PACKAGES += \
     libqti_vndfwk_detect \
     libqti_vndfwk_detect.vendor \
     libvndfwk_detect_jni.qti \
     libvndfwk_detect_jni.qti.vendor
 
-# Gatekeeper
+# =============================================================================
+# GATEKEEPER / ION
+# Gatekeeper HAL for secure authentication and ION memory allocator library.
+# =============================================================================
 PRODUCT_PACKAGES += \
     android.hardware.gatekeeper@1.0.vendor \
     libion.vendor
 
-# GMS
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/privapp-permission/privapp-permissions-gms.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/privapp.permissions-gms.xml
-
-# GPS
+# =============================================================================
+# GPS / LOCATION
+# GPS vendor product makefile and associated config files and libraries.
+# =============================================================================
 $(call inherit-product, $(LOCAL_PATH)/gps/gps_vendor_product.mk)
 
 PRODUCT_PACKAGES += \
@@ -236,13 +315,30 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/gps/sap.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sap.conf \
     $(LOCAL_PATH)/configs/gps/xtwifi.conf:$(TARGET_COPY_OUT_VENDOR)/etc/xtwifi.conf
 
-# Health
+# =============================================================================
+# GMS PERMISSIONS
+# Privapp permissions for Google Mobile Services (product partition).
+# =============================================================================
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/privapp-permission/privapp-permissions-gms.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/privapp.permissions-gms.xml
+
+# =============================================================================
+# HEALTH
+# Health HAL 2.1 and QTI health service for battery/charging reporting.
+# =============================================================================
 PRODUCT_PACKAGES += \
     android.hardware.health@2.1.vendor \
     android.hardware.health-service.qti \
     android.hardware.health-service.qti_recovery
 
-# HIDL
+# Lineage Health service (advanced charging control, etc.)
+PRODUCT_PACKAGES += \
+    vendor.lineage.health-service.default
+
+# =============================================================================
+# HIDL TRANSPORT
+# Core HIDL base and transport libraries required by vendor HALs.
+# =============================================================================
 PRODUCT_PACKAGES += \
     android.hidl.base@1.0 \
     libhidltransport \
@@ -250,32 +346,42 @@ PRODUCT_PACKAGES += \
     libhwbinder \
     libhwbinder.vendor
 
-# Input
+# =============================================================================
+# INPUT
+# Key layout file mapping GPIO hardware keys (volume, power, etc.).
+# =============================================================================
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/keylayout/gpio-keys.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/gpio-keys.kl
 
-# IPACM
+# =============================================================================
+# IPA (Data Path Offload)
+# Qualcomm IPA (IP Acceleration) manager for hardware data path offloading.
+# =============================================================================
 PRODUCT_PACKAGES += \
     ipacm \
     IPACM_cfg.xml
 
-# IPC router config
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sec_config:$(TARGET_COPY_OUT_VENDOR)/etc/sec_config
 
-# Keymaster
+# =============================================================================
+# KEYMASTER
+# Hardware-backed keystore HAL for Android Keystore operations.
+# =============================================================================
 PRODUCT_PACKAGES += \
     android.hardware.keymaster@3.0.vendor
 
-# Lights
+# =============================================================================
+# LIGHTS
+# Asus SDM660 LED/notification light service.
+# =============================================================================
 PRODUCT_PACKAGES += \
-    android.hardware.light-service.asus_X00TD
+    android.hardware.light-service.asus_sdm660
 
-# Lineage Health
-PRODUCT_PACKAGES += \
-    vendor.lineage.health-service.default
-
-# Media
+# =============================================================================
+# MEDIA — Config Files
+# Codec capability XMLs and media profiles for encoder/decoder configuration.
+# =============================================================================
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
     $(LOCAL_PATH)/configs/media/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml \
@@ -283,45 +389,16 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_vendor.xml \
     $(LOCAL_PATH)/configs/media/media_profiles_V1_0.xml:$(TARGET_COPY_OUT_ODM)/etc/media_profiles_V1_0.xml
 
-# Media Google C2
+# Google C2 (Codec2) media codec XMLs from AOSP frameworks
 PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_c2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_c2_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_c2_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_video.xml
 
-# Network
-PRODUCT_PACKAGES += \
-    android.system.net.netd@1.1.vendor \
-    libnetutils.vendor
-
-# NFC
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_NFC/android.hardware.nfc.hce.xml \
-    frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_NFC/android.hardware.nfc.xml \
-    frameworks/native/data/etc/com.android.nfc_extras.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_NFC/com.android.nfc_extras.xml \
-    frameworks/native/data/etc/com.nxp.mifare.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_NFC/com.nxp.mifare.xml
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf \
-    $(LOCAL_PATH)/configs/nfc/libnfc-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp.conf
-
-PRODUCT_PACKAGES += \
-    android.hardware.nfc@1.2-service
-
-PRODUCT_PACKAGES += \
-    android.hardware.nfc@1.2-service \
-    com.android.nfc_extras \
-    Tag
-
-# Neural Networks (NNAPI)
-PRODUCT_PACKAGES += \
-    android.hardware.neuralnetworks@1.3.vendor
-
-# OEM Unlock reporting
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    ro.oem_unlock_supported=1
-
-# OMX
+# =============================================================================
+# MEDIA — OMX / Codec Libraries
+# OpenMAX IL core and video encode/decode libraries for hardware codec access.
+# =============================================================================
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
     libmm-omxcore \
@@ -335,29 +412,79 @@ PRODUCT_PACKAGES += \
     libstagefright_softomx_plugin.vendor \
     libstagefrighthw
 
-# Overlays
+# =============================================================================
+# NETWORK
+# Network utility libraries used by connectivity stack.
+# =============================================================================
+PRODUCT_PACKAGES += \
+    android.system.net.netd@1.1.vendor \
+    libnetutils.vendor
+
+# =============================================================================
+# NFC
+# NXP NFC HAL, NFC extras, Tag app, and SKU-gated NFC permission XMLs.
+# These permissions are placed under sku_NFC so they are only applied on
+# NFC-capable SKUs.
+# =============================================================================
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_NFC/android.hardware.nfc.hce.xml \
+    frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_NFC/android.hardware.nfc.xml \
+    frameworks/native/data/etc/com.android.nfc_extras.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_NFC/com.android.nfc_extras.xml \
+    frameworks/native/data/etc/com.nxp.mifare.xml:$(TARGET_COPY_OUT_ODM)/etc/permissions/sku_NFC/com.nxp.mifare.xml
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf \
+    $(LOCAL_PATH)/configs/nfc/libnfc-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp.conf
+
+PRODUCT_PACKAGES += \
+    android.hardware.nfc@1.2-service \
+    com.android.nfc_extras \
+    Tag
+
+# =============================================================================
+# NEURAL NETWORKS (NNAPI)
+# Qualcomm NNAPI HAL vendor library for hardware-accelerated ML inference.
+# =============================================================================
+PRODUCT_PACKAGES += \
+    android.hardware.neuralnetworks@1.3.vendor
+
+# =============================================================================
+# OEM UNLOCK
+# Allow bootloader unlocking via developer options.
+# =============================================================================
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    ro.oem_unlock_supported=1
+
+# =============================================================================
+# OVERLAYS
+# Resource overlay directories for AAPT/RRO customization.
+# overlay-lineage: LineageOS-specific overrides
+# overlay-translates: Translation/locale overrides
+# =============================================================================
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
     $(LOCAL_PATH)/overlay-lineage
 
+# Enforce runtime resource overlays on all targets
 PRODUCT_ENFORCE_RRO_TARGETS := *
 
-# Partitions
+# X00TD (Asus ZenFone Max Pro M1) Wi-Fi overlay
 PRODUCT_PACKAGES += \
-    vendor_dsp_mountpoint \
-    vendor_bt_firmware_mountpoint \
-    vendor_firmware_mnt_mountpoint
+    X00TDWifiOverlay
 
-# Perf
-PRODUCT_PACKAGES += \
-    libtflite \
-    libtextclassifier_hash
+# =============================================================================
+# PARTITIONS
+# Dynamic partition configuration (retrofit from A-only device).
+# =============================================================================
+PRODUCT_BUILD_SUPER_PARTITION := false
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+PRODUCT_RETROFIT_DYNAMIC_PARTITIONS := true
 
-# Permissions
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/privapp-permission/privapp-permissions-qti.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-qti.xml \
-    $(LOCAL_PATH)/configs/privapp-permission/privapp-permissions-qti-system-ext.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-qti-system-ext.xml
-
+# =============================================================================
+# PERMISSIONS
+# Hardware feature declaration XMLs copied to vendor/permissions.
+# These inform the PackageManager which hardware features are available.
+# =============================================================================
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.audio.low_latency.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.low_latency.xml \
     frameworks/native/data/etc/android.hardware.audio.pro.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.pro.xml \
@@ -400,28 +527,49 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.vulkan.deqp.level-2021-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.vulkan.deqp.level.xml \
     frameworks/native/data/etc/handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/handheld_core_hardware.xml
 
-# Perfd (dummy)
+# =============================================================================
+# POWER
+# Lineage power HAL (libperfmgr-based) and associated powerhint profile.
+# =============================================================================
 PRODUCT_PACKAGES += \
     android.hardware.power-service.lineage-libperfmgr \
     libqti-perfd-client
 
-# Powerhint
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/powerhint.json:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.json
 
-# Public Libraries
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/public.libraries.txt:$(TARGET_COPY_OUT_VENDOR)/etc/public.libraries.txt
-
-# QCOM
+# =============================================================================
+# PRIVAPP PERMISSIONS
+# Privileged app permission allowlists for system, system_ext partitions,
+# and QTI whitelist sysconfig.
+# =============================================================================
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/privapp-permissions-qti.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-qti.xml \
     $(LOCAL_PATH)/configs/qti_whitelist.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/sysconfig/qti_whitelist.xml
 
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/privapp-permission/privapp-permissions-qti.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-qti.xml \
+    $(LOCAL_PATH)/configs/privapp-permission/privapp-permissions-qti-system-ext.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-qti-system-ext.xml
+
+# =============================================================================
+# PUBLIC LIBRARIES
+# Vendor public library exposure list (controls which vendor libs are
+# visible to apps without needing explicit linkage).
+# =============================================================================
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/public.libraries.txt:$(TARGET_COPY_OUT_VENDOR)/etc/public.libraries.txt
+
+# =============================================================================
 # QMI
+# Qualcomm Messaging Interface (QMI) framework configuration.
+# =============================================================================
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/qmi/qmi_fw.conf:$(TARGET_COPY_OUT_VENDOR)/etc/qmi_fw.conf
 
+# =============================================================================
+# QTI COMMON LIBRARIES
+# Miscellaneous Qualcomm vendor libraries used across subsystems.
+# =============================================================================
 PRODUCT_PACKAGES += \
     libcrypto_utils.vendor \
     libjson \
@@ -430,40 +578,21 @@ PRODUCT_PACKAGES += \
     libvndfwk_detect_jni.qti \
     libvndfwk_detect_jni.qti.vendor
 
-# Ramdisk
 PRODUCT_PACKAGES += \
-    init.class_main.sh \
-    init.goodix.sh \
-    init.qcom.sh \
-    init.qcom.post_boot.sh \
-    init.qcom.sensors.sh \
-    init.qti.dcvs.sh \
-    init.zram.sh \
-    init.zram_vm.sh
+    libstdc++_vendor
 
-PRODUCT_PACKAGES += \
-    fstab.qcom \
-    init.device.rc \
-    init.qcom.asus.rc \
-    init.qcom.rc \
-    init.qcom.usb.rc \
-    init.recovery.qcom.rc \
-    init.sysfs_permissions.rc \
-    init.target.rc \
-    init.zram.rc \
-    ueventd.qcom.rc
+# =============================================================================
+# RADIO / TELEPHONY
+# RIL, IMS, RCS, secure element, and QTI telephony stack packages.
+# =============================================================================
 
-# RCS (Rich Communication Services)
+# RCS / IMS presence services
 PRODUCT_PACKAGES += \
     com.android.ims.rcsmanager \
     PresencePolling \
     RcsService
 
-# Recovery
-PRODUCT_PACKAGES += \
-    librecovery_updater_asus
-
-# RIL
+# Radio HAL interfaces and supporting vendor libraries
 PRODUCT_PACKAGES += \
     android.hardware.radio@1.5 \
     android.hardware.radio@1.5.vendor \
@@ -480,33 +609,7 @@ PRODUCT_PACKAGES += \
     libsqlite.vendor:64 \
     libsysutils.vendor
 
-# Seccomp
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/seccomp/mediacodec-seccomp.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy \
-    $(LOCAL_PATH)/configs/seccomp/mediaextractor-seccomp.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediaextractor.policy
-
-# Sensors
-PRODUCT_PACKAGES += \
-    android.frameworks.sensorservice@1.0.vendor \
-    android.hardware.sensors@1.0-impl \
-    android.hardware.sensors@1.0-service \
-    libpower.vendor
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
-
-# Shipping API level
-PRODUCT_SHIPPING_API_LEVEL := 27
-
-# Soong namespaces
-PRODUCT_SOONG_NAMESPACES += \
-    hardware/google/interfaces \
-    hardware/google/pixel \
-    hardware/lineage/interfaces/power-libperfmgr \
-    hardware/qcom-caf/common/libqti-perfd-client \
-    vendor/qcom/opensource/usb/etc
-
-# Telephony
+# QTI telephony stack: IMS extensions, HIDL wrapper, telephony utils
 PRODUCT_PACKAGES += \
     extphonelib \
     extphonelib-product \
@@ -522,37 +625,128 @@ PRODUCT_PACKAGES += \
     qti_telephony_utils.xml \
     telephony-ext
 
+# telephony-ext must be in BOOTCLASSPATH to be available early in boot
 PRODUCT_BOOT_JARS += \
     telephony-ext
 
-# Thermal
+# Asus recovery updater extension for flashing device-specific images
+PRODUCT_PACKAGES += \
+    librecovery_updater_asus
+
+# =============================================================================
+# INIT SCRIPTS
+# Shell scripts run at various stages of device boot.
+# =============================================================================
+PRODUCT_PACKAGES += \
+    init.class_main.sh \
+    init.qcom.post_boot.sh \
+    init.qcom.sensors.sh \
+    init.qcom.sh \
+    init.qcom.usb.sh \
+    init.qti.dcvs.sh \
+    init.zram.sh \
+    init.zram_vm.sh
+
+# =============================================================================
+# INIT RC FILES
+# init .rc files defining services, actions, and filesystem setup.
+# =============================================================================
+PRODUCT_PACKAGES += \
+    fstab.qcom \
+    init.qcom.asus.rc \
+    init.qcom.rc \
+    init.qcom.usb.rc \
+    init.recovery.qcom.rc \
+    init.sysfs_permissions.rc \
+    init.target.rc \
+    init.zram.rc \
+    ueventd.qcom.rc
+
+# Device-specific init and Goodix fingerprint init script
+PRODUCT_PACKAGES += \
+    init.device.rc \
+    init.goodix.sh
+
+# =============================================================================
+# SECCOMP
+# Seccomp-BPF policy files restricting syscalls for media processes.
+# =============================================================================
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/seccomp/mediacodec-seccomp.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy \
+    $(LOCAL_PATH)/configs/seccomp/mediaextractor-seccomp.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediaextractor.policy
+
+# =============================================================================
+# SENSORS
+# Sensor HAL 1.0 implementation, service, and sensor HAL config file.
+# =============================================================================
+PRODUCT_PACKAGES += \
+    android.frameworks.sensorservice@1.0.vendor \
+    android.hardware.sensors@1.0-impl \
+    android.hardware.sensors@1.0-service \
+    libpower.vendor
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
+
+# =============================================================================
+# SOONG NAMESPACES
+# Register hardware module directories with the Soong build system so
+# that Android.bp modules within them are discovered during the build.
+# =============================================================================
+PRODUCT_SOONG_NAMESPACES += \
+    hardware/google/interfaces \
+    hardware/google/pixel \
+    hardware/lineage/interfaces/power-libperfmgr \
+    hardware/qcom-caf/common/libqti-perfd-client \
+    vendor/qcom/opensource/usb/etc
+
+# =============================================================================
+# THERMAL
+# Asus SDM660 thermal HAL service for temperature monitoring and throttling.
+# =============================================================================
 PRODUCT_PACKAGES += \
     android.hardware.thermal-service.asus_sdm660
 
-# Touch
+# =============================================================================
+# TOUCHSCREEN
+# Lineage touch HAL service for high-touch-polling-rate / gesture support.
+# =============================================================================
 PRODUCT_PACKAGES += \
     vendor.lineage.touch-service.asus_sdm660
 
-# UFFD GC
-PRODUCT_ENABLE_UFFD_GC := true
-
+# =============================================================================
 # USB
+# USB HAL 1.3, USB gadget QTI service, and USB composition config.
+# =============================================================================
 PRODUCT_PACKAGES += \
     android.hardware.usb@1.3-service.basic \
     android.hardware.usb.gadget-service.qti \
     usb_compositions.conf
 
+# Designate the DWC3 USB controller used on SDM660
 PRODUCT_VENDOR_PROPERTIES += \
     vendor.usb.controller=a800000.dwc3
 
-# Vibrator
+# =============================================================================
+# VIBRATOR
+# QTI vibrator vendor product makefile (AIDL/HIDL vibrator service).
+# =============================================================================
 $(call inherit-product, vendor/qcom/opensource/vibrator/vibrator-vendor-product.mk)
 
-# VNDK
+# =============================================================================
+# VENDOR MOUNTPOINTS
+# Symlinks / mount-point placeholders for BT firmware, DSP, and firmware
+# partitions that are bind-mounted at runtime.
+# =============================================================================
 PRODUCT_PACKAGES += \
-    libstdc++_vendor
+    vendor_bt_firmware_mountpoint \
+    vendor_dsp_mountpoint \
+    vendor_firmware_mnt_mountpoint
 
-# Wifi
+# =============================================================================
+# WI-FI
+# WLAN HAL, hostapd, wpa_supplicant, and related config and overlay.
+# =============================================================================
 PRODUCT_PACKAGES += \
     android.hardware.wifi-service \
     android.hardware.wifi@1.6.vendor \
@@ -564,13 +758,28 @@ PRODUCT_PACKAGES += \
     wificond \
     wpa_supplicant \
     wpa_supplicant.conf \
-    WifiOverlay \
-    X00TDWifiOverlay
-
-PRODUCT_PACKAGES += \
-    firmware_WCNSS_qcom_cfg.ini_symlink
+    WifiOverlay
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/wifi/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/wifi/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/wifi/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/WCNSS_qcom_cfg.ini
+
+# Symlink for WCNSS config so firmware loader can find it in the expected path
+PRODUCT_PACKAGES += \
+    firmware_WCNSS_qcom_cfg.ini_symlink
+
+# =============================================================================
+# ML / TEXT CLASSIFIER
+# TFLite and text classifier hash library used by on-device ML features.
+# =============================================================================
+PRODUCT_PACKAGES += \
+    libtflite \
+    libtextclassifier_hash
+
+# =============================================================================
+# SCREEN DIMENSIONS
+# Used by some build-time tools and overlays to set resolution-dependent values.
+# =============================================================================
+TARGET_SCREEN_HEIGHT := 2160
+TARGET_SCREEN_WIDTH := 1080

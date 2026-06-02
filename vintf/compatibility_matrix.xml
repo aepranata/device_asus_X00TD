@@ -1,32 +1,32 @@
+<!--
+    Device Compatibility Matrix
+    ============================
+    This file declares the Hardware Abstraction Layer (HAL) interfaces that the
+    device framework REQUIRES from the vendor. Android uses this during build-time
+    and boot-time to verify that the vendor image satisfies all framework dependencies.
+
+    Attributes:
+      version   : Compatibility Matrix format version (not the HAL version)
+      type      : "device" means this matrix is declared by the device framework
+                  (as opposed to "framework" matrices declared by the platform)
+
+    HAL entry attributes:
+      format    : "hidl" = HAL Interface Definition Language (legacy stable ABI)
+      optional  : "false" = this HAL MUST be present; the device will not boot without it
+                  "true"  = this HAL is optional and may be absent on the device
+-->
 <compatibility-matrix version="1.0" type="device">
 
-    <!-- android.hidl -->
-    <hal format="hidl" optional="false">
-        <name>android.hidl.manager</name>
-        <version>1.2</version>
-        <interface>
-            <name>IServiceManager</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl" optional="false">
-        <name>android.hidl.memory</name>
-        <version>1.0</version>
-        <interface>
-            <name>IMapper</name>
-            <instance>ashmem</instance>
-        </interface>
-    </hal>
-    <hal format="hidl" optional="false">
-        <name>android.hidl.token</name>
-        <version>1.0</version>
-        <interface>
-            <name>ITokenManager</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
+    <!-- ============================================================ -->
+    <!-- ANDROID FRAMEWORKS                                           -->
+    <!-- Core framework-level HALs required by the Android platform  -->
+    <!-- ============================================================ -->
 
-    <!-- android.frameworks -->
+    <!--
+        Display Service HAL
+        Provides the IDisplayService interface used by the framework to
+        communicate with the display subsystem (brightness, events, etc.).
+    -->
     <hal format="hidl" optional="false">
         <name>android.frameworks.displayservice</name>
         <version>1.0</version>
@@ -36,7 +36,71 @@
         </interface>
     </hal>
 
-    <!-- android.system -->
+
+    <!-- ============================================================ -->
+    <!-- ANDROID HIDL CORE                                            -->
+    <!-- Foundational HIDL infrastructure HALs required by the system -->
+    <!-- ============================================================ -->
+
+    <!--
+        HIDL Service Manager
+        The central registry for all HIDL services on the device.
+        All HAL services register and are discovered through IServiceManager.
+        Version 1.2 is required for full service enumeration support.
+    -->
+    <hal format="hidl" optional="false">
+        <name>android.hidl.manager</name>
+        <version>1.2</version>
+        <interface>
+            <name>IServiceManager</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!--
+        HIDL Shared Memory (Ashmem) Mapper
+        Provides the IMapper interface for mapping Android shared memory
+        (ashmem) regions between processes. Used for zero-copy data transfer
+        across HAL boundaries (e.g., camera buffers, audio buffers).
+        Instance "ashmem" refers to the Android shared memory allocator.
+    -->
+    <hal format="hidl" optional="false">
+        <name>android.hidl.memory</name>
+        <version>1.0</version>
+        <interface>
+            <name>IMapper</name>
+            <instance>ashmem</instance>
+        </interface>
+    </hal>
+
+    <!--
+        HIDL Token Manager
+        Provides the ITokenManager interface for generating and exchanging
+        opaque tokens that represent HIDL interface references across processes.
+        Used for securely passing HAL interface handles between components.
+    -->
+    <hal format="hidl" optional="false">
+        <name>android.hidl.token</name>
+        <version>1.0</version>
+        <interface>
+            <name>ITokenManager</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+
+    <!-- ============================================================ -->
+    <!-- ANDROID SYSTEM                                               -->
+    <!-- System-level HALs for networking and security                -->
+    <!-- ============================================================ -->
+
+    <!--
+        Network Daemon (netd) HAL
+        Provides the INetd interface used by the framework to configure
+        networking — including firewall rules, DNS resolution, network
+        interface management, and bandwidth control. Version 1.1 adds
+        support for per-UID network policy enforcement.
+    -->
     <hal format="hidl" optional="false">
         <name>android.system.net.netd</name>
         <version>1.1</version>
@@ -45,6 +109,13 @@
             <instance>default</instance>
         </interface>
     </hal>
+
+    <!--
+        Wi-Fi Keystore HAL
+        Provides the IKeystore interface used by the Wi-Fi subsystem to
+        securely store and retrieve cryptographic keys (e.g., WPA-Enterprise
+        certificates, EAP credentials) in the hardware-backed keystore.
+    -->
     <hal format="hidl" optional="false">
         <name>android.system.wifi.keystore</name>
         <version>1.0</version>

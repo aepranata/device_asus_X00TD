@@ -46,6 +46,9 @@ static void property_override(const char* prop, const char* value, bool add = tr
     }
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+ * PSI AVAILABILITY CHECK — Критично для Android 14+
+ * ═══════════════════════════════════════════════════════════════════ */
 static bool is_psi_available()
 {
     std::ifstream psi_file("/proc/pressure/memory");
@@ -147,7 +150,7 @@ static void configure_by_ram()
         lmk_upgrade_pressure = "100";
         lmk_downgrade_pressure = "30";
     }
-
+    
     property_override("ro.boot.hardware.ram", ram_variant.c_str());
 }
 
@@ -167,7 +170,7 @@ static void NFC_check()
 
     if (infile.is_open() && getline(infile, line)) {
         infile.close();
-
+        
         if (line.find("SUPPORTED") != std::string::npos) {
             property_override("ro.hq.support.nfc", "1");
             property_override("ro.boot.product.hardware.sku", "NFC");
@@ -195,13 +198,15 @@ static void set_dalvik_properties()
     property_override("dalvik.vm.heaptargetutilization", heaptargetutilization.c_str());
     property_override("dalvik.vm.heapminfree", heapminfree.c_str());
     property_override("dalvik.vm.heapmaxfree", heapmaxfree.c_str());
-
+    
+    /* Оптимизации DEX2OAT */
     property_override("dalvik.vm.dex2oat-threads", "4");
     property_override("dalvik.vm.image-dex2oat-threads", "4");
     property_override("dalvik.vm.dex2oat64.enabled", "true");
     property_override("dalvik.vm.usejit", "true");
     property_override("dalvik.vm.usejitprofiles", "true");
-
+    
+    /* ★ ВАЖНО для Android 14+ */
     property_override("dalvik.vm.dex2oat-minidebuginfo", "false");
     property_override("dalvik.vm.minidebuginfo", "false");
 }
@@ -213,7 +218,8 @@ static void set_zram_properties()
     property_override("vendor.zram.swappiness", zram_swappiness.c_str());
     property_override("vendor.zram.comp_algorithm", zram_algo.c_str());
     property_override("vendor.zram.enabled", "true");
-
+    
+    /* ★ Дополнительные параметры ZRAM для Android 16 */
     property_override("ro.zram.mark_idle_delay_mins", "60");
     property_override("ro.zram.first_wb_delay_mins", "180");
     property_override("ro.zram.periodic_wb_delay_hours", "24");
@@ -223,7 +229,7 @@ static void set_lmkd_properties()
 {
     /* ★ КРИТИЧНО: Проверяем доступность PSI */
     bool psi_enabled = is_psi_available();
-
+    
     if (psi_enabled) {
         property_override("ro.lmk.use_psi", "true");
         LOG(INFO) << "LMKD: PSI enabled";
@@ -232,9 +238,10 @@ static void set_lmkd_properties()
         property_override("ro.lmk.use_minfree_levels", "true");
         LOG(WARNING) << "LMKD: PSI not available, falling back to minfree";
     }
-
+    
+    /* ★ Исправлено: use_minfree_levels должен быть false если PSI работает */
     property_override("ro.lmk.use_minfree_levels", psi_enabled ? "false" : "true");
-
+    
     property_override("ro.lmk.psi_partial_stall_ms", lmk_psi_partial.c_str());
     property_override("ro.lmk.psi_complete_stall_ms", lmk_psi_complete.c_str());
     property_override("ro.lmk.swap_util_max", lmk_swap_util.c_str());
@@ -245,16 +252,19 @@ static void set_lmkd_properties()
     property_override("ro.lmk.upgrade_pressure", lmk_upgrade_pressure.c_str());
     property_override("ro.lmk.downgrade_pressure", lmk_downgrade_pressure.c_str());
 
+    /* Фиксированные параметры */
     property_override("ro.lmk.swap_free_low_percentage", "10");
     property_override("ro.lmk.psi_scrit_complete_stall_ms", "400");
     property_override("ro.lmk.critical_upgrade", "false");  // ★ Исправлено: было true
     property_override("ro.lmk.filecache_min_kb", "153600");
     property_override("ro.lmk.stall_limit_critical", "50");
 
+    /* ★ Низкий порог когда начинать убивать */
     property_override("ro.lmk.low", "1001");
     property_override("ro.lmk.medium", "800");
     property_override("ro.lmk.critical", "0");
 
+    /* Не low_ram устройства */
     property_override("ro.lmk.low_ram", "false");
     property_override("ro.config.low_ram", "false");
 
@@ -269,14 +279,15 @@ static void set_performance_properties()
     property_override("debug.sf.latch_unsignaled", "0");
     property_override("debug.sf.disable_backpressure", "1");
     property_override("debug.sf.enable_gl_backpressure", "0");
-
+    
     /* HWUI Renderer */
     property_override("debug.hwui.renderer", "skiagl");
     property_override("renderthread.skia.reduceopstasksplitting", "true");
-
+    
+    /* ★ Важно для Android 14+ */
     property_override("ro.surface_flinger.max_frame_buffer_acquired_buffers", "3");
     property_override("ro.surface_flinger.running_without_sync_framework", "false");
-
+    
     /* Disable logging for performance */
     property_override("persist.traced.enable", "0");
     property_override("persist.sys.raf.override", "false");
@@ -295,6 +306,6 @@ void vendor_load_properties()
     set_lmkd_properties();
     set_performance_properties();
 
-    LOG(INFO) << "SDM660-X00TD/X01BD: vendor properties loaded for "
+    LOG(INFO) << "SDM660-X00TD/X01BD: vendor properties loaded for " 
               << ram_variant << " variant";
 }

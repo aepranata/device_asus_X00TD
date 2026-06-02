@@ -1,33 +1,24 @@
-<!-- Copyright (c) 2017, 2019-2020 The Linux Foundation. All rights reserved.
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Device HAL Manifest
+    Version  : 1.0
+    Type     : device
+    Target   : API Level 7
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above
-      copyright notice, this list of conditions and the following
-      disclaimer in the documentation and/or other materials provided
-      with the distribution.
-    * Neither the name of The Linux Foundation nor the names of its
-      contributors may be used to endorse or promote products derived
-      from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
-WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
-ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
-BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
-IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    This manifest declares all Hardware Abstraction Layer (HAL) services
+    exposed by the vendor to the Android framework. Each <hal> entry
+    describes a HIDL interface the device supports, including its name,
+    transport mechanism, version, and registered instances.
 -->
 <manifest version="1.0" type="device" target-level="7">
 
-    <!-- ========== AUDIO ========== -->
+    <!-- ================================================================
+         AUDIO
+         Handles audio playback, recording, effects processing, and
+         sound-trigger (hotword/wakeword) detection.
+         ================================================================ -->
+
+    <!-- Core audio device factory – creates audio output/input streams -->
     <hal format="hidl">
         <name>android.hardware.audio</name>
         <transport>hwbinder</transport>
@@ -37,6 +28,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <instance>default</instance>
         </interface>
     </hal>
+
+    <!-- Audio effects factory – manages equalizers, reverb, and other DSP effects -->
     <hal format="hidl">
         <name>android.hardware.audio.effect</name>
         <transport>hwbinder</transport>
@@ -46,6 +39,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <instance>default</instance>
         </interface>
     </hal>
+
+    <!-- Sound trigger HAL – supports always-on hotword/wakeword recognition -->
     <hal format="hidl">
         <name>android.hardware.soundtrigger</name>
         <transport>hwbinder</transport>
@@ -56,49 +51,15 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </interface>
     </hal>
 
-    <!-- ========== BLUETOOTH ========== -->
-    <hal format="hidl">
-        <name>android.hardware.bluetooth</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>IBluetoothHci</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
 
-    <!-- ========== GRAPHICS ========== -->
-    <hal format="hidl">
-        <name>android.hardware.graphics.composer</name>
-        <transport>hwbinder</transport>
-        <version>2.1</version>
-        <interface>
-            <name>IComposer</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
+    <!-- ================================================================
+         MEDIA / CODEC
+         Provides hardware-accelerated video and audio codec support
+         via the OpenMAX (OMX) framework.
+         ================================================================ -->
 
-    <!-- ========== KEYMASTER / GATEKEEPER ========== -->
-    <hal format="hidl">
-        <name>android.hardware.gatekeeper</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>IGatekeeper</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>android.hardware.keymaster</name>
-        <transport>hwbinder</transport>
-        <version>3.0</version>
-        <interface>
-            <name>IKeymasterDevice</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-
-    <!-- ========== MEDIA ========== -->
+    <!-- OMX codec service – exposes hardware encoder/decoder components and
+         a store for querying supported formats and profiles             -->
     <hal format="hidl">
         <name>android.hardware.media.omx</name>
         <transport>hwbinder</transport>
@@ -113,111 +74,27 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </interface>
     </hal>
 
-    <!-- ========== NFC ========== -->
-    <hal format="hidl">
-        <name>android.hardware.secure_element</name>
-        <transport>hwbinder</transport>
-        <version>1.2</version>
-        <interface>
-            <name>ISecureElement</name>
-            <instance>SIM1</instance>
-            <instance>SIM2</instance>
-        </interface>
-    </hal>
 
-    <!-- ========== RADIO ========== -->
+    <!-- ================================================================
+         DISPLAY
+         Manages display composition and vendor-specific display
+         configuration (refresh rate, HDR, color modes, etc.).
+         ================================================================ -->
+
+    <!-- Hardware Composer (HWC) – composites display layers using the GPU
+         or display hardware to minimise power usage                     -->
     <hal format="hidl">
-        <name>android.hardware.radio</name>
+        <name>android.hardware.graphics.composer</name>
         <transport>hwbinder</transport>
-        <fqname>@1.5::IRadio/slot1</fqname>
-        <fqname>@1.5::IRadio/slot2</fqname>
-        <fqname>@1.2::ISap/slot1</fqname>
-        <fqname>@1.2::ISap/slot2</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>android.hardware.radio.config</name>
-        <transport>hwbinder</transport>
-        <version>1.2</version>
+        <version>2.1</version>
         <interface>
-            <name>IRadioConfig</name>
+            <name>IComposer</name>
             <instance>default</instance>
         </interface>
     </hal>
 
-    <!-- ========== SENSORS ========== -->
-    <hal format="hidl">
-        <name>android.hardware.sensors</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>ISensors</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-
-    <!-- ========== TETHER OFFLOAD ========== -->
-    <hal format="hidl">
-        <name>android.hardware.tetheroffload.config</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>IOffloadConfig</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>android.hardware.tetheroffload.control</name>
-        <transport>hwbinder</transport>
-        <version>1.1</version>
-        <interface>
-            <name>IOffloadControl</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-
-    <!-- ========== ANT ========== -->
-    <hal format="hidl">
-        <name>com.dsi.ant</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>IAnt</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-
-    <!-- ========== DPM ========== -->
-    <hal format="hidl">
-        <name>com.qualcomm.qti.dpm.api</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>IdpmQmi</name>
-            <instance>dpmQmiService</instance>
-        </interface>
-    </hal>
-
-    <!-- ========== IMS ========== -->
-    <hal format="hidl">
-        <name>com.qualcomm.qti.imscmservice</name>
-        <transport>hwbinder</transport>
-        <version>2.2</version>
-        <interface>
-            <name>IImsCmService</name>
-            <instance>qti.ims.connectionmanagerservice</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>com.qualcomm.qti.uceservice</name>
-        <transport>hwbinder</transport>
-        <version>2.3</version>
-        <interface>
-            <name>IUceService</name>
-            <instance>com.qualcomm.qti.uceservice</instance>
-        </interface>
-    </hal>
-
-    <!-- ========== VENDOR DISPLAY ========== -->
+    <!-- Qualcomm vendor display config – exposes extended display controls
+         such as idle timers, panel modes, and HDR metadata               -->
     <hal format="hidl">
         <name>vendor.display.config</name>
         <transport>hwbinder</transport>
@@ -228,75 +105,44 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </interface>
     </hal>
 
-    <!-- ========== VENDOR FINGERPRINT ========== -->
+
+    <!-- ================================================================
+         SENSORS
+         Provides access to on-device motion, environmental, and
+         positional sensors (accelerometer, gyroscope, etc.).
+         ================================================================ -->
+
+    <!-- Sensor HAL – delivers sensor events to the Android SensorManager -->
     <hal format="hidl">
-        <name>vendor.goodix.hardware.fingerprint</name>
+        <name>android.hardware.sensors</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
-            <name>IGoodixBiometricsFingerprint</name>
+            <name>ISensors</name>
             <instance>default</instance>
         </interface>
     </hal>
 
-    <!-- ========== QTI DATA ========== -->
-    <hal format="hidl">
-        <name>vendor.qti.data.factory</name>
-        <transport>hwbinder</transport>
-        <fqname>@2.0::IFactory/default</fqname>
-        <fqname>@2.1::IFactory/default</fqname>
-        <fqname>@2.2::IFactory/default</fqname>
-        <fqname>@2.3::IFactory/default</fqname>
-    </hal>
 
-    <!-- ========== QTI IMS ========== -->
+    <!-- ================================================================
+         BLUETOOTH & WIRELESS
+         Bluetooth HCI transport, vendor configuration, ANT+ protocol,
+         FM radio, Bluetooth SAR, and iWLAN support.
+         ================================================================ -->
+
+    <!-- Bluetooth HCI – low-level host controller interface for Bluetooth -->
     <hal format="hidl">
-        <name>vendor.qti.ims.callinfo</name>
+        <name>android.hardware.bluetooth</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
-            <name>IService</name>
+            <name>IBluetoothHci</name>
             <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.ims.factory</name>
-        <transport>hwbinder</transport>
-        <version>1.1</version>
-        <interface>
-            <name>IImsFactory</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.imsrtpservice</name>
-        <transport>hwbinder</transport>
-        <version>3.0</version>
-        <interface>
-            <name>IRTPService</name>
-            <instance>imsrtpservice</instance>
         </interface>
     </hal>
 
-    <!-- ========== QTI HARDWARE ========== -->
-    <hal format="hidl">
-        <name>vendor.qti.hardware.alarm</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>IAlarm</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.bluetooth_sar</name>
-        <transport>hwbinder</transport>
-        <version>1.1</version>
-        <interface>
-            <name>IBluetoothSar</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
+    <!-- Qualcomm BT config store – provides Bluetooth chip configuration
+         parameters (e.g., power settings, feature flags)               -->
     <hal format="hidl">
         <name>vendor.qti.hardware.btconfigstore</name>
         <transport>hwbinder</transport>
@@ -306,34 +152,43 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <instance>default</instance>
         </interface>
     </hal>
+
+    <!-- ANT+ wireless protocol HAL – enables ANT/ANT+ sensor communication
+         used in fitness and health peripherals                          -->
     <hal format="hidl">
-        <name>vendor.qti.hardware.cacert</name>
+        <name>com.dsi.ant</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
-            <name>IService</name>
+            <name>IAnt</name>
             <instance>default</instance>
         </interface>
     </hal>
+
+    <!-- FM radio HCI – controls the FM radio transceiver chip -->
     <hal format="hidl">
-        <name>vendor.qti.hardware.cryptfshw</name>
+        <name>vendor.qti.hardware.fm</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
-            <name>ICryptfsHw</name>
+            <name>IFmHci</name>
             <instance>default</instance>
         </interface>
     </hal>
+
+    <!-- Bluetooth SAR – manages Bluetooth transmit power for SAR compliance -->
     <hal format="hidl">
-        <name>vendor.qti.hardware.data.connection</name>
+        <name>vendor.qti.hardware.bluetooth_sar</name>
         <transport>hwbinder</transport>
         <version>1.1</version>
         <interface>
-            <name>IDataConnection</name>
-            <instance>slot1</instance>
-            <instance>slot2</instance>
+            <name>IBluetoothSar</name>
+            <instance>default</instance>
         </interface>
     </hal>
+
+    <!-- iWLAN – Qualcomm vendor HAL for Wi-Fi calling (IMS over WLAN),
+         dual-SIM slots supported                                        -->
     <hal format="hidl">
         <name>vendor.qti.hardware.data.iwlan</name>
         <transport>hwbinder</transport>
@@ -344,6 +199,269 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <instance>slot2</instance>
         </interface>
     </hal>
+
+
+    <!-- ================================================================
+         RADIO / TELEPHONY (AOSP)
+         Core Android radio interfaces for voice, data, SIM access,
+         and radio configuration on dual-SIM devices.
+         ================================================================ -->
+
+    <!-- Radio HAL – primary telephony interface (IRadio) and SIM access
+         profile (ISap) for both SIM slots                              -->
+    <hal format="hidl">
+        <name>android.hardware.radio</name>
+        <transport>hwbinder</transport>
+        <fqname>@1.5::IRadio/slot1</fqname>
+        <fqname>@1.5::IRadio/slot2</fqname>
+        <fqname>@1.2::ISap/slot1</fqname>
+        <fqname>@1.2::ISap/slot2</fqname>
+    </hal>
+
+    <!-- Radio Config – manages multi-SIM configuration and slot mapping -->
+    <hal format="hidl">
+        <name>android.hardware.radio.config</name>
+        <transport>hwbinder</transport>
+        <version>1.2</version>
+        <interface>
+            <name>IRadioConfig</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+
+    <!-- ================================================================
+         RADIO / TELEPHONY (QUALCOMM VENDOR)
+         Qualcomm-specific RIL extensions: UIM/SIM card management,
+         eSIM (LPA), audio routing, 5G/NR radio, IMS, OEM hooks,
+         and data policy manager.
+         ================================================================ -->
+
+    <!-- UIM Remote Client – SAP remote SIM client for both SIM slots -->
+    <hal format="hidl">
+        <name>vendor.qti.hardware.radio.uim_remote_client</name>
+        <transport>hwbinder</transport>
+        <version>1.2</version>
+        <interface>
+            <name>IUimRemoteServiceClient</name>
+            <instance>uimRemoteClient0</instance>
+            <instance>uimRemoteClient1</instance>
+        </interface>
+    </hal>
+
+    <!-- UIM Remote Server – SAP remote SIM server for both SIM slots -->
+    <hal format="hidl">
+        <name>vendor.qti.hardware.radio.uim_remote_server</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IUimRemoteServiceServer</name>
+            <instance>uimRemoteServer0</instance>
+            <instance>uimRemoteServer1</instance>
+        </interface>
+    </hal>
+
+    <!-- LPA (Local Profile Assistant) – manages eSIM profile download
+         and provisioning for both SIM slots                            -->
+    <hal format="hidl">
+        <name>vendor.qti.hardware.radio.lpa</name>
+        <transport>hwbinder</transport>
+        <version>1.2</version>
+        <interface>
+            <name>IUimLpa</name>
+            <instance>UimLpa0</instance>
+            <instance>UimLpa1</instance>
+        </interface>
+    </hal>
+
+    <!-- UIM – Universal Identity Module HAL for SIM card access on
+         both SIM slots                                                 -->
+    <hal format="hidl">
+        <name>vendor.qti.hardware.radio.uim</name>
+        <transport>hwbinder</transport>
+        <version>1.2</version>
+        <interface>
+            <name>IUim</name>
+            <instance>Uim0</instance>
+            <instance>Uim1</instance>
+        </interface>
+    </hal>
+
+    <!-- RIL Audio HAL – routes in-call audio between the modem and audio
+         subsystem for both SIM slots                                   -->
+    <hal format="hidl">
+        <name>vendor.qti.hardware.radio.am</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IQcRilAudio</name>
+            <instance>slot1</instance>
+            <instance>slot2</instance>
+        </interface>
+    </hal>
+
+    <!-- QtiRadio v1.0 – Qualcomm-extended radio HAL for proprietary
+         features on both SIM slots                                     -->
+    <hal format="hidl">
+        <name>vendor.qti.hardware.radio.qtiradio</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IQtiRadio</name>
+            <instance>slot1</instance>
+            <instance>slot2</instance>
+        </interface>
+    </hal>
+
+    <!-- QtiRadio v2.7 – Extended version with 5G NR capability support -->
+    <hal format="hidl">
+        <name>vendor.qti.hardware.radio.qtiradio</name>
+        <transport>hwbinder</transport>
+        <version>2.7</version>
+        <interface>
+            <name>IQtiRadio</name>
+            <instance>slot1</instance>
+            <instance>slot2</instance>
+        </interface>
+    </hal>
+
+    <!-- IMS Radio – Qualcomm IMS (IP Multimedia Subsystem) radio interface
+         for VoLTE/VoWiFi calls on both SIM slots                      -->
+    <hal format="hidl">
+        <name>vendor.qti.hardware.radio.ims</name>
+        <transport>hwbinder</transport>
+        <version>1.7</version>
+        <interface>
+            <name>IImsRadio</name>
+            <instance>imsradio0</instance>
+            <instance>imsradio1</instance>
+        </interface>
+    </hal>
+
+    <!-- QCRIL OEM Hook – proprietary OEM hook interface for vendor-specific
+         RIL requests on both SIM slots                                 -->
+    <hal format="hidl">
+        <name>vendor.qti.hardware.radio.qcrilhook</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IQtiOemHook</name>
+            <instance>oemhook0</instance>
+            <instance>oemhook1</instance>
+        </interface>
+    </hal>
+
+    <!-- DPM (Data Policy Manager) – QMI-based policy manager for mobile
+         data traffic prioritization and firewall rules                 -->
+    <hal format="hidl">
+        <name>com.qualcomm.qti.dpm.api</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IdpmQmi</name>
+            <instance>dpmQmiService</instance>
+        </interface>
+    </hal>
+
+
+    <!-- ================================================================
+         IMS SERVICES (IP MULTIMEDIA SUBSYSTEM)
+         Services supporting VoLTE, VoWiFi, RCS, and call management
+         over IP networks.
+         ================================================================ -->
+
+    <!-- IMS RTP Service – handles real-time media (voice/video) transport
+         for IMS calls                                                   -->
+    <hal format="hidl">
+        <name>vendor.qti.imsrtpservice</name>
+        <transport>hwbinder</transport>
+        <version>3.0</version>
+        <interface>
+            <name>IRTPService</name>
+            <instance>imsrtpservice</instance>
+        </interface>
+    </hal>
+
+    <!-- UCE Service – User Capabilities Exchange (presence/RCS capabilities)
+         over IMS                                                        -->
+    <hal format="hidl">
+        <name>com.qualcomm.qti.uceservice</name>
+        <transport>hwbinder</transport>
+        <version>2.3</version>
+        <interface>
+            <name>IUceService</name>
+            <instance>com.qualcomm.qti.uceservice</instance>
+        </interface>
+    </hal>
+
+    <!-- IMS Call Info Service – provides call state and metadata for
+         active IMS sessions                                            -->
+    <hal format="hidl">
+        <name>vendor.qti.ims.callinfo</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IService</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!-- IMS CM Service – IMS Connection Manager for managing IMS
+         registrations and connections                                  -->
+    <hal format="hidl">
+        <name>com.qualcomm.qti.imscmservice</name>
+        <transport>hwbinder</transport>
+        <version>2.2</version>
+        <interface>
+            <name>IImsCmService</name>
+            <instance>qti.ims.connectionmanagerservice</instance>
+        </interface>
+    </hal>
+
+    <!-- IMS Factory – creates IMS service instances (e.g., ImsConfig,
+         ImsRegistration)                                               -->
+    <hal format="hidl">
+        <name>vendor.qti.ims.factory</name>
+        <transport>hwbinder</transport>
+        <version>1.1</version>
+        <interface>
+            <name>IImsFactory</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+
+    <!-- ================================================================
+         DATA CONNECTIVITY
+         Mobile data session management, tethering offload, and data
+         link latency control.
+         ================================================================ -->
+
+    <!-- Data Factory – Qualcomm vendor data service factory supporting
+         multiple API versions (v2.0–v2.3) simultaneously              -->
+    <hal format="hidl">
+        <name>vendor.qti.data.factory</name>
+        <transport>hwbinder</transport>
+        <fqname>@2.0::IFactory/default</fqname>
+        <fqname>@2.1::IFactory/default</fqname>
+        <fqname>@2.2::IFactory/default</fqname>
+        <fqname>@2.3::IFactory/default</fqname>
+    </hal>
+
+    <!-- Data Connection – per-slot mobile data connection management -->
+    <hal format="hidl">
+        <name>vendor.qti.hardware.data.connection</name>
+        <transport>hwbinder</transport>
+        <version>1.1</version>
+        <interface>
+            <name>IDataConnection</name>
+            <instance>slot1</instance>
+            <instance>slot2</instance>
+        </interface>
+    </hal>
+
+    <!-- Data Link Latency – controls and monitors data link latency
+         for real-time traffic optimization                            -->
     <hal format="hidl">
         <name>vendor.qti.hardware.data.latency</name>
         <transport>hwbinder</transport>
@@ -353,24 +471,76 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <instance>default</instance>
         </interface>
     </hal>
+
+    <!-- Tether Offload Config – configures hardware-accelerated tethering
+         to offload traffic from the CPU                                -->
     <hal format="hidl">
-        <name>vendor.qti.hardware.dsp</name>
+        <name>android.hardware.tetheroffload.config</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
-            <name>IDspService</name>
-            <instance>dspservice</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.fm</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>IFmHci</name>
+            <name>IOffloadConfig</name>
             <instance>default</instance>
         </interface>
     </hal>
+
+    <!-- Tether Offload Control – runtime control of hardware tethering
+         offload (start/stop, statistics)                              -->
+    <hal format="hidl">
+        <name>android.hardware.tetheroffload.control</name>
+        <transport>hwbinder</transport>
+        <version>1.1</version>
+        <interface>
+            <name>IOffloadControl</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!-- Wi-Fi Learner / Stats – collects Wi-Fi statistics for the
+         Qualcomm adaptive Wi-Fi optimization engine                   -->
+    <hal format="hidl">
+        <name>vendor.qti.hardware.wifi.wifilearner</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IWifiStats</name>
+            <instance>wifiStats</instance>
+        </interface>
+    </hal>
+
+
+    <!-- ================================================================
+         SECURITY
+         Keymaster, Gatekeeper, Trusted Execution Environment (TEE)
+         connectors, Secure Element, and file-system encryption.
+         ================================================================ -->
+
+    <!-- Keymaster – hardware-backed cryptographic key storage and
+         operations (RSA, AES, HMAC, etc.)                            -->
+    <hal format="hidl">
+        <name>android.hardware.keymaster</name>
+        <transport>hwbinder</transport>
+        <version>3.0</version>
+        <interface>
+            <name>IKeymasterDevice</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!-- Gatekeeper – hardware-enforced PIN/password verification with
+         rate-limiting and secure failure counting                     -->
+    <hal format="hidl">
+        <name>android.hardware.gatekeeper</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IGatekeeper</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!-- QSEECom – Qualcomm Secure Execution Environment communicator;
+         sends commands to Trusted Applications running in TrustZone  -->
     <hal format="hidl">
         <name>vendor.qti.hardware.qseecom</name>
         <transport>hwbinder</transport>
@@ -380,6 +550,9 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <instance>default</instance>
         </interface>
     </hal>
+
+    <!-- QTEEConnector – TrustZone application connector; provides general
+         (IAppConnector) and GlobalPlatform TEE (IGPAppConnector) access -->
     <hal format="hidl">
         <name>vendor.qti.hardware.qteeconnector</name>
         <transport>hwbinder</transport>
@@ -393,6 +566,9 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <instance>default</instance>
         </interface>
     </hal>
+
+    <!-- TUI Communicator – trusted UI channel between the normal world
+         and secure/trusted display for PIN entry, payment screens     -->
     <hal format="hidl">
         <name>vendor.qti.hardware.tui_comm</name>
         <transport>hwbinder</transport>
@@ -402,105 +578,96 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <instance>default</instance>
         </interface>
     </hal>
+
+    <!-- CACert – vendor CA certificate service for provisioning and
+         managing trusted root certificates                            -->
     <hal format="hidl">
-        <name>vendor.qti.hardware.wifi.wifilearner</name>
+        <name>vendor.qti.hardware.cacert</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
-            <name>IWifiStats</name>
-            <instance>wifiStats</instance>
+            <name>IService</name>
+            <instance>default</instance>
         </interface>
     </hal>
 
-    <!-- ========== QTI RADIO ========== -->
+    <!-- CryptfsHW – hardware-accelerated file-system encryption (FDE/FBE)
+         using the Qualcomm Inline Crypto Engine (ICE)                 -->
     <hal format="hidl">
-        <name>vendor.qti.hardware.radio.am</name>
+        <name>vendor.qti.hardware.cryptfshw</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
-            <name>IQcRilAudio</name>
-            <instance>slot1</instance>
-            <instance>slot2</instance>
+            <name>ICryptfsHw</name>
+            <instance>default</instance>
         </interface>
     </hal>
+
+    <!-- Secure Element – ISO/IEC 7816 secure element access (e.g., for
+         NFC payments) on SIM1 and SIM2                                -->
     <hal format="hidl">
-        <name>vendor.qti.hardware.radio.ims</name>
-        <transport>hwbinder</transport>
-        <version>1.7</version>
-        <interface>
-            <name>IImsRadio</name>
-            <instance>imsradio0</instance>
-            <instance>imsradio1</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.radio.lpa</name>
+        <name>android.hardware.secure_element</name>
         <transport>hwbinder</transport>
         <version>1.2</version>
         <interface>
-            <name>IUimLpa</name>
-            <instance>UimLpa0</instance>
-            <instance>UimLpa1</instance>
+            <name>ISecureElement</name>
+            <instance>SIM1</instance>
+            <instance>SIM2</instance>
         </interface>
     </hal>
+
+
+    <!-- ================================================================
+         COMPUTE / DSP
+         Digital Signal Processor offload for AI/ML inference and
+         other compute-intensive tasks.
+         ================================================================ -->
+
+    <!-- DSP Service – offloads compute tasks (AI/ML, signal processing)
+         to the Qualcomm Hexagon DSP                                   -->
     <hal format="hidl">
-        <name>vendor.qti.hardware.radio.qcrilhook</name>
+        <name>vendor.qti.hardware.dsp</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
-            <name>IQtiOemHook</name>
-            <instance>oemhook0</instance>
-            <instance>oemhook1</instance>
+            <name>IDspService</name>
+            <instance>dspservice</instance>
         </interface>
     </hal>
+
+
+    <!-- ================================================================
+         TIMEKEEPING
+         Real-time alarm services for persistent wake-up scheduling.
+         ================================================================ -->
+
+    <!-- Alarm HAL – programs hardware alarm registers to wake the device
+         from deep sleep at a scheduled time                           -->
     <hal format="hidl">
-        <name>vendor.qti.hardware.radio.qtiradio</name>
+        <name>vendor.qti.hardware.alarm</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
-            <name>IQtiRadio</name>
-            <instance>slot1</instance>
-            <instance>slot2</instance>
+            <name>IAlarm</name>
+            <instance>default</instance>
         </interface>
     </hal>
+
+
+    <!-- ================================================================
+         BIOMETRICS
+         Fingerprint sensor abstraction layer.
+         ================================================================ -->
+
+    <!-- Goodix fingerprint – vendor HAL for the Goodix in-display or
+         capacitive fingerprint sensor                                 -->
     <hal format="hidl">
-        <name>vendor.qti.hardware.radio.qtiradio</name>
-        <transport>hwbinder</transport>
-        <version>2.7</version>
-        <interface>
-            <name>IQtiRadio</name>
-            <instance>slot1</instance>
-            <instance>slot2</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.radio.uim</name>
-        <transport>hwbinder</transport>
-        <version>1.2</version>
-        <interface>
-            <name>IUim</name>
-            <instance>Uim0</instance>
-            <instance>Uim1</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.radio.uim_remote_client</name>
-        <transport>hwbinder</transport>
-        <version>1.2</version>
-        <interface>
-            <name>IUimRemoteServiceClient</name>
-            <instance>uimRemoteClient0</instance>
-            <instance>uimRemoteClient1</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.radio.uim_remote_server</name>
+        <name>vendor.goodix.hardware.fingerprint</name>
         <transport>hwbinder</transport>
         <version>1.0</version>
         <interface>
-            <name>IUimRemoteServiceServer</name>
-            <instance>uimRemoteServer0</instance>
-            <instance>uimRemoteServer1</instance>
+            <name>IGoodixBiometricsFingerprint</name>
+            <instance>default</instance>
         </interface>
     </hal>
 

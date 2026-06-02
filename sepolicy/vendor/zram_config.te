@@ -1,4 +1,6 @@
+# ═══════════════════════════════════════════════════════════════
 # Domain for ZRAM and VM configuration scripts
+# ═══════════════════════════════════════════════════════════════
 
 type zram_config, domain;
 type zram_config_exec, exec_type, vendor_file_type, file_type;

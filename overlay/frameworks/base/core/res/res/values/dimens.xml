@@ -18,92 +18,188 @@
 -->
 <resources>
 
-    <!-- Status Bar - Height -->
+    <!-- ============================================================ -->
+    <!--  STATUS BAR — Heights                                        -->
+    <!--  Base height used in portrait; landscape and default alias   -->
+    <!--  the same value for consistency across orientations.         -->
+    <!-- ============================================================ -->
     <dimen name="status_bar_height_portrait">24dp</dimen>
-    <dimen name="status_bar_height_default">@dimen/status_bar_height_portrait</dimen>
     <dimen name="status_bar_height_landscape">@dimen/status_bar_height_portrait</dimen>
     <dimen name="status_bar_height">@dimen/status_bar_height_portrait</dimen>
+    <dimen name="status_bar_height_default">@dimen/status_bar_height_portrait</dimen>
 
-    <!-- Status Bar - Padding -->
+    <!-- ============================================================ -->
+    <!--  STATUS BAR — Padding                                        -->
+    <!--  Internal spacing within the status bar area.               -->
+    <!-- ============================================================ -->
     <dimen name="status_bar_padding_start">4dp</dimen>
     <dimen name="status_bar_padding_end">4dp</dimen>
     <dimen name="status_bar_padding_top">0dp</dimen>
 
-    <!-- Status Bar - Icons -->
+    <!-- ============================================================ -->
+    <!--  STATUS BAR — Icons                                          -->
+    <!--  Sizes for general and system-specific icons in the bar.     -->
+    <!-- ============================================================ -->
+    <!-- General icon touch/layout size -->
     <dimen name="status_bar_icon_size">20dip</dimen>
+    <!-- Rendered size for system status icons (e.g. signal, battery) -->
     <dimen name="status_bar_system_icon_size">15dp</dimen>
+    <!-- Natural/intrinsic drawable size for system icons -->
     <dimen name="status_bar_system_icon_intrinsic_size">17dp</dimen>
+    <!-- Inset to ignore touches at the screen edge in the status bar -->
     <dimen name="status_bar_edge_ignore">0dp</dimen>
 
-    <!-- Navigation Bar -->
+    <!-- ============================================================ -->
+    <!--  NAVIGATION BAR                                              -->
+    <!--  Heights and widths for the system navigation bar and        -->
+    <!--  taskbar used in landscape/tablet configurations.            -->
+    <!-- ============================================================ -->
+    <!-- Height of the navigation bar in portrait mode -->
     <dimen name="navigation_bar_height">48dp</dimen>
+    <!-- Height of the navigation bar in landscape mode -->
     <dimen name="navigation_bar_height_landscape">48dp</dimen>
+    <!-- Width of the navigation bar when shown on the side (landscape) -->
     <dimen name="navigation_bar_width">48dp</dimen>
+    <!-- Total frame height including navigation bar (alias) -->
     <dimen name="navigation_bar_frame_height">@dimen/navigation_bar_height</dimen>
+    <!-- Height of the taskbar frame used on large screens / freeform -->
     <dimen name="taskbar_frame_height">60dp</dimen>
 
-    <!-- Display - Waterfall Edges (Primary) -->
+    <!-- ============================================================ -->
+    <!--  QUICK SETTINGS                                              -->
+    <!--  Offset used when the quick-settings panel is partially      -->
+    <!--  expanded (QQS = Quick Quick Settings peek height).          -->
+    <!-- ============================================================ -->
+    <dimen name="quick_qs_offset_height">48dp</dimen>
+
+    <!-- ============================================================ -->
+    <!--  DISPLAY CUTOUT                                              -->
+    <!--  Safe-zone size around the display cutout (notch/hole-punch) -->
+    <!--  that should remain touchable / not obscured.                -->
+    <!-- ============================================================ -->
+    <dimen name="display_cutout_touchable_region_size">0dp</dimen>
+
+    <!-- ============================================================ -->
+    <!--  WATERFALL DISPLAY — Primary                                 -->
+    <!--  Edge-inset sizes for curved waterfall screens. Set to 0dp   -->
+    <!--  on flat displays; OEMs override for curved-edge devices.    -->
+    <!-- ============================================================ -->
     <dimen name="waterfall_display_left_edge_size">0dp</dimen>
     <dimen name="waterfall_display_top_edge_size">0dp</dimen>
     <dimen name="waterfall_display_right_edge_size">0dp</dimen>
     <dimen name="waterfall_display_bottom_edge_size">0dp</dimen>
 
-    <!-- Display - Waterfall Edges (Secondary) -->
+    <!-- ============================================================ -->
+    <!--  WATERFALL DISPLAY — Secondary                               -->
+    <!--  Same as above but for the secondary (folded/rear) display.  -->
+    <!-- ============================================================ -->
     <dimen name="secondary_waterfall_display_left_edge_size">0dp</dimen>
     <dimen name="secondary_waterfall_display_top_edge_size">0dp</dimen>
     <dimen name="secondary_waterfall_display_right_edge_size">0dp</dimen>
     <dimen name="secondary_waterfall_display_bottom_edge_size">0dp</dimen>
 
-    <!-- Display - Cutout -->
-    <dimen name="display_cutout_touchable_region_size">0dp</dimen>
-
-    <!-- Quick Settings -->
-    <dimen name="quick_qs_offset_height">48dp</dimen>
-
-    <!-- Keyguard / Lock Screen -->
-    <dimen name="keyguard_lockscreen_clock_font_size">80dip</dimen>
-    <dimen name="keyguard_lockscreen_pin_margin_left">40dip</dimen>
-    <dimen name="kg_status_clock_font_size">75dp</dimen>
-    <dimen name="kg_status_date_font_size">15dp</dimen>
-
-    <!-- Notifications -->
-    <dimen name="notification_content_margin_start">40dp</dimen>
-    <dimen name="notification_content_margin_end">16dp</dimen>
-    <dimen name="notification_header_height">56dp</dimen>
-    <dimen name="notification_action_button_radius">18dp</dimen>
-    <dimen name="notification_small_icon_size">24dp</dimen>
-
-    <!-- Dialogs -->
-    <dimen name="config_dialogCornerRadius">28dp</dimen>
-    <dimen name="dialog_corner_radius">28dp</dimen>
-    <dimen name="alert_dialog_round_padding">27dip</dimen>
-    <dimen name="dialog_padding">24dp</dimen>
-    <item type="dimen" name="dialog_min_width_major">65%</item>
-    <item type="dimen" name="dialog_min_width_minor">95%</item>
-
-    <!-- Buttons & Controls -->
-    <dimen name="config_buttonCornerRadius">4dp</dimen>
-    <dimen name="config_progressBarCornerRadius">1000dp</dimen>
-    <dimen name="config_globalActionsKeyTimeout">500</dimen>
-
-    <!-- App Icons & Thumbnails -->
-    <dimen name="app_icon_size">48dip</dimen>
-    <dimen name="thumbnail_width">192dp</dimen>
-    <dimen name="thumbnail_height">192dp</dimen>
-    <item name="thumbnail_fullscreen_scale" type="fraction">60%</item>
-
-    <!-- Toast -->
+    <!-- ============================================================ -->
+    <!--  TOAST                                                       -->
+    <!--  Dimensions for the system toast overlay view.               -->
+    <!-- ============================================================ -->
+    <!-- Vertical offset from the bottom of the screen -->
     <dimen name="toast_y_offset">64dp</dimen>
+    <!-- Maximum width of a toast message -->
     <dimen name="toast_width">300dp</dimen>
+    <!-- Font size for toast message text -->
     <dimen name="toast_text_size">14sp</dimen>
+    <!-- Elevation (shadow depth) of the toast view -->
     <dimen name="toast_elevation">2dp</dimen>
 
-    <!-- Picture-in-Picture -->
+    <!-- ============================================================ -->
+    <!--  KEYGUARD / LOCK SCREEN                                      -->
+    <!--  Font and layout sizes for the lock screen clock and PIN     -->
+    <!--  entry views.                                                 -->
+    <!-- ============================================================ -->
+    <!-- Large clock font on the default lock screen -->
+    <dimen name="keyguard_lockscreen_clock_font_size">80dip</dimen>
+    <!-- Left margin for the PIN pad on the lock screen -->
+    <dimen name="keyguard_lockscreen_pin_margin_left">40dip</dimen>
+    <!-- Smaller clock font shown in keyguard status widget -->
+    <dimen name="kg_status_clock_font_size">75dp</dimen>
+    <!-- Date text size shown beneath the keyguard clock -->
+    <dimen name="kg_status_date_font_size">15dp</dimen>
+
+    <!-- ============================================================ -->
+    <!--  NOTIFICATIONS                                               -->
+    <!--  Layout dimensions for notification rows, icons, and         -->
+    <!--  action buttons in the notification shade.                   -->
+    <!-- ============================================================ -->
+    <!-- Start (left) margin for notification content body -->
+    <dimen name="notification_content_margin_start">40dp</dimen>
+    <!-- End (right) margin for notification content body -->
+    <dimen name="notification_content_margin_end">16dp</dimen>
+    <!-- Height of the notification header row (app name / chevron) -->
+    <dimen name="notification_header_height">56dp</dimen>
+    <!-- Corner radius of notification action chip/button -->
+    <dimen name="notification_action_button_radius">18dp</dimen>
+    <!-- Size of the small app icon shown in a notification -->
+    <dimen name="notification_small_icon_size">24dp</dimen>
+
+    <!-- ============================================================ -->
+    <!--  DIALOGS & CORNER RADII                                      -->
+    <!--  Shared rounding values for dialogs, buttons, and progress   -->
+    <!--  bars across the system UI.                                  -->
+    <!-- ============================================================ -->
+    <!-- Primary corner radius for dialog windows (Material You) -->
+    <dimen name="config_dialogCornerRadius">28dp</dimen>
+    <!-- Alias for dialog corner radius used in layout XML -->
+    <dimen name="dialog_corner_radius">28dp</dimen>
+    <!-- Corner radius for standard buttons -->
+    <dimen name="config_buttonCornerRadius">4dp</dimen>
+    <!-- Fully-rounded (pill) corner radius for progress bars -->
+    <dimen name="config_progressBarCornerRadius">1000dp</dimen>
+    <!-- Internal padding for alert dialogs with rounded corners -->
+    <dimen name="alert_dialog_round_padding">27dip</dimen>
+    <!-- Standard content padding inside dialog views -->
+    <dimen name="dialog_padding">24dp</dimen>
+    <!-- Minimum dialog width on the major (long) axis as % of screen -->
+    <item type="dimen" name="dialog_min_width_major">65%</item>
+    <!-- Minimum dialog width on the minor (short) axis as % of screen -->
+    <item type="dimen" name="dialog_min_width_minor">95%</item>
+
+    <!-- ============================================================ -->
+    <!--  GLOBAL ACTIONS                                              -->
+    <!--  Timing constants for the power-button long-press menu.      -->
+    <!-- ============================================================ -->
+    <!-- Timeout (ms) before global actions menu appears on key hold -->
+    <dimen name="config_globalActionsKeyTimeout">500</dimen>
+
+    <!-- ============================================================ -->
+    <!--  PICTURE-IN-PICTURE (PiP)                                    -->
+    <!--  Minimum visible size when PiP window is stashed at screen   -->
+    <!--  edge.                                                        -->
+    <!-- ============================================================ -->
     <dimen name="pip_minimized_visible_size">48dp</dimen>
 
-    <!-- Preferences -->
+    <!-- ============================================================ -->
+    <!--  APP / GENERAL UI                                            -->
+    <!--  Miscellaneous dimensions shared across system applications. -->
+    <!-- ============================================================ -->
+    <!-- Default app launcher icon size -->
+    <dimen name="app_icon_size">48dip</dimen>
+    <!-- Width of recents task thumbnail -->
+    <dimen name="thumbnail_width">192dp</dimen>
+    <!-- Height of recents task thumbnail -->
+    <dimen name="thumbnail_height">192dp</dimen>
+    <!-- Scale applied when showing a fullscreen app thumbnail in recents -->
+    <item name="thumbnail_fullscreen_scale" type="fraction">60%</item>
+
+    <!-- ============================================================ -->
+    <!--  PREFERENCES / SETTINGS SCREENS                              -->
+    <!--  Margin and padding values for Settings-style preference      -->
+    <!--  fragments and list screens.                                  -->
+    <!-- ============================================================ -->
+    <!-- Side margin for preference list screens (0 = full-width) -->
     <dimen name="preference_screen_side_margin">0dp</dimen>
+    <!-- Negative counterpart used to cancel inherited side margins -->
     <dimen name="preference_screen_side_margin_negative">0dp</dimen>
+    <!-- Horizontal padding inside a preference fragment container -->
     <dimen name="preference_fragment_padding_side">16dp</dimen>
 
 </resources>

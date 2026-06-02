@@ -2,7 +2,9 @@
 # system.prop for sdm660 (X00TD/X01BD Optimized)
 #
 
+# ═══════════════════════════════════════════════════════════════
 # ART / Dex2oat Optimization
+# ═══════════════════════════════════════════════════════════════
 pm.dexopt.ab-ota=speed-profile
 dalvik.vm.dex2oat64.enabled=true
 dalvik.vm.boot-dex2oat-cpu-set=0,1,2,3,4,5,6,7
@@ -15,7 +17,9 @@ dalvik.vm.image-dex2oat-cpu-set=0,1,2,3,4,5,6,7
 dalvik.vm.image-dex2oat-filter=speed
 dalvik.vm.image-dex2oat-threads=8
 
+# ═══════════════════════════════════════════════════════════════
 # Audio (System/Framework level)
+# ═══════════════════════════════════════════════════════════════
 af.fast_track_multiplier=1
 audio.deep_buffer.media=true
 audio.offload.video=true
@@ -26,13 +30,21 @@ audio.safemedia.bypass=false
 ro.audio.jack.detection=true
 persist.audio.jack.event=1
 
+# ═══════════════════════════════════════════════════════════════
 # Bluetooth (System level)
+# ═══════════════════════════════════════════════════════════════
 persist.bluetooth.a2dp_aac.vbr_supported=true
 ro.bluetooth.request.master=true
 ro.bluetooth.remote.autopair=true
 
+# ═══════════════════════════════════════════════════════════════
 # Charger
+# ═══════════════════════════════════════════════════════════════
 ro.charger.enable_suspend=true
+
+# ═══════════════════════════════════════════════════════════════
+# Graphics & Rendering (SurfaceFlinger / HWUI)
+# ═══════════════════════════════════════════════════════════════
 
 # SurfaceFlinger VDS & Composition
 debug.sf.enable_hwc_vds=0
@@ -63,16 +75,22 @@ persist.hwc.mdpcomp.enable=true
 persist.hwc.enable_vds=1
 persist.demo.hdmirotationlock=false
 
+# ═══════════════════════════════════════════════════════════════
 # Scroll & Fling
+# ═══════════════════════════════════════════════════════════════
 ro.min.fling_velocity=160
 ro.max.fling_velocity=20000
 
+# ═══════════════════════════════════════════════════════════════
 # GMS / Google
+# ═══════════════════════════════════════════════════════════════
 ro.com.google.clientidbase.ms=android-asus-tpin
 ro.com.google.rlzbrandcode=ASUP
 ro.com.google.rlz_ap_whitelist=y0,y5,y6,y7,y9
 
+# ═══════════════════════════════════════════════════════════════
 # IMS / Telephony
+# ═══════════════════════════════════════════════════════════════
 persist.dbg.volte_avail_ovr=1
 persist.dbg.vt_avail_ovr=1
 persist.dbg.wfc_avail_ovr=1
@@ -88,10 +106,14 @@ ro.telephony.default_network=9,9
 ro.telephony.block_binder_thread_on_incoming_calls=false
 ro.com.android.dataroaming=false
 
+# ═══════════════════════════════════════════════════════════════
 # Media (System level)
+# ═══════════════════════════════════════════════════════════════
 media.stagefright.thumbnail.prefer_hw_codecs=true
 
+# ═══════════════════════════════════════════════════════════════
 # Network / TCP Buffers
+# ═══════════════════════════════════════════════════════════════
 net.tcp.buffersize.default=4096,87380,110208,4096,16384,110208
 net.tcp.buffersize.wifi=524288,1048576,2097152,262144,524288,1048576
 net.tcp.buffersize.lte=2097152,4194304,8388608,262144,524288,1048576
@@ -101,29 +123,47 @@ net.core.rmem_max=8388608
 persist.net.doxlat=true
 net.tethering.noprovisioning=true
 
+# ═══════════════════════════════════════════════════════════════
 # Netflix
+# ═══════════════════════════════════════════════════════════════
 ro.netflix.bsp_rev=Q660-13149-1
 
+# ═══════════════════════════════════════════════════════════════
 # NFC
+# ═══════════════════════════════════════════════════════════════
 ro.nfc.port=I2C
 
+# ═══════════════════════════════════════════════════════════════
 # NTP Server
+# ═══════════════════════════════════════════════════════════════
 persist.backup.ntpServer="0.pool.ntp.org"
 
+# ═══════════════════════════════════════════════════════════════
 # Performance (System level)
+# ═══════════════════════════════════════════════════════════════
 ro.sys.fw.bg_apps_limit=48
 
+# ═══════════════════════════════════════════════════════════════
 # SSR
+# ═══════════════════════════════════════════════════════════════
 persist.vendor.ssr.restart_level=ALL_ENABLE
 
+# ═══════════════════════════════════════════════════════════════
 # Storage / FUSE
+# ═══════════════════════════════════════════════════════════════
 persist.sys.fuse.passthrough.enable=true
 
+# ═══════════════════════════════════════════════════════════════
 # Time
+# ═══════════════════════════════════════════════════════════════
 persist.timed.enable=true
 
+# ═══════════════════════════════════════════════════════════════
 # USB (System level)
+# ═══════════════════════════════════════════════════════════════
 sys.usb.mtp.batchcancel=1
 
+# ═══════════════════════════════════════════════════════════════
 # Zygote
+# ═══════════════════════════════════════════════════════════════
 zygote.critical_window.minute=10

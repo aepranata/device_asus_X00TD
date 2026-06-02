@@ -1,15 +1,16 @@
 /*
- * SPDX-FileCopyrightText: The LineageOS Project
+ * Copyright (C) 2024 The LineageOS Project
+ *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 #pragma once
 
-#include <devices/BacklightDevice.h>
-#include <devices/LedDevice.h>
-#include <devices/RgbLedDevice.h>
-#include <models/IDumpable.h>
-#include <models/State.h>
+#include "BacklightDevice.h"
+#include "LedDevice.h"
+#include "RgbLedDevice.h"
+#include "IDumpable.h"
+#include "Utils.h"
 
 #include <vector>
 
@@ -22,32 +23,18 @@ class Devices : public IDumpable {
   public:
     Devices();
 
-    void dump(int fd) const override;
-
     bool hasBacklightDevices() const;
-    bool hasButtonDevices() const;
-    bool hasKeyboardDevices() const;
     bool hasNotificationDevices() const;
 
-    void setBacklightState(const State& state);
-    void setButtonsState(const State& state);
-    void setKeyboardState(const State& state);
-    void setNotificationState(const State& state);
+    void setBacklightColor(const rgb& color);
+    void setNotificationColor(const rgb& color, LightMode mode, const BlinkConfig& blink);
+
+    void dump(int fd) const override;
 
   private:
-    // Backlight
-    std::vector<BacklightDevice> mBacklightDevices;
-    std::vector<LedDevice> mBacklightLedDevices;
-
-    // Buttons
-    std::vector<LedDevice> mButtonLedDevices;
-
-    // Keyboard
-    std::vector<LedDevice> mKeyboardLedDevices;
-
-    // Notifications
-    std::vector<RgbLedDevice> mNotificationRgbLedDevices;
-    std::vector<LedDevice> mNotificationLedDevices;
+    std::vector<BacklightDevice> mBacklights;
+    std::vector<LedDevice> mBacklightLeds;
+    std::vector<RgbLedDevice> mRgbNotifications;
 };
 
 }  // namespace light

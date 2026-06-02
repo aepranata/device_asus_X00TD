@@ -1,70 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--Copyright (c) 2012-2016, The Linux Foundation. All rights reserved
-
-    Not a Contribution.
-
-    Licensed under the Apache License, Version 2.0 (the "License"); you
-    may not use this file except in compliance with the License.  You may
-    obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-    implied.  See the License for the specific language governing
-    permissions and limitations under the License.
--->
 <resources>
 
+    <!-- ============================================================
+         1. AUTO-BRIGHTNESS — Feature Flags
+         Controls whether adaptive brightness is available and
+         how it behaves during warm-up, dozing, and ramp transitions.
+         ============================================================ -->
+
+    <!-- Enable the automatic (adaptive) brightness feature -->
     <bool name="config_automatic_brightness_available">true</bool>
+    <!-- Skip the brightness ramp animation on screen-on -->
     <bool name="config_skipScreenOnBrightnessRamp">false</bool>
+    <!-- Reset the ambient lux baseline after the sensor warm-up period -->
     <bool name="config_autoBrightnessResetAmbientLuxAfterWarmUp">true</bool>
+    <!-- Allow auto-brightness adjustments while the device is dozing -->
     <bool name="config_allowAutoBrightnessWhileDozing">false</bool>
+
+
+    <!-- ============================================================
+         2. AUTO-BRIGHTNESS — Ramp Rates
+         How quickly (in units/second) the screen brightness changes
+         when the ambient light level shifts up or down.
+         ============================================================ -->
+
+    <!-- Fast ramp rate used when a large brightness change is needed -->
     <integer name="config_brightness_ramp_rate_fast">40</integer>
+    <!-- Slow ramp rate used for gradual, smooth brightness transitions -->
     <integer name="config_brightness_ramp_rate_slow">12</integer>
+
+
+    <!-- ============================================================
+         3. AUTO-BRIGHTNESS — Adjustment & Timing
+         Fine-tuning parameters for sensor responsiveness,
+         user-adjustment limits, and short-term model retention.
+         ============================================================ -->
+
+    <!-- Maximum gamma multiplier applied by user brightness adjustment (200 % = 2×) -->
     <fraction name="config_autoBrightnessAdjustmentMaxGamma">200%</fraction>
+
+    <!-- How long (ms) the short-term brightness model persists without new input -->
+    <!-- 300 000 ms = 5 minutes -->
     <integer name="config_autoBrightnessShortTermModelTimeout">300000</integer>
+
+    <!-- Delay (ms) before reacting to a brightening light event (reduces flicker) -->
     <integer name="config_autoBrightnessBrighteningLightDebounce">5000</integer>
+    <!-- Delay (ms) before reacting to a darkening light event -->
     <integer name="config_autoBrightnessDarkeningLightDebounce">8000</integer>
+
+    <!-- Light-sensor sampling rate (ms) during the initial warm-up window -->
     <integer name="config_autoBrightnessInitialLightSensorRate">500</integer>
+    <!-- Light-sensor sampling rate (ms) during normal steady-state operation -->
     <integer name="config_autoBrightnessLightSensorRate">1000</integer>
-    <integer-array name="config_screenBrightnessBacklight">
-        <item>1</item>
-        <item>255</item>
-    </integer-array>
-    <array name="config_screenBrightnessNits">
-        <item>2.0</item>
-        <item>420.0</item>
-    </array>
+
+
+    <!-- ============================================================
+         4. AUTO-BRIGHTNESS — Brightness Curve (Active)
+         Maps ambient lux levels to display output in nits.
+         config_autoBrightnessLevels defines N lux thresholds;
+         config_autoBrightnessDisplayValuesNits must have N+1 entries
+         (one value per lux band, including the lowest band).
+         ============================================================ -->
+
+    <!-- Lux thresholds that delimit each brightness band -->
     <integer-array name="config_autoBrightnessLevels">
-        <item>25</item>
-        <item>50</item>
-        <item>100</item>
-        <item>180</item>
-        <item>320</item>
-        <item>500</item>
-        <item>800</item>
-        <item>1300</item>
-        <item>2200</item>
-        <item>3800</item>
-        <item>6000</item>
+        <item>25</item>     <!-- 0 – 25 lux    : dark room           -->
+        <item>50</item>     <!-- 25 – 50 lux   : dim indoor          -->
+        <item>100</item>    <!-- 50 – 100 lux  : normal indoor       -->
+        <item>180</item>    <!-- 100 – 180 lux : bright indoor       -->
+        <item>320</item>    <!-- 180 – 320 lux : overcast outdoor    -->
+        <item>500</item>    <!-- 320 – 500 lux : cloudy outdoor      -->
+        <item>800</item>    <!-- 500 – 800 lux : bright outdoor      -->
+        <item>1300</item>   <!-- 800 – 1300 lux                      -->
+        <item>2200</item>   <!-- 1300 – 2200 lux                     -->
+        <item>3800</item>   <!-- 2200 – 3800 lux                     -->
+        <item>6000</item>   <!-- 3800 – 6000 lux                     -->
     </integer-array>
+
+    <!-- Target display luminance (nits) for each lux band (12 entries for 11 thresholds) -->
     <array name="config_autoBrightnessDisplayValuesNits">
-        <item>10.0</item>
-        <item>20.0</item>
-        <item>45.0</item>
-        <item>80.0</item>
-        <item>120.0</item>
-        <item>165.0</item>
-        <item>215.0</item>
-        <item>270.0</item>
-        <item>330.0</item>
-        <item>375.0</item>
-        <item>400.0</item>
-        <item>420.0</item>
+        <item>10.0</item>   <!-- ≤ 25 lux    -->
+        <item>20.0</item>   <!-- ≤ 50 lux    -->
+        <item>45.0</item>   <!-- ≤ 100 lux   -->
+        <item>80.0</item>   <!-- ≤ 180 lux   -->
+        <item>120.0</item>  <!-- ≤ 320 lux   -->
+        <item>165.0</item>  <!-- ≤ 500 lux   -->
+        <item>215.0</item>  <!-- ≤ 800 lux   -->
+        <item>270.0</item>  <!-- ≤ 1300 lux  -->
+        <item>330.0</item>  <!-- ≤ 2200 lux  -->
+        <item>375.0</item>  <!-- ≤ 3800 lux  -->
+        <item>400.0</item>  <!-- ≤ 6000 lux  -->
+        <item>420.0</item>  <!-- > 6000 lux  -->
     </array>
 
+
+    <!-- ============================================================
+         5. AUTO-BRIGHTNESS — Brightness Curve (Idle / Doze)
+         Same lux-to-nits mapping used when the screen is in
+         always-on or idle state; values are lower to save power.
+         ============================================================ -->
+
+    <!-- Lux thresholds for idle mode (mirrors active curve) -->
     <integer-array name="config_autoBrightnessLevelsIdle">
         <item>25</item>
         <item>50</item>
@@ -78,187 +113,498 @@
         <item>3800</item>
         <item>6000</item>
     </integer-array>
+
+    <!-- Target display luminance (nits) in idle mode — lower than active curve -->
     <array name="config_autoBrightnessDisplayValuesNitsIdle">
-        <item>7.0</item>
-        <item>16.0</item>
-        <item>38.0</item>
-        <item>70.0</item>
-        <item>110.0</item>
-        <item>155.0</item>
-        <item>205.0</item>
-        <item>260.0</item>
-        <item>320.0</item>
-        <item>365.0</item>
-        <item>395.0</item>
-        <item>420.0</item>
+        <item>7.0</item>    <!-- ≤ 25 lux    -->
+        <item>16.0</item>   <!-- ≤ 50 lux    -->
+        <item>38.0</item>   <!-- ≤ 100 lux   -->
+        <item>70.0</item>   <!-- ≤ 180 lux   -->
+        <item>110.0</item>  <!-- ≤ 320 lux   -->
+        <item>155.0</item>  <!-- ≤ 500 lux   -->
+        <item>205.0</item>  <!-- ≤ 800 lux   -->
+        <item>260.0</item>  <!-- ≤ 1300 lux  -->
+        <item>320.0</item>  <!-- ≤ 2200 lux  -->
+        <item>365.0</item>  <!-- ≤ 3800 lux  -->
+        <item>395.0</item>  <!-- ≤ 6000 lux  -->
+        <item>420.0</item>  <!-- > 6000 lux  -->
     </array>
+
+
+    <!-- ============================================================
+         6. SCREEN BRIGHTNESS — Absolute Settings (Integer 0–255)
+         Hardware backlight range and default/dim/doze levels.
+         ============================================================ -->
+
+    <!-- Minimum backlight level (1 = lowest non-zero hardware step) -->
     <integer name="config_screenBrightnessSettingMinimum">1</integer>
+    <!-- Maximum backlight level (255 = full brightness) -->
     <integer name="config_screenBrightnessSettingMaximum">255</integer>
+    <!-- Default backlight level on first boot (~40 % of maximum) -->
     <integer name="config_screenBrightnessSettingDefault">102</integer>
+    <!-- Backlight level when the screen enters dim mode -->
     <integer name="config_screenBrightnessDim">1</integer>
+    <!-- Backlight level during doze / always-on display -->
     <integer name="config_screenBrightnessDoze">1</integer>
+
+    <!-- Hardware backlight-to-physical-brightness mapping endpoints -->
+    <integer-array name="config_screenBrightnessBacklight">
+        <item>1</item>    <!-- Minimum hardware backlight value -->
+        <item>255</item>  <!-- Maximum hardware backlight value -->
+    </integer-array>
+
+    <!-- Physical brightness (nits) at the backlight endpoints above -->
+    <array name="config_screenBrightnessNits">
+        <item>2.0</item>    <!-- Nits at minimum backlight -->
+        <item>420.0</item>  <!-- Nits at maximum backlight (peak luminance) -->
+    </array>
+
+
+    <!-- ============================================================
+         7. SCREEN BRIGHTNESS — Floating-Point Settings (0.0–1.0)
+         Normalized float equivalents used by newer display APIs.
+         ============================================================ -->
+
+    <!-- Minimum brightness as a float (≈ 0.4 % of full scale) -->
     <item name="config_screenBrightnessSettingMinimumFloat"
           format="float" type="dimen">0.004</item>
+    <!-- Maximum brightness as a float (100 %) -->
     <item name="config_screenBrightnessSettingMaximumFloat"
           format="float" type="dimen">1.0</item>
+    <!-- Default brightness as a float (40 %) -->
     <item name="config_screenBrightnessSettingDefaultFloat"
           format="float" type="dimen">0.4</item>
+    <!-- Dim-mode brightness as a float -->
     <item name="config_screenBrightnessDimFloat"
           format="float" type="dimen">0.004</item>
+    <!-- Doze-mode brightness as a float (screen effectively off) -->
     <item name="config_screenBrightnessDozeFloat"
           format="float" type="dimen">0.0</item>
+
+
+    <!-- ============================================================
+         8. NIGHT DISPLAY (Blue-Light Filter)
+         Availability flag and color-temperature range/default
+         for the Night Display / Eye Comfort feature.
+         ============================================================ -->
+
+    <!-- Enable Night Display (blue-light reduction) feature -->
     <bool name="config_nightDisplayAvailable">true</bool>
+    <!-- Use GPU-accelerated color transforms for Night Display -->
     <bool name="config_setColorTransformAccelerated">true</bool>
+    <!-- Warmest color temperature (K) — maximum orange tint -->
     <integer name="config_nightDisplayColorTemperatureMin">1600</integer>
+    <!-- Coolest color temperature (K) allowed in Night Display range -->
     <integer name="config_nightDisplayColorTemperatureMax">4082</integer>
+    <!-- Default color temperature (K) when Night Display is first enabled -->
     <integer name="config_nightDisplayColorTemperatureDefault">2650</integer>
+
+
+    <!-- ============================================================
+         9. DISPLAY REFRESH RATE
+         ============================================================ -->
+
+    <!-- Default refresh rate used for general UI rendering (Hz) -->
     <integer name="config_defaultRefreshRate">60</integer>
+    <!-- Peak refresh rate allowed by the hardware (Hz) -->
     <integer name="config_defaultPeakRefreshRate">60</integer>
+
+
+    <!-- ============================================================
+         10. POWER MANAGEMENT
+         Controls auto power modes, proximity suspend,
+         and screen-on behavior on charger unplug.
+         ============================================================ -->
+
+    <!-- Enable auto power-saving modes (Doze, App Standby, etc.) -->
     <bool name="config_enableAutoPowerModes">true</bool>
+    <!-- Use the motion sensor to determine power mode transitions -->
     <bool name="config_autoPowerModeUseMotionSensor">false</bool>
+
+    <!-- Turn the screen on when the charger is unplugged -->
     <bool name="config_unplugTurnsOnScreen">true</bool>
+
+    <!-- Decouple auto-suspend from display state (allows CPU to suspend independently) -->
+    <bool name="config_powerDecoupleAutoSuspendModeFromDisplay">true</bool>
+    <!-- Keep interactive mode tied to display state -->
+    <bool name="config_powerDecoupleInteractiveModeFromDisplay">false</bool>
+    <!-- Suspend the CPU when the screen turns off due to a proximity event (e.g. during a call) -->
+    <bool name="config_suspendWhenScreenOffDueToProximity">true</bool>
+
+
+    <!-- ============================================================
+         11. DOZE / ALWAYS-ON DISPLAY
+         ============================================================ -->
+
+    <!-- Component that implements the Doze service -->
     <string name="config_dozeComponent" translatable="false">
         com.android.systemui/com.android.systemui.doze.DozeService
     </string>
+    <!-- Do not enter Doze immediately after screen off by default -->
     <bool name="config_dozeAfterScreenOffByDefault">false</bool>
+    <!-- Always-on display (AOD) is not available on this device -->
     <bool name="config_dozeAlwaysOnDisplayAvailable">false</bool>
+    <!-- Screen does not blank (go fully black) when entering Doze -->
     <bool name="config_displayBlanksAfterDoze">false</bool>
+
+
+    <!-- ============================================================
+         12. DAYDREAM / SCREENSAVER
+         ============================================================ -->
+
+    <!-- Screensaver (Daydream) feature is supported -->
     <bool name="config_dreamsSupported">true</bool>
+    <!-- Screensaver is disabled by default -->
     <bool name="config_dreamsEnabledByDefaultConfig">false</bool>
+    <!-- Screensaver does not activate automatically on sleep -->
     <bool name="config_dreamsActivatedOnSleepByDefaultConfig">false</bool>
+    <!-- Screensaver is not allowed while running on battery -->
     <bool name="config_dreamsEnabledOnBatteryConfig">false</bool>
-    <bool name="config_powerDecoupleAutoSuspendModeFromDisplay">true</bool>
-    <bool name="config_powerDecoupleInteractiveModeFromDisplay">false</bool>
-    <bool name="config_suspendWhenScreenOffDueToProximity">true</bool>
+
+
+    <!-- ============================================================
+         13. DATABASE (SQLite) SETTINGS
+         Performance tuning for the system SQLite journal and sync modes.
+         ============================================================ -->
+
+    <!-- Use in-memory journal mode for faster writes (no disk journal) -->
     <string name="db_default_journal_mode">MEMORY</string>
+    <!-- Disable fsync on default databases for performance -->
     <string name="db_default_sync_mode">OFF</string>
+    <!-- Disable fsync on WAL-mode databases for performance -->
     <string name="db_wal_sync_mode">OFF</string>
+
+
+    <!-- ============================================================
+         14. SURFACEFLINGER RENDERING
+         ============================================================ -->
+
+    <!-- Enable slow-blur rendering path in SurfaceFlinger -->
     <bool name="config_sf_slowBlur">true</bool>
+    <!-- Limit alpha compositing in SurfaceFlinger (power saving) -->
     <bool name="config_sf_limitedAlpha">true</bool>
+
+
+    <!-- ============================================================
+         15. TELEPHONY — SIM & Radio Capabilities
+         ============================================================ -->
+
+    <!-- Number of physical SIM card slots -->
     <integer name="config_num_physical_slots">2</integer>
+    <!-- Device supports voice calls -->
     <bool name="config_voice_capable">true</bool>
+    <!-- Device supports SMS messaging -->
     <bool name="config_sms_capable">true</bool>
+    <!-- Device supports hot-swap SIM removal/insertion without reboot -->
     <bool name="config_hotswapCapable">true</bool>
+
+    <!-- Supported radio access families (LTE and WCDMA/UMTS) -->
     <string name="config_radio_access_family" translatable="false">LTE,WCDMA</string>
+
+
+    <!-- ============================================================
+         16. TELEPHONY — VoLTE / VoWiFi / IMS
+         ============================================================ -->
+
+    <!-- Carrier supports VoLTE (Voice over LTE) -->
     <bool name="config_carrier_volte_available">true</bool>
+    <!-- Device hardware supports VoLTE -->
     <bool name="config_device_volte_available">true</bool>
+    <!-- Device hardware supports Video Telephony (VT) over IMS -->
     <bool name="config_device_vt_available">true</bool>
+    <!-- Carrier supports Wi-Fi Calling (WFC) via IMS -->
     <bool name="config_carrier_wfc_ims_available">true</bool>
+    <!-- Device hardware supports Wi-Fi Calling -->
     <bool name="config_device_wfc_ims_available">true</bool>
+
+    <!-- Speed up audio path setup on mobile-terminated calls -->
     <bool name="config_speed_up_audio_on_mt_calls">true</bool>
+    <!-- Do not switch phones on voice registration state change -->
     <bool name="config_switch_phone_on_voice_reg_state_change">false</bool>
+    <!-- Use standard audio mode (not VoIP mode) for IMS calls -->
     <bool name="config_use_voip_mode_for_ims">false</bool>
+
+    <!-- Automatically fall back to voice/SMS if data connection drops during a call -->
     <bool name="config_voice_data_sms_auto_fallback">true</bool>
+
+    <!-- SMS encoding: use GSM-7 (false) instead of UTF-8 -->
     <bool name="config_sms_utf8_support">false</bool>
+    <!-- Enable workaround for video-call pause/resume interoperability issues -->
     <bool name="config_useVideoPauseWorkaround">true</bool>
+
+    <!-- System service package providing audio intelligence (Qualcomm CNE) -->
     <string name="config_systemAudioIntelligence"
             translatable="false">com.qualcomm.qti.cne</string>
+
+
+    <!-- ============================================================
+         17. CONNECTIVITY — Network Attributes
+         Defines available network types, their priorities, and
+         whether they can be reused across different requests.
+         Format: name, type, radio, priority, restoreTime, dependsMobileData
+         ============================================================ -->
     <string-array translatable="false" name="networkAttributes">
-        <item>wifi,1,1,1,-1,true</item>
-        <item>mobile,0,0,0,-1,true</item>
-        <item>mobile_mms,2,0,4,60000,true</item>
-        <item>mobile_supl,3,0,2,60000,true</item>
-        <item>mobile_dun,4,0,2,60000,true</item>
-        <item>mobile_hipri,5,0,3,60000,true</item>
-        <item>mobile_fota,10,0,2,60000,true</item>
-        <item>mobile_ims,11,0,2,60000,true</item>
-        <item>mobile_cbs,12,0,2,60000,true</item>
-        <item>bluetooth,7,7,2,-1,true</item>
-        <item>mobile_emergency,15,0,5,-1,true</item>
-        <item>ethernet,9,9,9,-1,true</item>
+        <item>wifi,1,1,1,-1,true</item>               <!-- Wi-Fi               -->
+        <item>mobile,0,0,0,-1,true</item>              <!-- Default mobile data -->
+        <item>mobile_mms,2,0,4,60000,true</item>       <!-- MMS                 -->
+        <item>mobile_supl,3,0,2,60000,true</item>      <!-- SUPL (GPS assist)   -->
+        <item>mobile_dun,4,0,2,60000,true</item>       <!-- DUN / tethering     -->
+        <item>mobile_hipri,5,0,3,60000,true</item>     <!-- High-priority data  -->
+        <item>mobile_fota,10,0,2,60000,true</item>     <!-- Firmware OTA        -->
+        <item>mobile_ims,11,0,2,60000,true</item>      <!-- IMS / VoLTE         -->
+        <item>mobile_cbs,12,0,2,60000,true</item>      <!-- Cell Broadcast      -->
+        <item>bluetooth,7,7,2,-1,true</item>           <!-- Bluetooth PAN       -->
+        <item>mobile_emergency,15,0,5,-1,true</item>   <!-- Emergency calls     -->
+        <item>ethernet,9,9,9,-1,true</item>            <!-- Ethernet            -->
     </string-array>
+
+    <!-- Radio type attributes: radioType, priority -->
     <string-array translatable="false" name="radioAttributes">
-        <item>1,1</item>
-        <item>0,1</item>
-        <item>7,1</item>
+        <item>1,1</item>  <!-- Wi-Fi radio       -->
+        <item>0,1</item>  <!-- Mobile radio      -->
+        <item>7,1</item>  <!-- Bluetooth radio   -->
     </string-array>
+
+
+    <!-- ============================================================
+         18. CONNECTIVITY — Mobile TCP Buffer Sizes
+         Per-RAT TCP socket buffer sizes (bytes):
+         rmem_min, rmem_default, rmem_max, wmem_min, wmem_default, wmem_max
+         ============================================================ -->
     <string-array name="config_mobile_tcp_buffers">
         <item>lte:2097152,4194304,8388608,262144,524288,1048576</item>
-        <item>lte_ca:4096,6291456,12582912,4096,1048576,4194304</item>
+        <item>lte_ca:4096,6291456,12582912,4096,1048576,4194304</item>   <!-- LTE Carrier Aggregation -->
         <item>umts:4094,87380,1220608,4096,16384,1220608</item>
         <item>hspa:4094,87380,1220608,4096,16384,1220608</item>
         <item>hsdpa:4094,87380,1220608,4096,16384,1220608</item>
         <item>hsupa:4094,87380,1220608,4096,16384,1220608</item>
-        <item>hspap:4094,87380,1220608,4096,16384,1220608</item>
+        <item>hspap:4094,87380,1220608,4096,16384,1220608</item>         <!-- HSPA+               -->
         <item>edge:4093,26280,35040,4096,16384,35040</item>
         <item>gprs:4092,8760,11680,4096,8760,11680</item>
     </string-array>
+
+
+    <!-- ============================================================
+         19. CONNECTIVITY — Tethering & Location
+         ============================================================ -->
+
+    <!-- DHCP IP ranges assigned to tethered clients (start/end pairs per subnet) -->
     <string-array translatable="false" name="config_tether_dhcp_range">
-        <item>192.168.42.2</item>
-        <item>192.168.42.254</item>
-        <item>192.168.43.2</item>
-        <item>192.168.43.254</item>
-        <item>192.168.44.2</item>
-        <item>192.168.44.254</item>
-        <item>192.168.45.2</item>
-        <item>192.168.45.254</item>
+        <item>192.168.42.2</item>    <!-- Subnet 1 start -->
+        <item>192.168.42.254</item>  <!-- Subnet 1 end   -->
+        <item>192.168.43.2</item>    <!-- Subnet 2 start -->
+        <item>192.168.43.254</item>  <!-- Subnet 2 end   -->
+        <item>192.168.44.2</item>    <!-- Subnet 3 start -->
+        <item>192.168.44.254</item>  <!-- Subnet 3 end   -->
+        <item>192.168.45.2</item>    <!-- Subnet 4 start -->
+        <item>192.168.45.254</item>  <!-- Subnet 4 end   -->
     </string-array>
+
+    <!-- Network-switch notification type: 0 = silent / automatic -->
     <integer translatable="false" name="config_networkNotifySwitchType">0</integer>
+
+    <!-- Ordered list of packages that may provide location services -->
     <string-array name="config_locationProviderPackageNames" translatable="false">
-        <item>com.google.android.gms</item>
-        <item>com.android.location.fused</item>
+        <item>com.google.android.gms</item>          <!-- Google Play Services (primary) -->
+        <item>com.android.location.fused</item>      <!-- AOSP fused location provider   -->
     </string-array>
+
+    <!-- Package providing network-based location -->
     <string name="config_networkLocationProviderPackageName"
             translatable="false">com.google.android.gms</string>
+    <!-- Package providing the fused location provider -->
     <string name="config_fusedLocationProviderPackageName"
             translatable="false">com.google.android.gms</string>
+
+
+    <!-- ============================================================
+         20. ANIMATION DURATIONS
+         Standard system-wide animation speed presets (milliseconds).
+         ============================================================ -->
+
+    <!-- Short animations (e.g. fade transitions) -->
     <integer name="config_shortAnimTime">200</integer>
+    <!-- Medium animations (e.g. activity enter/exit) -->
     <integer name="config_mediumAnimTime">400</integer>
+    <!-- Long animations (e.g. complex shared-element transitions) -->
     <integer name="config_longAnimTime">500</integer>
+
+
+    <!-- ============================================================
+         21. NAVIGATION BAR
+         Visibility, movement, gesture hints, and opacity behavior.
+         ============================================================ -->
+
+    <!-- Show the software navigation bar -->
     <bool name="config_showNavigationBar">true</bool>
+    <!-- Allow the navigation bar to move (e.g. landscape rotation) -->
     <bool name="config_navBarCanMove">true</bool>
+    <!-- Apply a scrim (dim overlay) behind the navigation bar -->
     <bool name="config_navBarNeedsScrim">true</bool>
+    <!-- Disable tap-through behavior on the nav bar -->
     <bool name="config_navBarTapThrough">false</bool>
+    <!-- IME does not draw its own nav bar during input -->
     <bool name="config_imeDrawsImeNavBar">false</bool>
+    <!-- Always show the nav bar on the side edge during gesture navigation -->
     <bool name="config_navBarAlwaysShowOnSideEdgeGesture">true</bool>
+    <!-- Do not hide the nav bar when the keyboard is shown -->
     <bool name="config_hideNavBarForKeyboard">false</bool>
+    <!-- Allow seamless rotation even when the nav bar is moving -->
     <bool name="config_allowSeamlessRotationDespiteNavBarMoving">true</bool>
+    <!-- Show visual hints for gesture navigation -->
     <bool name="config_showGesturalNavigationHints">true</bool>
+
+    <!-- Navigation interaction mode: 2 = gesture navigation -->
     <integer name="config_navBarInteractionMode">2</integer>
+    <!-- Nav bar opacity mode: 0 = opaque -->
     <integer name="config_navBarOpacityMode">0</integer>
+
+    <!-- Inset reserved for the back-gesture swipe zone -->
     <dimen name="config_backGestureInset">18dp</dimen>
+    <!-- Scale factors for the back-gesture inset (small / normal / large sensitivity) -->
     <array name="config_backGestureInsetScales">
-        <item>0.75</item>
-        <item>1.00</item>
-        <item>1.33</item>
+        <item>0.75</item>   <!-- Narrow gesture zone  -->
+        <item>1.00</item>   <!-- Default gesture zone  -->
+        <item>1.33</item>   <!-- Wide gesture zone     -->
     </array>
+
+
+    <!-- ============================================================
+         22. DISPLAY — GESTURES & ROTATION
+         ============================================================ -->
+
+    <!-- Support double-tap to wake the screen -->
     <bool name="config_supportDoubleTapWake">true</bool>
+    <!-- Allow auto-rotation for all four orientations -->
     <bool name="config_allowAllRotations">true</bool>
+    <!-- Enable the auto-rotation feature -->
     <bool name="config_supportAutoRotation">true</bool>
+    <!-- Force windows to draw the status bar background themselves -->
     <bool name="config_forceWindowDrawsStatusBarBackground">true</bool>
+
+
+    <!-- ============================================================
+         23. LAUNCHER / SYSTEM SERVICES
+         ============================================================ -->
+
+    <!-- Enable the App Widget (home screen widgets) service -->
     <bool name="config_enableAppWidgetService">true</bool>
+    <!-- Enable the live wallpaper service -->
     <bool name="config_enableWallpaperService">true</bool>
+
+
+    <!-- ============================================================
+         24. AUDIO
+         ============================================================ -->
+
+    <!-- Use the kernel input-event subsystem to detect headphone jack -->
     <bool name="config_useDevInputEventForAudioJack">true</bool>
+    <!-- Support raw (unprocessed) audio capture source -->
     <bool name="config_supportAudioSourceUnprocessed">true</bool>
+    <!-- Camera shutter sound is NOT mandatory / forced -->
     <bool name="config_camera_sound_forced">false</bool>
+
+
+    <!-- ============================================================
+         25. NOTIFICATIONS
+         LED behavior, badging, and battery-level LED colors.
+         ============================================================ -->
+
+    <!-- Device has an attention / notification LED -->
     <bool name="config_useAttentionLight">true</bool>
+    <!-- Notification LED pulses even when the screen is on (intrusive) -->
     <bool name="config_intrusiveNotificationLed">true</bool>
+    <!-- Show notification badge counts on app icons -->
     <bool name="config_notificationBadging">true</bool>
+
+    <!-- Default LED on duration per blink cycle (ms) -->
     <integer name="config_defaultNotificationLedOn">1000</integer>
+    <!-- Default LED off duration per blink cycle (ms) -->
     <integer name="config_defaultNotificationLedOff">5000</integer>
+    <!-- Default notification LED color (ARGB: solid green) -->
     <color name="config_defaultNotificationColor">#FF00FF00</color>
-    <integer name="config_notificationsBatteryLowARGB">0xFFFF0000</integer>    <!-- Красный  -->
-    <integer name="config_notificationsBatteryMediumARGB">0xFF50FF00</integer> <!-- Жёлтый   -->
-    <integer name="config_notificationsBatteryFullARGB">0xFF00FF00</integer>   <!-- Зелёный  -->
+
+    <!-- Battery LED color when battery is low (red) -->
+    <integer name="config_notificationsBatteryLowARGB">0xFFFF0000</integer>
+    <!-- Battery LED color when battery is at medium charge (~green-yellow) -->
+    <integer name="config_notificationsBatteryMediumARGB">0xFF50FF00</integer>
+    <!-- Battery LED color when battery is fully charged (green) -->
+    <integer name="config_notificationsBatteryFullARGB">0xFF00FF00</integer>
+
+
+    <!-- ============================================================
+         26. HAPTICS (VIBRATION PATTERNS)
+         Each integer-array defines a vibration waveform as
+         alternating off/on durations in milliseconds.
+         ============================================================ -->
+
+    <!-- Enable haptic feedback for text selection handles -->
     <bool name="config_enableHapticTextHandle">true</bool>
+
+    <!-- Vibration pattern for long-press events: 50 ms on, 60 ms off, 61 ms on -->
+    <integer-array name="config_longPressVibePattern">
+        <item>0</item>   <!-- Initial delay (ms) -->
+        <item>50</item>  <!-- Vibrate (ms)        -->
+        <item>60</item>  <!-- Pause (ms)          -->
+        <item>61</item>  <!-- Vibrate (ms)        -->
+    </integer-array>
+
+    <!-- Vibration pattern for virtual key press: 100 ms on, 20 ms off, 30 ms on -->
+    <integer-array name="config_virtualKeyVibePattern">
+        <item>0</item>    <!-- Initial delay (ms) -->
+        <item>100</item>  <!-- Vibrate (ms)        -->
+        <item>20</item>   <!-- Pause (ms)          -->
+        <item>30</item>   <!-- Vibrate (ms)        -->
+    </integer-array>
+
+    <!-- Vibration pattern for keyboard tap: single 40 ms pulse -->
+    <integer-array name="config_keyboardTapVibePattern">
+        <item>40</item>  <!-- Vibrate (ms) -->
+    </integer-array>
+
+
+    <!-- ============================================================
+         27. MISCELLANEOUS
+         ============================================================ -->
+
+    <!-- Battery SD card accessibility: not accessible during low-battery state -->
     <bool name="config_batterySdCardAccessibility">false</bool>
+    <!-- Show a USB charging notification when plugged in -->
     <bool name="config_usbChargingMessage">true</bool>
+
+    <!-- NTP polling interval: 64 800 000 ms = 18 hours -->
     <integer name="config_ntpPollingInterval">64800000</integer>
+    <!-- NTP request timeout (ms) -->
     <integer name="config_ntpTimeout">5000</integer>
+
+    <!-- Default autofill service package (Google Autofill) -->
     <string name="config_defaultAutofillService" translatable="false">
         com.google.android.gms/.autofill.service.AutofillService
     </string>
+
+    <!-- Low-memory killer free-memory floor: -1 = use kernel default -->
     <integer name="config_lowMemoryKillerMinFreeKbytesAbsolute">-1</integer>
+    <!-- Adjustment to the LMK free-memory threshold (0 = no change) -->
     <integer name="config_lowMemoryKillerMinFreeKbytesAdjust">0</integer>
+    <!-- Extra free-memory adjustment for general allocation pressure (0 = no change) -->
     <integer name="config_extraFreeKbytesAdjust">0</integer>
+
+    <!-- Enable performant (low-latency) authentication path by default -->
     <bool name="config_performantAuthDefault">true</bool>
+
+    <!-- Enable freeform (floating) window management mode -->
     <bool name="config_freeformWindowManagement">true</bool>
+
+    <!-- Files to pin in memory by the PinnerService for fast startup -->
     <string-array translatable="false" name="config_defaultPinnerServiceFiles">
         <item>/system/framework/framework.jar</item>
         <item>/system/framework/services.jar</item>
         <item>/apex/com.android.art/javalib/core-oj.jar</item>
         <item>/apex/com.android.art/javalib/core-libart.jar</item>
     </string-array>
+
+    <!-- Components that are forcibly disabled on this device -->
+    <!-- (Hotword, GMS persistent receiver, stats drop-box, Nearby Messages, Nearby Discovery) -->
     <string-array name="config_deviceDisabledComponents">
         <item>com.google.android.googlequicksearchbox/com.google.android.hotword.service.HotwordService</item>
         <item>com.google.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver</item>
@@ -266,19 +612,5 @@
         <item>com.google.android.gms/com.google.android.gms.nearby.messages.service.NearbyMessagesService</item>
         <item>com.google.android.gms/com.google.android.gms.nearby.discovery.service.DiscoveryService</item>
     </string-array>
-    <integer-array name="config_longPressVibePattern">
-        <item>0</item>
-        <item>50</item>
-        <item>60</item>
-        <item>61</item>
-    </integer-array>
-    <integer-array name="config_virtualKeyVibePattern">
-        <item>0</item>
-        <item>100</item>
-        <item>20</item>
-        <item>30</item>
-    </integer-array>
-    <integer-array name="config_keyboardTapVibePattern">
-        <item>40</item>
-    </integer-array>
+
 </resources>

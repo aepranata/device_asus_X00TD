@@ -16,7 +16,8 @@
 ** limitations under the License.
 */
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+<resources>
 
     <!-- the padding on the start of the statusbar -->
     <dimen name="status_bar_padding_start">2dp</dimen>

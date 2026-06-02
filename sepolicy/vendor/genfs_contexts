@@ -1,50 +1,49 @@
-# Allow kernel to read persist partition
-genfscon ext4 /persist																											u:object_r:persist_file:s0
-
-# DeviceSettings
-genfscon sysfs /devices/virtual/graphics/fb0/measured_fps																		u:object_r:sysfs_fpsinfo:s0
-genfscon sysfs /class/graphics/fb0/measured_fps																					u:object_r:sysfs_fpsinfo:s0
-
 # Double tap to wake
-genfscon proc /tpd_gesture																										u:object_r:proc_tpd_gesture:s0
-
-# GPU / KGSL freq
-genfscon sysfs /class/kgsl/kgsl-3d0/devfreq																						u:object_r:sysfs_kgsl:s0
-genfscon sysfs /class/kgsl/kgsl-3d0/max_gpu_clk																					u:object_r:sysfs_kgsl:s0
-genfscon sysfs /class/kgsl/kgsl-3d0/min_pwrlevel																				u:object_r:sysfs_kgsl:s0
-genfscon sysfs /class/kgsl/kgsl-3d0/max_pwrlevel																				u:object_r:sysfs_kgsl:s0
+genfscon proc /tpd_gesture u:object_r:proc_tpd_gesture:s0
 
 # kmsg
-genfscon proc /last_kmsg																										u:object_r:proc_last_kmsg:s0
+genfscon proc /last_kmsg u:object_r:proc_last_kmsg:s0
 
 # LED
-genfscon sysfs /devices/platform/soc/800f000.qcom,spmi/spmi-0/spmi0-03/800f000.qcom,spmi:qcom,pm660l@3:qcom,leds@d000/leds		u:object_r:sysfs_graphics:s0
+genfscon sysfs /devices/platform/soc/800f000.qcom,spmi/spmi-0/spmi0-03/800f000.qcom,spmi:qcom,pm660l@3:qcom,leds@d000/leds u:object_r:sysfs_graphics:s0
 
 # Power
-genfscon sysfs /devices/virtual/graphics/fb0																					u:object_r:sysfs_graphics:s0
-genfscon sysfs /devices/virtual/graphics/fb1																					u:object_r:sysfs_graphics:s0
-genfscon sysfs /devices/virtual/graphics/fb2																					u:object_r:sysfs_graphics:s0
-genfscon sysfs /devices/platform/soc/soc:qcom,gpubw																				u:object_r:sysfs_devfreq:s0
-genfscon sysfs /devices/platform/soc/soc:qcom,cpubw																				u:object_r:sysfs_devfreq:s0
+genfscon sysfs /devices/virtual/graphics/fb0 u:object_r:sysfs_graphics:s0
+genfscon sysfs /devices/virtual/graphics/fb1 u:object_r:sysfs_graphics:s0
+genfscon sysfs /devices/virtual/graphics/fb2 u:object_r:sysfs_graphics:s0
+genfscon sysfs /devices/platform/soc/soc:qcom,gpubw u:object_r:sysfs_devfreq:s0
+genfscon sysfs /devices/platform/soc/soc:qcom,cpubw u:object_r:sysfs_devfreq:s0
 
-# Scheduler parameters
-genfscon proc /sys/kernel/sched_boost																							u:object_r:proc_sched:s0
-genfscon proc /sys/kernel/sched_upmigrate																						u:object_r:proc_sched:s0
-genfscon proc /sys/kernel/sched_downmigrate																						u:object_r:proc_sched:s0
+# DeviceSettings
+genfscon sysfs /devices/virtual/graphics/fb0/measured_fps u:object_r:sysfs_fpsinfo:s0
+genfscon sysfs /class/graphics/fb0/measured_fps u:object_r:sysfs_fpsinfo:s0
 
 # wakeup nodes
-genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/active_count														u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/active_time_ms														u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/event_count															u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/expire_count														u:object_r:sysfs_wakeup:s0
-genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/last_change_ms														u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/active_count u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/active_time_ms u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/event_count u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/expire_count u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/last_change_ms u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/max_time_ms u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/name u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/prevent_suspend_time_ms u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/total_time_ms u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/virtual/wakeup/wakeup[0-101][0-101]/wakeup_count u:object_r:sysfs_wakeup:s0
 
-# Zram
-genfscon sysfs /block/zram0/disksize      u:object_r:sysfs_zram:s0
+# Scheduler parameters
+genfscon proc /sys/kernel/sched_boost u:object_r:proc_sched:s0
+genfscon proc /sys/kernel/sched_upmigrate u:object_r:proc_sched:s0
+genfscon proc /sys/kernel/sched_downmigrate u:object_r:proc_sched:s0
+
+genfscon sysfs /block/zram0/disksize u:object_r:sysfs_zram:s0
 genfscon sysfs /block/zram0/comp_algorithm u:object_r:sysfs_zram:s0
 genfscon sysfs /block/zram0/max_comp_streams u:object_r:sysfs_zram:s0
+
+# GPU / KGSL freq
+genfscon sysfs /class/kgsl/kgsl-3d0/devfreq u:object_r:sysfs_kgsl:s0
+genfscon sysfs /class/kgsl/kgsl-3d0/max_gpu_clk u:object_r:sysfs_kgsl:s0
+genfscon sysfs /class/kgsl/kgsl-3d0/min_pwrlevel u:object_r:sysfs_kgsl:s0
+genfscon sysfs /class/kgsl/kgsl-3d0/max_pwrlevel u:object_r:sysfs_kgsl:s0
+
+# Allow kernel to read persist partition
+genfscon ext4 /persist u:object_r:persist_file:s0

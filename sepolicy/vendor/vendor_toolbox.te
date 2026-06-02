@@ -13,39 +13,39 @@ allow vendor_toolbox rootfs:dir r_dir_perms;
 
 # Allow vendor_toolbox to remove "security.*" xattrs from /mnt/vendor/persist
 allow vendor_toolbox {
-    mnt_vendor_file
-    persist_alarm_file
-    persist_block_device
-    persist_bluetooth_file
-    persist_bms_file
-    persist_display_file
-    persist_drm_file
-    persist_file
-    persist_hvdcp_file
-    persist_misc_file
-    persist_qti_fp_file
-    persist_rfs_file
-    persist_rfs_shared_hlos_file
-    persist_secnvm_file
-    persist_time_file
-    persist_vpp_file
-    regionalization_file
-    rfs_file
-    rfs_shared_hlos_file
-    sensors_persist_file
-    unlabeled
-    vendor_persist_mmi_file
+ mnt_vendor_file
+ persist_alarm_file
+ persist_block_device
+ persist_bluetooth_file
+ persist_bms_file
+ persist_display_file
+ persist_drm_file
+ persist_file
+ persist_hvdcp_file
+ persist_misc_file
+ persist_qti_fp_file
+ persist_rfs_file
+ persist_rfs_shared_hlos_file
+ persist_secnvm_file
+ persist_time_file
+ persist_vpp_file
+ regionalization_file
+ rfs_file
+ rfs_shared_hlos_file
+ sensors_persist_file
+ unlabeled
+ vendor_persist_mmi_file
 }:dir { r_dir_perms setattr };
 
 # Allow vendor_toolbox to read from /mnt/vendor/persist
 allow vendor_toolbox {
-    mnt_vendor_file
-    persist_alarm_file
-    persist_drm_file
-    persist_rfs_file
-    persist_time_file
-    regionalization_file
-    sensors_persist_file
+ mnt_vendor_file
+ persist_alarm_file
+ persist_drm_file
+ persist_rfs_file
+ persist_time_file
+ regionalization_file
+ sensors_persist_file
 }:file { r_file_perms };
 
 dontaudit vendor_toolbox self:capability { dac_read_search };

@@ -1,18 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Display -->
+    <!-- ============================================================ -->
+    <!-- DISPLAY SETTINGS                                             -->
+    <!-- Controls smooth display, color temperature, and color modes  -->
+    <!-- ============================================================ -->
+
+    <!-- Show the Smooth Display (high refresh rate) toggle in Settings -->
     <bool name="config_show_smooth_display">true</bool>
+
+    <!-- Enable the color temperature (warm/cool tint) adjustment option in display settings -->
+    <bool name="config_enableColorTemperature">true</bool>
+
+    <!-- Show the Night Light feature suggestion to the user (e.g., onboarding prompt) -->
+    <bool name="config_night_light_suggestion_enabled">true</bool>
+
+    <!-- List of color modes available for this device in display settings.
+         0 = COLOR_MODE_NATURAL  : Accurate, true-to-life colors
+         1 = COLOR_MODE_BOOSTED  : Enhanced, more saturated colors -->
     <integer-array name="config_availableColorModes">
         <item>0</item> <!-- COLOR_MODE_NATURAL -->
         <item>1</item> <!-- COLOR_MODE_BOOSTED -->
     </integer-array>
 
-    <!-- Color & Night Light -->
-    <bool name="config_enableColorTemperature">true</bool>
-    <bool name="config_night_light_suggestion_enabled">true</bool>
 
-    <!-- Haptics -->
+    <!-- ============================================================ -->
+    <!-- VIBRATION SETTINGS                                           -->
+    <!-- Controls the granularity of vibration intensity adjustment   -->
+    <!-- ============================================================ -->
+
+    <!-- Number of discrete vibration intensity levels supported by this device.
+         2 = two steps (e.g., Low and High, or Off and On).
+         Higher values allow finer-grained vibration control in Settings. -->
     <integer name="config_vibration_supported_intensity_levels">2</integer>
 
 </resources>

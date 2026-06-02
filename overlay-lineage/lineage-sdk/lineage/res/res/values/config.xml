@@ -1,101 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright (C) 2015-2016 The CyanogenMod Project
-                   2017-2020 The LineageOS Project
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-          http://www.apache.org/licenses/LICENSE-2.0
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
 <resources>
+
+    <!-- ============================================================ -->
+    <!-- PROXIMITY SENSOR                                             -->
+    <!-- Controls proximity checks when waking the device            -->
+    <!-- ============================================================ -->
+
+    <!-- Enable proximity sensor check on wake to prevent accidental touch -->
     <bool name="config_proximityCheckOnWake">true</bool>
+
+    <!-- Timeout (in ms) for the proximity check before allowing wake -->
     <integer name="config_proximityCheckTimeout">100</integer>
+
+    <!-- Whether proximity check on wake is enabled by default -->
     <bool name="config_proximityCheckOnWakeEnabledByDefault">true</bool>
 
 
+    <!-- ============================================================ -->
+    <!-- DOUBLE-TAP TO SLEEP (DT2S) GESTURE                          -->
+    <!-- Allows the user to put the screen to sleep by double-tapping -->
+    <!-- ============================================================ -->
+
+    <!-- Whether the double-tap-to-sleep gesture is supported on this device -->
     <bool name="config_dt2sGestureAvailable">true</bool>
+
+    <!-- Whether the DT2S gesture is enabled by default -->
     <bool name="config_dt2sGestureEnabledByDefault">true</bool>
 
 
+    <!-- ============================================================ -->
+    <!-- LIVE DISPLAY / COLOR TEMPERATURE                             -->
+    <!-- Controls adaptive display color based on time and lighting   -->
+    <!-- ============================================================ -->
+
+    <!-- Master switch to enable/disable LiveDisplay -->
     <bool name="config_enableLiveDisplay">false</bool>
-    
+
+    <!-- Color temperature (in Kelvin) during daytime (neutral/cool white) -->
     <integer name="config_dayColorTemperature">6500</integer>
+
+    <!-- Color temperature (in Kelvin) at night (warmer tone to reduce eye strain) -->
     <integer name="config_nightColorTemperature">4800</integer>
+
+    <!-- Minimum color temperature the user can set -->
     <integer name="config_minColorTemperature">1000</integer>
+
+    <!-- Maximum color temperature the user can set -->
     <integer name="config_maxColorTemperature">10000</integer>
-    
+
+    <!-- Ambient lux level at which outdoor mode activates -->
     <integer name="config_outdoorAmbientLux">12000</integer>
+
+    <!-- Hysteresis margin (lux) to prevent rapid outdoor mode toggling -->
     <integer name="config_outdoorAmbientLuxHysteresis">1500</integer>
-    
+
+    <!-- Enable automatic contrast adjustment -->
     <bool name="config_defaultAutoContrast">true</bool>
+
+    <!-- Enable automatic outdoor mode (boosts brightness in bright environments) -->
     <bool name="config_defaultAutoOutdoorMode">true</bool>
+
+    <!-- Enable color enhancement for richer display colors -->
     <bool name="config_defaultColorEnhancement">true</bool>
+
+    <!-- Enable Content-Adaptive Brightness Control (CABC) for power savings -->
     <bool name="config_defaultCABC">true</bool>
+
+    <!-- Enable anti-flicker mode (reduces PWM flicker at low brightness) -->
     <bool name="config_defaultAntiFlicker">false</bool>
 
-
+    <!-- Bitmask of supported light capabilities on this device (235 = combined flags) -->
     <integer name="config_deviceLightCapabilities">235</integer>
 
 
+    <!-- ============================================================ -->
+    <!-- HARDWARE KEYS                                                -->
+    <!-- Bitmask and behavior configuration for physical buttons       -->
+    <!-- Key flag values: BACK=1, HOME=2, MENU=4, APP_SWITCH=16,     -->
+    <!--                  CAMERA=32, VOLUME=64                        -->
+    <!-- ============================================================ -->
+
+    <!-- Bitmask of hardware keys present on this device (64 = VOLUME) -->
     <integer name="config_deviceHardwareKeys">64</integer>
 
+    <!-- Bitmask of hardware keys that can wake the device (64 = VOLUME) -->
     <integer name="config_deviceHardwareWakeKeys">64</integer>
 
+    <!-- Action on long press of BACK key (0 = no action) -->
     <integer name="config_longPressOnBackBehavior">0</integer>
-    
+
+    <!-- Action on double tap of BACK key (0 = no action) -->
     <integer name="config_doubleTapOnBackBehavior">0</integer>
-    
+
+    <!-- Action on long press of HOME key (3 = launch assistant) -->
     <integer name="config_longPressOnHomeBehavior">3</integer>
-    
+
+    <!-- Action on double tap of HOME key (8 = launch camera) -->
     <integer name="config_doubleTapOnHomeBehavior">8</integer>
-    
+
+    <!-- Action on long press of MENU key (2 = launch search) -->
     <integer name="config_longPressOnMenuBehavior">2</integer>
+
+    <!-- Action on double tap of MENU key (0 = no action) -->
     <integer name="config_doubleTapOnMenuBehavior">0</integer>
-    
+
+    <!-- Action on long press of APP SWITCH key (9 = kill foreground app) -->
     <integer name="config_longPressOnAppSwitchBehavior">9</integer>
-    
+
+    <!-- Action on double tap of APP SWITCH key (8 = launch camera) -->
     <integer name="config_doubleTapOnAppSwitchBehavior">8</integer>
 
+    <!-- Timeout (in ms) before a held BACK key triggers app kill -->
     <integer name="config_backKillTimeout">1500</integer>
 
+
+    <!-- ============================================================ -->
+    <!-- BUTTON & KEYBOARD BRIGHTNESS                                  -->
+    <!-- Controls backlight for physical buttons and keyboard          -->
+    <!-- ============================================================ -->
+
+    <!-- Whether this device supports button backlight brightness control (0 = no) -->
     <integer name="config_deviceSupportsButtonBrightnessControl">0</integer>
+
+    <!-- Default button brightness level (0.0 = off) -->
     <dimen name="config_buttonBrightnessSettingDefaultFloat">0.0</dimen>
-    
+
+    <!-- Whether this device supports keyboard backlight brightness control (0 = no) -->
     <integer name="config_deviceSupportsKeyboardBrightnessControl">0</integer>
+
+    <!-- Default keyboard brightness level (0.0 = off) -->
     <dimen name="config_keyboardBrightnessSettingDefaultFloat">0.0</dimen>
 
 
+    <!-- ============================================================ -->
+    <!-- RESTART ACTIONS                                              -->
+    <!-- Defines the options shown in the power menu's restart dialog -->
+    <!-- ============================================================ -->
+
     <string-array name="config_restartActionsList">
-        <item>restart</item>
-        <item>restart_recovery</item>
-        <item>restart_bootloader</item>
-        <item>restart_systemui</item>
+        <item>restart</item>              <!-- Standard system restart -->
+        <item>restart_recovery</item>     <!-- Reboot into recovery mode -->
+        <item>restart_bootloader</item>   <!-- Reboot into bootloader/fastboot -->
+        <item>restart_systemui</item>     <!-- Restart SystemUI without full reboot -->
     </string-array>
 
 
+    <!-- ============================================================ -->
+    <!-- CHARGING CONTROL                                             -->
+    <!-- Smart charging settings to preserve battery health           -->
+    <!-- ============================================================ -->
+
+    <!-- Enable smart charging control feature -->
     <bool name="config_chargingControlEnabled">true</bool>
+
+    <!-- Default charging mode (1 = time-based scheduled charging) -->
     <integer name="config_defaultChargingControlMode">1</integer>
+
+    <!-- Default upper charge limit (%) to stop charging and preserve battery -->
     <integer name="config_defaultChargingControlLimit">95</integer>
+
+    <!-- Default time to start charging (seconds since midnight; 79200 = 10:00 PM) -->
     <integer name="config_defaultChargingControlStartTime">79200</integer>
+
+    <!-- Default target time to reach full charge (seconds since midnight; 21600 = 6:00 AM) -->
     <integer name="config_defaultChargingControlTargetTime">21600</integer>
+
+    <!-- Buffer time (in minutes) before target time to begin final charge phase -->
     <integer name="config_chargingControlTimeMargin">30</integer>
+
+    <!-- Minimum battery drop (%) below limit before recharging begins -->
     <integer name="config_chargingControlBatteryRechargeMargin">5</integer>
 
+    <!-- Whether this device supports wireless (Qi) charging -->
     <bool name="config_deviceSupportsWirelessCharging">false</bool>
 
 
+    <!-- ============================================================ -->
+    <!-- FINGERPRINT SENSOR                                           -->
+    <!-- Behavior settings for the in-display or physical fingerprint -->
+    <!-- ============================================================ -->
+
+    <!-- Allow fingerprint sensor to wake and unlock the device simultaneously -->
     <bool name="config_fingerprintWakeAndUnlock">true</bool>
 
+    <!-- Automatically remove unused/stale fingerprint enrollments -->
     <bool name="config_cleanupUnusedFingerprints">false</bool>
 
+    <!-- Run post-reset runnable for all fingerprint clients (advanced HAL option) -->
     <bool name="config_fingerprintPostResetRunnableForAllClients">false</bool>
 
 
+    <!-- ============================================================ -->
+    <!-- CAMERA AUX PACKAGES                                         -->
+    <!-- Allowlist/blocklist for apps that can access auxiliary cams  -->
+    <!-- ============================================================ -->
+
+    <!-- Apps allowed to access auxiliary (wide/tele/macro) camera lenses -->
     <string-array name="config_cameraAuxPackageAllowList" translatable="false">
         <item>org.codeaurora.snapcam</item>
         <item>com.android.MGC</item>
@@ -108,17 +208,26 @@
         <item>com.google.android.GoogleCameraGo</item>
         <item>com.google.android.GoogleCameraEng</item>
     </string-array>
-    
+
+    <!-- Apps explicitly excluded from accessing auxiliary camera lenses
+         (e.g., video-call apps that should only use the primary camera) -->
     <string-array name="config_cameraAuxPackageExcludeList" translatable="false">
         <item>org.telegram.messenger</item>
         <item>com.microsoft.teams</item>
         <item>com.discord</item>
-	    <item>org.thunderdog.challegram</item>
+        <item>org.thunderdog.challegram</item>  <!-- Telegram X -->
         <item>us.zoom.videomeetings</item>
-    </string-array> 
+    </string-array>
 
 
+    <!-- ============================================================ -->
+    <!-- DISPLAY & SECURITY                                           -->
+    <!-- ============================================================ -->
+
+    <!-- Indicate this device has a tall/narrow higher-aspect-ratio screen -->
     <bool name="config_haveHigherAspectRatioScreen">true</bool>
 
+    <!-- Whether to trust legacy (pre-Android 10) encryption implementations -->
     <bool name="config_trustLegacyEncryption">false</bool>
+
 </resources>

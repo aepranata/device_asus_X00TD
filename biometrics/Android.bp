@@ -1,22 +1,21 @@
 cc_binary {
-    name: "android.hardware.biometrics.fingerprint-service.X00TD",
-    init_rc: ["fingerprint-X00TD.rc"],
-    vintf_fragments: ["fingerprint-X00TD.xml"],
+    name: "android.hardware.biometrics.fingerprint-service.asus",
+    init_rc: ["fingerprint-asus.rc"],
+    vintf_fragments: ["fingerprint-asus.xml"],
     vendor: true,
     relative_install_path: "hw",
     srcs: [
         "BiometricsFingerprint.cpp",
         "service.cpp",
     ],
-
     shared_libs: [
         "libbase",
         "libbinder_ndk",
         "libcutils",
         "libhardware",
-        "libhidlbase",
         "liblog",
         "libutils",
+        "libhidlbase",
         "android.hardware.biometrics.fingerprint-V3-ndk",
         "android.hardware.biometrics.common-V3-ndk",
         "android.hardware.keymaster-V4-ndk",
@@ -29,5 +28,4 @@ cc_binary {
         "-Werror",
         "-Wextra",
     ],
-
 }

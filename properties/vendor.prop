@@ -2,7 +2,9 @@
 # vendor.prop for sdm660 (X00TD/X01BD Optimized)
 #
 
+# ═══════════════════════════════════════════════════════════════
 # Audio HAL
+# ═══════════════════════════════════════════════════════════════
 persist.vendor.audio.fluence.voicecall=true
 persist.vendor.audio.fluence.voicecomm=true
 persist.vendor.audio.fluence.voicerec=true
@@ -76,7 +78,9 @@ vendor.audio.volume.headset.gain.depcal=true
 vendor.audio.tunnel.encode=false
 vendor.voice.path.for.pcm.voip=true
 
+# ═══════════════════════════════════════════════════════════════
 # Bluetooth HAL
+# ═══════════════════════════════════════════════════════════════
 persist.vendor.bt.aac_frm_ctl.enabled=true
 persist.vendor.bluetooth.modem_nv_support=true
 persist.vendor.qcom.bluetooth.soc=cherokee
@@ -86,45 +90,63 @@ vendor.qcom.bluetooth.soc=cherokee
 vendor.bluetooth.soc=cherokee
 ro.vendor.bluetooth.wipower=false
 
+# ═══════════════════════════════════════════════════════════════
 # Camera HAL
+# ═══════════════════════════════════════════════════════════════
 persist.vendor.camera.preview.ubwc=0
 persist.vendor.camera.dual.isp.sync=0
 
+# ═══════════════════════════════════════════════════════════════
 # Display HAL & Graphics Hardware
+# ═══════════════════════════════════════════════════════════════
 vendor.display.disable_rotator_downscale=1
 sdm.debug.disable_skip_validate=1
 
+# ═══════════════════════════════════════════════════════════════
 # DRM
+# ═══════════════════════════════════════════════════════════════
 drm.service.enabled=true
 
+# ═══════════════════════════════════════════════════════════════
 # FM Radio
+# ═══════════════════════════════════════════════════════════════
 vendor.fm.a2dp.conc.disabled=false
 vendor.hw.fm.init=0
 
+# ═══════════════════════════════════════════════════════════════
 # FRP (Factory Reset Protection)
+# ═══════════════════════════════════════════════════════════════
 ro.frp.pst=/dev/block/bootdevice/by-name/frp
 
+# ═══════════════════════════════════════════════════════════════
 # Media / Video Codec HAL
+# ═══════════════════════════════════════════════════════════════
 media.settings.xml=/vendor/etc/media_profiles_vendor.xml
 vidc.enc.target_support_bframe=1
 vendor.vidc.enc.disable_bframes=0
 vendor.vidc.dec.enable.downscalar=1
 vendor.vidc.enc.disable.pq=true
 
+# ═══════════════════════════════════════════════════════════════
 # Network / Data HAL
+# ═══════════════════════════════════════════════════════════════
 persist.vendor.cne.feature=1
 persist.vendor.mwqem.enable=1
 persist.data.df.dev_name=rmnet_usb0
 persist.vendor.data.mode=concurrent
 ro.vendor.use_data_netmgrd=true
 
+# ═══════════════════════════════════════════════════════════════
 # Performance HAL
+# ═══════════════════════════════════════════════════════════════
 ro.vendor.extension_library=libqti-perfd-client.so
 ro.vendor.perf.scroll_opt=true
 ro.vendor.qti.am.reschedule_service=true
 ro.vendor.qti.va_aosp.support=1
 
+# ═══════════════════════════════════════════════════════════════
 # Radio / RIL HAL
+# ═══════════════════════════════════════════════════════════════
 persist.vendor.radio.apm_sim_not_pwdn=1
 persist.vendor.radio.custom_ecc=1
 persist.vendor.radio.data_con_rprt=1
@@ -137,19 +159,27 @@ persist.vendor.radio.is_wcdma_lteable=1
 persist.vendor.radio.add_power_save=1
 vendor.rild.libpath=/vendor/lib64/libril-qc-hal-qmi.so
 
+# ═══════════════════════════════════════════════════════════════
 # GPS HAL
+# ═══════════════════════════════════════════════════════════════
 persist.vendor.overlay.izat.optin=rro
 
+# ═══════════════════════════════════════════════════════════════
 # Sensors HAL
+# ═══════════════════════════════════════════════════════════════
 ro.vendor.sdk.sensors.gestures=false
 ro.vendor.sensors.cmc=false
 ro.vendor.sensors.facing=false
 
+# ═══════════════════════════════════════════════════════════════
 # SoC Info
+# ═══════════════════════════════════════════════════════════════
 ro.soc.manufacturer=QTI
 ro.soc.model=SDM660
 
+# ═══════════════════════════════════════════════════════════════
 # USB HAL
+# ═══════════════════════════════════════════════════════════════
 ro.usb.uvc.disable_video_encode_flag=true
 ro.usb.uvc.enabled=true
 vendor.usb.diag.func.name=diag
@@ -158,7 +188,9 @@ sys.usb.mtp.batchcancel=1
 vendor.usb.use_gadget_hal=1
 vendor.usb.uvc.payload_transfer_size=1024
 
+# ═══════════════════════════════════════════════════════════════
 # Shutdown
+# ═══════════════════════════════════════════════════════════════
 sys.vendor.shutdown.waittime=500
 
 # Incremental FS

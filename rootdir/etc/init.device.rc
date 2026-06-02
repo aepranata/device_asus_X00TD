@@ -31,7 +31,7 @@ on early-boot
      chown system system /dev/input/event4  # stk3xXx-light
      chown system system /dev/input/event5  # stk3xXx-proximity
      chown system system /dev/input/event6  # alt stk3xXx-proximity
-
+     
 on boot
     # Permissions for stk3x1x promiximity and light sensors
     chmod 0644 /sys/class/sensors/stk3x1x-proximity/sensors_enable

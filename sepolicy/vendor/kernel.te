@@ -1,2 +1,2 @@
-# IPC Router (qipcrtr_socket)
+# Ошибки создания сокетов IPC Router (qipcrtr_socket)
 allow kernel kernel:qipcrtr_socket create;
