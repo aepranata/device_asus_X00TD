@@ -46,3 +46,5 @@
 # Fingerprint
 /(vendor|system/vendor)/bin/hw/android\.hardware\.biometrics\.fingerprint-service\.X00TD		u:object_r:hal_fingerprint_default_exec:s0
 
+# Light HAL
+/(vendor|system/vendor)/bin/hw/android\.hardware\.light-service\.asus_X00TD u:object_r:hal_light_default_exec:s0
