@@ -18,10 +18,6 @@ PRODUCT_CHARACTERISTICS := nosdcard
 # Device Tree Path
 DEVICE_PATH := device/asus/X00TD
 
-# AdGuard CA Root Certificate
-PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/rootdir/etc/security/cacerts/0f4ed297.0:$(TARGET_COPY_OUT_SYSTEM)/etc/security/cacerts/0f4ed297.0
-
 # Audio
 PRODUCT_PACKAGES += \
     android.hardware.audio@7.1-impl \
@@ -543,24 +539,22 @@ PRODUCT_PACKAGES += \
 # Ramdisk
 PRODUCT_PACKAGES += \
     init.class_main.sh \
-    init.device.rc \
     init.qcom.post_boot.sh \
-    init.qti.dcvs.sh \
     init.qcom.sensors.sh \
     init.qcom.sh \
-    init.qcom.usb.sh
+    init.qti.dcvs.sh \
+    init.zram.sh \
+    init.zram_vm.sh
 
 PRODUCT_PACKAGES += \
-    fstab.qcom_ramdisk \
     fstab.qcom \
     init.qcom.asus.rc \
     init.qcom.rc \
-    init.msm.usb.configfs.rc \
-    init.qcom.usb.rc \
-    init.asus_parts.rc \
     init.recovery.qcom.rc \
+    init.sysfs_permissions.rc \
     init.target.rc \
-    ueventd.qcom.rc
+    ueventd.qcom.rc \
+    init.zram.rc
 
 # Seccomp
 PRODUCT_COPY_FILES += \
