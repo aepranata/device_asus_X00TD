@@ -14,35 +14,49 @@
  * limitations under the License.
  */
 
-#define LOG_TAG "android.hardware.biometrics.fingerprint@2.1-service.X00TD"
+#define LOG_TAG "fingerprint-X00TD"
 
-#include <android/log.h>
-#include <hidl/HidlSupport.h>
-#include <hidl/HidlTransportSupport.h>
-#include <android/hardware/biometrics/fingerprint/2.1/IBiometricsFingerprint.h>
-#include <android/hardware/biometrics/fingerprint/2.1/types.h>
 #include "BiometricsFingerprint.h"
 
-using android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprint;
-using android::hardware::biometrics::fingerprint::V2_1::implementation::BiometricsFingerprint;
-using android::hardware::configureRpcThreadpool;
-using android::hardware::joinRpcThreadpool;
-using android::sp;
+#include <android-base/logging.h>
+#include <android/binder_manager.h>
+#include <android/binder_process.h>
+#include <hidl/HidlTransportSupport.h>
+
+using ::aidl::android::hardware::biometrics::fingerprint::BiometricsFingerprint;
 
 int main() {
-    android::sp<IBiometricsFingerprint> bio = BiometricsFingerprint::getInstance();
+    LOG(INFO) << "Fingerprint AIDL HAL service (X00TD) starting";
 
-    configureRpcThreadpool(1, true /*callerWillJoin*/);
+    // Инициализируем HIDL hwbinder thread pool ДО загрузки блоба
+    // fingerprint.sdm660.so при open() вызывает
+    // vendor.goodix registerAsService() через hwbinder
+    android::hardware::configureRpcThreadpool(2, false);
 
-    if (bio != nullptr) {
-        if (::android::OK != bio->registerAsService()) {
-            return 1;
-        }
-    } else {
-        ALOGE("Can't create instance of BiometricsFingerprint, nullptr");
+    // AIDL binder
+    ABinderProcess_setThreadPoolMaxThreadCount(1);
+    ABinderProcess_startThreadPool();
+
+    auto service = BiometricsFingerprint::create();
+    if (!service) {
+        LOG(ERROR) << "Failed to create BiometricsFingerprint";
+        return EXIT_FAILURE;
     }
 
-    joinRpcThreadpool();
+    const std::string instance =
+        std::string(BiometricsFingerprint::descriptor) + "/default";
 
-    return 0; // should never get here
+    binder_status_t status = AServiceManager_addService(
+        service->asBinder().get(), instance.c_str());
+
+    if (status != STATUS_OK) {
+        LOG(ERROR) << "Failed to register AIDL service: " << status;
+        return EXIT_FAILURE;
+    }
+
+    LOG(INFO) << "Service registered as: " << instance;
+
+    ABinderProcess_joinThreadPool();
+
+    return EXIT_FAILURE;
 }

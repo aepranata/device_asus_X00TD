@@ -44,5 +44,5 @@
 /sys/bus/platform/drivers/kcal_ctrl(/.*)?                                                                                         u:object_r:kcal_dev:s0
 
 # Fingerprint
-/(vendor|system/vendor)/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.1-service.X00TD		u:object_r:hal_fingerprint_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.biometrics\.fingerprint-service\.X00TD		u:object_r:hal_fingerprint_default_exec:s0
 
