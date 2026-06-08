@@ -2,7 +2,20 @@ typeattribute tee data_between_core_and_vendor_violators;
 
 type_transition tee system_data_file:{ dir file } cdfinger_data_file;
 
+allow tee cdfinger_data_file:dir rw_dir_perms;
 allow tee cdfinger_data_file:dir create_dir_perms;
 allow tee cdfinger_data_file:file create_file_perms;
 
 allow tee system_data_file:dir create_dir_perms;
+
+allow tee persist_file:dir r_dir_perms;
+
+# Разрешить tee (qseecomd) доступ к unlabeled файлам (если restorecon не помогает)
+allow tee unlabeled:dir { search getattr open read };
+allow tee unlabeled:file { getattr open read write };
+
+# Разрешить доступ к данным отпечатка
+allow tee fingerprintd_data_file:dir create_dir_perms;
+allow tee fingerprintd_data_file:file create_file_perms;
+allow tee persist_file:dir r_dir_perms;
+allow tee persist_file:file r_file_perms;

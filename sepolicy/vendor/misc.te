@@ -1,5 +1,0 @@
-allow vendor_init-qti-dcvs-sh vendor_init-qti-dcvs-sh:capability { sys_admin };
-allow vold_prepare_subdirs vold_prepare_subdirs:capability { sys_admin };
-allow vendor_init proc_sched_energy_aware:file { write };
-allow adbd adbd:capability { sys_admin };
-allow lmkd lmkd:capability { sys_admin };

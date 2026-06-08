@@ -1,10 +1,32 @@
 allow init adsprpcd_file:file mounton;
+allow vendor_init proc:file w_file_perms;
+dontaudit vendor_init default_prop:property_service { set };
+dontaudit vendor_init default_prop:file { read open };
 
 # Allow vendor_init to set persist_camera_prop
 set_prop(vendor_init, vendor_persist_camera_prop)
+allow vendor_init vendor_camera_prop:property_service { set };
 
-allow vendor_init nfc_sensors_prop:file { read };
+allow vendor_init device:file { create write };
+allow vendor_init vendor_alarm_boot_prop:property_service { set };
 
-set_prop(vendor_init, vendor_power_prop)
+get_prop(vendor_init, nfc_nq_prop)
+set_prop(vendor_init, nfc_nq_prop)
+set_prop(vendor_init, vendor_mpctl_prop)
 
-allow vendor_init proc_sched:file { write };
+# Sched boost
+allow vendor_init proc_sched:file { write open };
+
+# =============================================
+# SELinux rules for vendor_init
+# Fixes RNG access
+# =============================================
+
+# Доступ к /dev/msm-rng (это разрешено)
+allow vendor_init rng_device:chr_file { getattr read open };
+
+# УБРАНО: hw_random_device - запрещено neverallow в domain.te
+# allow vendor_init hw_random_device:chr_file { ... };
+
+allow vendor_init vendor_mwqem_prop:property_service { set };
+allow vendor_init vendor_reschedule_service_prop:property_service { set };

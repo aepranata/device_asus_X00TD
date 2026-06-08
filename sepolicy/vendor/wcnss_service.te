@@ -1,3 +1,4 @@
 allow wcnss_service vendor_shell_exec:file { x_file_perms };
-allow wcnss_service sysfs:file { read open };
-allow wcnss_service init:unix_stream_socket { connectto };
+allow wcnss_service sysfs:file { open read };
+# Разрешить запись в kmsg (лог ядра)
+allow wcnss_service kmsg_device:chr_file { write open };
