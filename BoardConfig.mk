@@ -284,6 +284,7 @@ SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 PRODUCT_SOONG_NAMESPACES += $(DEVICE_PATH)
 
 # Treble
+BOARD_SHIPPING_API_LEVEL := 33
 BOARD_VNDK_VERSION := current
 
 # Vendor Security patch level
