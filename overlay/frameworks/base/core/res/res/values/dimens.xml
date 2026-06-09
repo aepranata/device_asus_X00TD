@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+** Copyright 2006, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+<resources>
+
+    <!-- Status Bar - Height -->
+    <dimen name="status_bar_height_portrait">24dp</dimen>
+    <dimen name="status_bar_height_default">@dimen/status_bar_height_portrait</dimen>
+    <dimen name="status_bar_height_landscape">@dimen/status_bar_height_portrait</dimen>
+    <dimen name="status_bar_height">@dimen/status_bar_height_portrait</dimen>
+
+    <!-- Status Bar - Padding -->
+    <dimen name="status_bar_padding_start">4dp</dimen>
+    <dimen name="status_bar_padding_end">4dp</dimen>
+    <dimen name="status_bar_padding_top">0dp</dimen>
+
+    <!-- Status Bar - Icons -->
+    <dimen name="status_bar_icon_size">20dip</dimen>
+    <dimen name="status_bar_system_icon_size">15dp</dimen>
+    <dimen name="status_bar_system_icon_intrinsic_size">17dp</dimen>
+    <dimen name="status_bar_edge_ignore">0dp</dimen>
+
+    <!-- Navigation Bar -->
+    <dimen name="navigation_bar_height">48dp</dimen>
+    <dimen name="navigation_bar_height_landscape">48dp</dimen>
+    <dimen name="navigation_bar_width">48dp</dimen>
+    <dimen name="navigation_bar_frame_height">@dimen/navigation_bar_height</dimen>
+    <dimen name="taskbar_frame_height">60dp</dimen>
+
+    <!-- Display - Waterfall Edges (Primary) -->
+    <dimen name="waterfall_display_left_edge_size">0dp</dimen>
+    <dimen name="waterfall_display_top_edge_size">0dp</dimen>
+    <dimen name="waterfall_display_right_edge_size">0dp</dimen>
+    <dimen name="waterfall_display_bottom_edge_size">0dp</dimen>
+
+    <!-- Display - Waterfall Edges (Secondary) -->
+    <dimen name="secondary_waterfall_display_left_edge_size">0dp</dimen>
+    <dimen name="secondary_waterfall_display_top_edge_size">0dp</dimen>
+    <dimen name="secondary_waterfall_display_right_edge_size">0dp</dimen>
+    <dimen name="secondary_waterfall_display_bottom_edge_size">0dp</dimen>
+
+    <!-- Display - Cutout -->
+    <dimen name="display_cutout_touchable_region_size">0dp</dimen>
+
+    <!-- Quick Settings -->
+    <dimen name="quick_qs_offset_height">48dp</dimen>
+
+    <!-- Keyguard / Lock Screen -->
+    <dimen name="keyguard_lockscreen_clock_font_size">80dip</dimen>
+    <dimen name="keyguard_lockscreen_pin_margin_left">40dip</dimen>
+    <dimen name="kg_status_clock_font_size">75dp</dimen>
+    <dimen name="kg_status_date_font_size">15dp</dimen>
+
+    <!-- Notifications -->
+    <dimen name="notification_content_margin_start">40dp</dimen>
+    <dimen name="notification_content_margin_end">16dp</dimen>
+    <dimen name="notification_header_height">56dp</dimen>
+    <dimen name="notification_action_button_radius">18dp</dimen>
+    <dimen name="notification_small_icon_size">24dp</dimen>
+
+    <!-- Dialogs -->
+    <dimen name="config_dialogCornerRadius">28dp</dimen>
+    <dimen name="dialog_corner_radius">28dp</dimen>
+    <dimen name="alert_dialog_round_padding">27dip</dimen>
+    <dimen name="dialog_padding">24dp</dimen>
+    <item type="dimen" name="dialog_min_width_major">65%</item>
+    <item type="dimen" name="dialog_min_width_minor">95%</item>
+
+    <!-- Buttons & Controls -->
+    <dimen name="config_buttonCornerRadius">4dp</dimen>
+    <dimen name="config_progressBarCornerRadius">1000dp</dimen>
+    <dimen name="config_globalActionsKeyTimeout">500</dimen>
+
+    <!-- App Icons & Thumbnails -->
+    <dimen name="app_icon_size">48dip</dimen>
+    <dimen name="thumbnail_width">192dp</dimen>
+    <dimen name="thumbnail_height">192dp</dimen>
+    <item name="thumbnail_fullscreen_scale" type="fraction">60%</item>
+
+    <!-- Toast -->
+    <dimen name="toast_y_offset">64dp</dimen>
+    <dimen name="toast_width">300dp</dimen>
+    <dimen name="toast_text_size">14sp</dimen>
+    <dimen name="toast_elevation">2dp</dimen>
+
+    <!-- Picture-in-Picture -->
+    <dimen name="pip_minimized_visible_size">48dp</dimen>
+
+    <!-- Preferences -->
+    <dimen name="preference_screen_side_margin">0dp</dimen>
+    <dimen name="preference_screen_side_margin_negative">0dp</dimen>
+    <dimen name="preference_fragment_padding_side">16dp</dimen>
+
+</resources>

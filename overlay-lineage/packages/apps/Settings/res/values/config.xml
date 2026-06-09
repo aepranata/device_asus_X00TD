@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Display -->
+    <bool name="config_show_smooth_display">true</bool>
+    <integer-array name="config_availableColorModes">
+        <item>0</item> <!-- COLOR_MODE_NATURAL -->
+        <item>1</item> <!-- COLOR_MODE_BOOSTED -->
+    </integer-array>
+
+    <!-- Color & Night Light -->
+    <bool name="config_enableColorTemperature">true</bool>
+    <bool name="config_night_light_suggestion_enabled">true</bool>
+
+    <!-- Haptics -->
+    <integer name="config_vibration_supported_intensity_levels">2</integer>
+
+</resources>
