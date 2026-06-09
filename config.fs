@@ -25,12 +25,21 @@ value:2908
 [AID_VENDOR_QTR]
 value:2909
 
+[AID_VENDOR_SENSORS]
+value:2910
+
+# ============================================
+# Bluetooth HAL
+# ============================================
 [vendor/bin/hw/android.hardware.bluetooth@1.0-service-qti]
 mode: 0755
 user: AID_BLUETOOTH
 group: AID_BLUETOOTH
 caps: BLOCK_SUSPEND NET_ADMIN
 
+# ============================================
+# Power & Platform Services
+# ============================================
 [vendor/bin/pm-service]
 mode: 0755
 user: AID_SYSTEM
@@ -43,6 +52,9 @@ user: AID_SYSTEM
 group: AID_SYSTEM
 caps: NET_BIND_SERVICE
 
+# ============================================
+# IMS Services
+# ============================================
 [vendor/bin/imsdatadaemon]
 mode: 0755
 user: AID_RADIO
@@ -67,12 +79,18 @@ user: AID_RADIO
 group: AID_RADIO
 caps: NET_BIND_SERVICE BLOCK_SUSPEND WAKE_ALARM
 
+# ============================================
+# Connectivity Network Daemon
+# ============================================
 [vendor/bin/cnd]
 mode: 0755
 user: AID_SYSTEM
 group: AID_SYSTEM
 caps: NET_BIND_SERVICE BLOCK_SUSPEND NET_ADMIN
 
+# ============================================
+# Location Services
+# ============================================
 [vendor/bin/slim_daemon]
 mode: 0755
 user:  AID_GPS
@@ -91,19 +109,37 @@ user:  AID_GPS
 group: AID_GPS
 caps: NET_BIND_SERVICE BLOCK_SUSPEND WAKE_ALARM
 
+# ============================================
+# Sensors
+# ============================================
 [vendor/bin/sensors.qti]
 mode: 0755
 user: AID_SYSTEM
 group: AID_SYSTEM
 caps: NET_BIND_SERVICE
 
+# ============================================
+# Directories
+# ============================================
 [vendor/firmware_mnt/image/*]
 mode: 0771
 user: AID_SYSTEM
 group: AID_SYSTEM
 caps: 0
 
+[vendor/bt_firmware/]
+mode: 0771
+user: AID_SYSTEM
+group: AID_SYSTEM
+caps: 0
+
 [persist/]
+mode: 0771
+user: AID_SYSTEM
+group: AID_SYSTEM
+caps: 0
+
+[/mnt/vendor/persist/]
 mode: 0771
 user: AID_SYSTEM
 group: AID_SYSTEM
