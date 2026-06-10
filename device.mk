@@ -181,6 +181,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     AsusDeviceAsWebcam
 
+# Asus first-party camera application
+PRODUCT_PACKAGES += \
+    AsusCamera
+
 # =============================================================================
 # DISPLAY — HAL & Services
 # Graphics composer, gralloc, HWC, display config, and memtrack.
