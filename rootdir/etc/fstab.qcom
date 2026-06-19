@@ -1,35 +1,86 @@
 # Non-A/B fstab.qcom - X00TD WITHOUT ENCRYPTION
-#<src>                                                                <mnt_point>            <type> <mnt_flags and options>                                                                          <fs_mgr_flags>
+# Reorganized & sorted by mount point within each section.
+#<src>                                                              <mnt_point>             <type>  <mnt_flags and options>                                                                         <fs_mgr_flags>
 
-# Boot partitions
-/dev/block/bootdevice/by-name/boot                                    /boot                  emmc   defaults                                                                                         defaults
-/dev/block/bootdevice/by-name/recovery                                /recovery              emmc   defaults                                                                                         recoveryonly
-system                                                                /system                ext4   ro                                                                                               wait,logical,first_stage_mount
-system_ext                                                            /system_ext            ext4   ro                                                                                               wait,logical,first_stage_mount
-product                                                               /product               ext4   ro                                                                                               wait,logical,first_stage_mount
-vendor                                                                /vendor                ext4   ro                                                                                               wait,logical,first_stage_mount
-odm                                                                   /odm                   ext4   ro                                                                                               wait,logical,first_stage_mount
-/dev/block/by-name/logdump                                            /metadata              ext4   nosuid,nodev,noatime,discard                                                                     wait,check,formattable,first_stage_mount
+# ============================================================
+# BOOT PARTITIONS
+# ============================================================
 
-# Userdata
-/dev/block/bootdevice/by-name/userdata                                /data                  ext4   noatime,nosuid,nodev,barrier=1,noauto_da_alloc,discard,lazytime,errors=panic                     wait,check,quota,reservedsize=128M,formattable
-/dev/block/bootdevice/by-name/userdata                                /data                  f2fs   noatime,nosuid,nodev,discard,reserve_root=32768,resgid=1065,fsync_mode=nobarrier                 wait,check,quota,reservedsize=128M,formattable
+# Boot image (kernel + ramdisk) - mounted as raw eMMC block device
+/dev/block/bootdevice/by-name/boot                                  /boot                   emmc    defaults                                                                                        defaults
 
-# External storage
-/devices/platform/soc/c084000.sdhci/mmc_host*                         auto                   auto   defaults                                                                                         wait,voldmanaged=sdcard1:auto
-/devices/platform/soc/a800000.ssusb/a800000.dwc3/xhci-hcd.*.auto*     auto                   auto   defaults                                                                                         wait,voldmanaged=usbotg:auto
+# Misc partition - stores bootloader/recovery control flags (e.g. reboot reason, OTA flags)
+/dev/block/bootdevice/by-name/misc                                  /misc                   emmc    defaults                                                                                        defaults
 
-# Firmware partitions
-/dev/block/bootdevice/by-name/modem                                   /vendor/firmware_mnt   vfat   ro,shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware_file:s0     wait
-/dev/block/bootdevice/by-name/bluetooth                               /vendor/bt_firmware    vfat   ro,shortname=lower,uid=1002,gid=3002,dmask=227,fmask=337,context=u:object_r:bt_firmware_file:s0  wait
-/dev/block/bootdevice/by-name/dsp                                     /vendor/dsp            ext4   ro,nosuid,nodev,barrier=1                                                                        wait
+# Recovery image - only used when booting into recovery mode
+/dev/block/bootdevice/by-name/recovery                              /recovery               emmc    defaults                                                                                        recoveryonly
 
-# Cache
-/dev/block/bootdevice/by-name/cache                                   /cache                 ext4   noatime,nosuid,nodev,barrier=1                                                                   wait
-/dev/block/bootdevice/by-name/cache                                   /cache                 f2fs   noatime,nosuid,nodev,discard,fsync_mode=nobarrier                                                wait
+# ============================================================
+# SUPER PARTITIONS (DYNAMIC)
+# ============================================================
 
-# Persist
-/dev/block/bootdevice/by-name/persist                                 /mnt/vendor/persist    ext4   noatime,nosuid,nodev,barrier=1                                                                   wait
+# Super partition - system, system_ext, product
+system                                                              /system                 ext4    ro                                                                                              wait,logical,first_stage_mount
+system_ext                                                          /system_ext             ext4    ro                                                                                              wait,logical,first_stage_mount
+product                                                             /product                ext4    ro                                                                                              wait,logical,first_stage_mount
 
-# Misc
-/dev/block/bootdevice/by-name/misc                                    /misc                  emmc   defaults                                                                                         defaults
+# Super vendor partition - vendor, odm
+vendor                                                              /vendor                 ext4    ro                                                                                              wait,logical,first_stage_mount
+odm                                                                 /odm                    ext4    ro                                                                                              wait,logical,first_stage_mount
+
+# ============================================================
+# METADATA
+# ============================================================
+
+# Metadata partition - stores encryption/checkpoint metadata used during early boot
+/dev/block/by-name/logdump                                          /metadata               ext4    nosuid,nodev,noatime,discard                                                                    wait,check,formattable,first_stage_mount
+
+# ============================================================
+# USERDATA (two filesystem options - device uses whichever is actually formatted)
+# ============================================================
+
+# User data partition (ext4 variant) - apps, app data, downloads, etc. Quota-enabled, panics on errors
+/dev/block/bootdevice/by-name/userdata                              /data                   ext4    noatime,nosuid,nodev,barrier=1,noauto_da_alloc,discard,lazytime,errors=panic                    wait,check,quota,reservedsize=128M,formattable
+
+# User data partition (f2fs variant) - flash-friendly filesystem alternative for /data
+/dev/block/bootdevice/by-name/userdata                              /data                   f2fs    noatime,nosuid,nodev,discard,reserve_root=32768,resgid=1065,fsync_mode=nobarrier                wait,check,quota,reservedsize=128M,formattable
+
+# ============================================================
+# CACHE (two filesystem options - device uses whichever is actually formatted)
+# ============================================================
+
+# Cache partition (ext4 variant) - temporary app/system cache storage
+/dev/block/bootdevice/by-name/cache                                 /cache                  ext4    noatime,nosuid,nodev,barrier=1                                                                  wait
+
+# Cache partition (f2fs variant) - flash-friendly filesystem alternative for /cache
+/dev/block/bootdevice/by-name/cache                                 /cache                  f2fs    noatime,nosuid,nodev,discard,fsync_mode=nobarrier                                               wait
+
+# ============================================================
+# PERSIST
+# ============================================================
+
+# Persist partition - stores calibration data, sensor settings, and other persistent vendor data
+/dev/block/bootdevice/by-name/persist                               /mnt/vendor/persist     ext4    noatime,nosuid,nodev,barrier=1                                                                  wait
+
+# ============================================================
+# FIRMWARE PARTITIONS
+# ============================================================
+
+# Bluetooth firmware partition - vfat, read-only, mounted with bt_firmware SELinux context
+/dev/block/bootdevice/by-name/bluetooth                             /vendor/bt_firmware     vfat    ro,shortname=lower,uid=1002,gid=3002,dmask=227,fmask=337,context=u:object_r:bt_firmware_file:s0 wait
+
+# DSP firmware partition - holds firmware for the Hexagon DSP (audio/sensors co-processor)
+/dev/block/bootdevice/by-name/dsp                                   /vendor/dsp             ext4    ro,nosuid,nodev,barrier=1                                                                       wait
+
+# Modem firmware partition - baseband/radio firmware, vfat, read-only, mounted with firmware SELinux context
+/dev/block/bootdevice/by-name/modem                                 /vendor/firmware_mnt    vfat    ro,shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware_file:s0    wait
+
+# ============================================================
+# EXTERNAL / REMOVABLE STORAGE
+# ============================================================
+
+# SD card slot - SDHCI controller, auto-detected and managed by vold as removable storage
+/devices/platform/soc/c084000.sdhci/mmc_host*                       auto                    auto    defaults                                                                                        wait,voldmanaged=sdcard1:auto
+
+# USB OTG storage - USB3 (xHCI) controller, auto-detected and managed by vold for USB flash drives
+/devices/platform/soc/a800000.ssusb/a800000.dwc3/xhci-hcd.*.auto*   auto                    auto    defaults                                                                                        wait,voldmanaged=usbotg:auto
