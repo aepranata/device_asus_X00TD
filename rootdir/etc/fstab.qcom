@@ -39,11 +39,11 @@ odm                                                                 /odm        
 # USERDATA (two filesystem options - device uses whichever is actually formatted)
 # ============================================================
 
-# User data partition (ext4 variant) - apps, app data, downloads, etc. Quota-enabled, panics on errors
-/dev/block/bootdevice/by-name/userdata                              /data                   ext4    noatime,nosuid,nodev,barrier=1,noauto_da_alloc,discard,lazytime,errors=panic                    wait,check,quota,reservedsize=128M,formattable
-
 # User data partition (f2fs variant) - flash-friendly filesystem alternative for /data
-/dev/block/bootdevice/by-name/userdata                              /data                   f2fs    noatime,nosuid,nodev,discard,reserve_root=32768,resgid=1065,fsync_mode=nobarrier                wait,check,quota,reservedsize=128M,formattable
+/dev/block/bootdevice/by-name/userdata                              /data                   f2fs    nosuid,nodev,noatime,discard,background_gc=off,fsync_mode=nobarrier,lazytime                    wait,quota,fileencryption=aes-256-xts:aes-256-cts:v2+emmc_optimized,latemount,check,formattable,reservedsize=128M,checkpoint=fs,fsverity
+
+# User data partition (ext4 variant) - apps, app data, downloads, etc. Quota-enabled, panics on errors
+/dev/block/bootdevice/by-name/userdata                              /data                   ext4    nosuid,nodev,noatime,discard,noauto_da_alloc,barrier=1,lazytime                                 wait,quota,fileencryption=aes-256-xts:aes-256-cts:v2+emmc_optimized,latemount,check,formattable,reservedsize=128M,checkpoint=fs,fsverity
 
 # ============================================================
 # CACHE (two filesystem options - device uses whichever is actually formatted)
