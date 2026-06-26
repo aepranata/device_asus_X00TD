@@ -150,7 +150,6 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.provider-service_32.lineage \
     vendor.qti.hardware.camera.device@1.0.vendor \
     camera.sdm660:32 \
-    Aperture \
     libgui_vendor \
     liblz4.vendor \
     libpng.vendor:32 \
