@@ -33,6 +33,9 @@ TARGET_BOOTANIMATION_HALF_RES := true
 # Default kernel version; can be overridden by device-specific makefiles
 TARGET_KERNEL_VERSION ?= 4.19
 
+# Disable ADB authentication
+WITH_ADB_INSECURE := true
+
 # =============================================================================
 # APEX / ART / DEX OPTIMIZATION
 # Tune runtime performance: disable APEX compression, enable UFFD GC,
