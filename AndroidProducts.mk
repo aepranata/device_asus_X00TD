@@ -5,4 +5,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_X00TD.mk
+    $(LOCAL_DIR)/halcyon_X00TD.mk
