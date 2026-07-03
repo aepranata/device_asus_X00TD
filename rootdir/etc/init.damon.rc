@@ -1,0 +1,12 @@
+service vendor_damon_setup /vendor/bin/damon_setup.sh
+    class main
+    user root
+    group root
+    oneshot
+    seclabel u:r:vendor_damon_setup:s0
+
+on boot
+    # DAMON sysfs nodes are created via a kernel subsys_initcall, which
+    # completes long before userspace init runs - so they're guaranteed
+    # ready by the "boot" trigger (well after post-fs-data).
+    start vendor_damon_setup

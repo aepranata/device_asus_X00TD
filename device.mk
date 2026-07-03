@@ -187,6 +187,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     AsusCamera
 
+# =============================================================
+# DAMON (paddr) + MGLRU proactive reclaim
+# =============================================================
+PRODUCT_PACKAGES += \
+    damon_setup.sh \
+    init.damon.rc
+
 # =============================================================================
 # DISPLAY — HAL & Services
 # Graphics composer, gralloc, HWC, display config, and memtrack.
