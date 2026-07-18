@@ -99,7 +99,7 @@
     <!--  Flags that affect how notification cards look in the shade.  -->
     <!-- ============================================================ -->
     <!-- Whether notification cards are clipped to their outline/shape -->
-    <bool name="config_clipNotificationsToOutline">true</bool>
+    <bool name="config_clipNotificationsToOutline">false</bool>
     <!-- Whether a background is drawn behind individual notification rows -->
     <bool name="config_drawNotificationBackground">true</bool>
     <!-- Whether the group background is shown when a group is expanded -->
