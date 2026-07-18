@@ -613,4 +613,6 @@
         <item>com.google.android.gms/com.google.android.gms.nearby.discovery.service.DiscoveryService</item>
     </string-array>
 
+    <!-- Rounded corners -->
+    <bool name="config_supportsRoundedCornersOnWindows">true</bool>
 </resources>
