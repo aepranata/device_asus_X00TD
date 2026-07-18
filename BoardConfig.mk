@@ -124,7 +124,7 @@ $(foreach p, $(call to-upper, $(TREBLE_PARTITIONS)), \
 
 # Reserved space for OTA incremental patches (SSI: 200 MiB, Treble: 40 MiB)
 $(foreach p, $(call to-upper, $(SSI_PARTITIONS)), \
-    $(eval BOARD_$(p)IMAGE_PARTITION_RESERVED_SIZE := 83886080)) # 80 MiB
+    $(eval BOARD_$(p)IMAGE_PARTITION_RESERVED_SIZE := 41943040)) # 40 MiB
 $(foreach p, $(call to-upper, $(TREBLE_PARTITIONS)), \
     $(eval BOARD_$(p)IMAGE_PARTITION_RESERVED_SIZE := 41943040)) # 40 MiB
 
