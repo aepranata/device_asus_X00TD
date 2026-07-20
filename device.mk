@@ -186,10 +186,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     AsusDeviceAsWebcam
 
-# Asus first-party camera application
-PRODUCT_PACKAGES += \
-    AsusCamera
-
 # =============================================================
 # DAMON (paddr) + MGLRU proactive reclaim
 # =============================================================
